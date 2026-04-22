@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { Search, Bell, User, LogOut, ChevronDown } from "lucide-react";
 
 export default function Navbar() {
@@ -7,13 +7,16 @@ export default function Navbar() {
   const [showDropdown, setShowDropdown] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
-  
+
   const userEmail = localStorage.getItem("userEmail") || "user@oracle.com";
   const userRole = localStorage.getItem("userRole") || "developer";
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setShowDropdown(false);
       }
     };
@@ -83,8 +86,12 @@ export default function Navbar() {
           {showDropdown && (
             <div className="absolute right-0 top-full mt-2 w-56 bg-white border border-[#E5E7EB] rounded-lg shadow-xl py-2 z-50">
               <div className="px-4 py-3 border-b border-[#E5E7EB]">
-                <p className="text-sm font-medium text-[#1A1A1A]">{userEmail}</p>
-                <p className="text-xs text-[#6B7280] capitalize mt-1">{userRole}</p>
+                <p className="text-sm font-medium text-[#1A1A1A]">
+                  {userEmail}
+                </p>
+                <p className="text-xs text-[#6B7280] capitalize mt-1">
+                  {userRole}
+                </p>
               </div>
               <button
                 onClick={handleLogout}

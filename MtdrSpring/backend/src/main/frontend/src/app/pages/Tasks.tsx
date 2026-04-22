@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Search, Filter, Plus } from "lucide-react";
-import TaskTable from "../components/TaskTable";
-import TaskDetailsPanel from "../components/TaskDetailsPanel";
+import TaskTable from "../components/TaskTable.tsx";
+import TaskDetailsPanel from "../components/TaskDetailsPanel.tsx";
 
 export type TaskStatus = "todo" | "in-progress" | "done" | "blocked";
 export type TaskType = "feature" | "bug" | "issue" | "enhancement";
@@ -112,7 +112,8 @@ export default function Tasks() {
     const matchesSearch =
       task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       task.id.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesStatus = statusFilter === "all" || task.status === statusFilter;
+    const matchesStatus =
+      statusFilter === "all" || task.status === statusFilter;
     const matchesType = typeFilter === "all" || task.type === typeFilter;
     return matchesSearch && matchesStatus && matchesType;
   });

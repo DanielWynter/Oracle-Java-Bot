@@ -1,4 +1,4 @@
-import { Task, TaskStatus, TaskType } from "../pages/Tasks";
+import { Task, TaskStatus, TaskType } from "../pages/Tasks.tsx";
 import { AlertCircle } from "lucide-react";
 
 interface TaskTableProps {

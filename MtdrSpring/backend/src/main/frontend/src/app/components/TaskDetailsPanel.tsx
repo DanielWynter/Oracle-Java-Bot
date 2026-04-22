@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { X, Clock, User, Calendar } from "lucide-react";
-import { Task, TaskStatus, TaskType } from "../pages/Tasks";
+import { Task, TaskStatus, TaskType } from "../pages/Tasks.tsx";
 
 interface TaskDetailsPanelProps {
   task: Task;
@@ -22,10 +22,7 @@ export default function TaskDetailsPanel({
   return (
     <>
       {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-black/30 z-40"
-        onClick={onClose}
-      />
+      <div className="fixed inset-0 bg-black/30 z-40" onClick={onClose} />
 
       {/* Panel */}
       <div className="fixed top-0 right-0 h-full w-full max-w-2xl bg-white shadow-2xl z-50 overflow-auto">
@@ -184,7 +181,9 @@ export default function TaskDetailsPanel({
               </label>
               <div className="flex items-center gap-3 px-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg">
                 <Calendar className="w-5 h-5 text-[#6B7280]" />
-                <span className="text-sm text-[#1A1A1A]">{editedTask.sprint}</span>
+                <span className="text-sm text-[#1A1A1A]">
+                  {editedTask.sprint}
+                </span>
               </div>
             </div>
 
@@ -196,8 +195,8 @@ export default function TaskDetailsPanel({
               <div className="space-y-3">
                 <div className="p-3 bg-[#F7F8FA] rounded-lg">
                   <p className="text-sm text-[#1A1A1A]">
-                    <span className="font-medium">Sarah Chen</span> updated status
-                    to <span className="font-medium">In Progress</span>
+                    <span className="font-medium">Sarah Chen</span> updated
+                    status to <span className="font-medium">In Progress</span>
                   </p>
                   <p className="text-xs text-[#6B7280] mt-1">2 hours ago</p>
                 </div>

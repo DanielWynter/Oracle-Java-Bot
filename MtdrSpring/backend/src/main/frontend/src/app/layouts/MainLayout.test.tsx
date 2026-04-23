@@ -11,7 +11,6 @@ afterEach(() => {
 
 const mockNavigate = vi.fn();
 
-// ACTUALIZADO: Ahora mockeamos "react-router-dom" para que coincida con Wynter
 vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual("react-router-dom");
   return {
@@ -43,7 +42,6 @@ describe("MainLayout Component", () => {
       </MemoryRouter>,
     );
 
-    // CAMBIO AQUÍ: Ahora esperamos que redirija a "/"
     expect(mockNavigate).toHaveBeenCalledWith("/");
   });
 
@@ -57,7 +55,6 @@ describe("MainLayout Component", () => {
     );
 
     expect(mockNavigate).not.toHaveBeenCalled();
-    // Protegidos con getAllBy[0] por si acaso
     expect(screen.getAllByTestId("sidebar-mock")[0]).toBeDefined();
     expect(screen.getAllByTestId("navbar-mock")[0]).toBeDefined();
   });

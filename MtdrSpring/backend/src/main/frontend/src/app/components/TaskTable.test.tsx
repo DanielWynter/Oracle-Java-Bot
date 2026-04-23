@@ -9,7 +9,7 @@ afterEach(() => {
   cleanup();
 });
 
-// 1. MOCK MODULES: Mockeamos lucide-react para evitar renderizar SVGs complejos
+// MOCK MODULES
 vi.mock("lucide-react", () => ({
   AlertCircle: () => <span data-testid="alert-icon">Alert</span>,
 }));
@@ -31,7 +31,7 @@ const mockTasks: Task[] = [
 ];
 
 describe("TaskTable Component", () => {
-  // 2. MOCK FUNCTIONS: Función espía para simular la selección de tarea
+  //MOCK FUNCTION
   const mockOnSelectTask = vi.fn();
 
   it("debería hacer match con el snapshot (Snapshot Testing)", () => {
@@ -44,7 +44,7 @@ describe("TaskTable Component", () => {
   it("debería mostrar las tareas asignadas correctamente en la tabla", () => {
     render(<TaskTable tasks={mockTasks} onSelectTask={mockOnSelectTask} />);
 
-    // Evitamos detalles de implementación buscando por texto visible y agarramos el primero
+    //evitamos detalles de implementación buscando por texto visible y agarramos el primero
     expect(screen.getAllByText("TASK-1")[0]).toBeDefined();
     expect(screen.getAllByText("Crear conexión con el bot")[0]).toBeDefined();
     expect(screen.getAllByText("Esteban")[0]).toBeDefined();

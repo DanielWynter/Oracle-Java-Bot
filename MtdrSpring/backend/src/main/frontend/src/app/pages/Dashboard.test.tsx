@@ -7,7 +7,7 @@ afterEach(() => {
   cleanup();
 });
 
-// MOCK MODULES: Reemplazamos todos los componentes hijos por mocks
+// MOCK MODULES
 vi.mock("../components/KPIWidget", () => ({
   default: ({ label }: { label: string }) => (
     <div data-testid={`kpi-widget-${label}`}>{label}</div>
@@ -65,7 +65,6 @@ describe("Dashboard Component - Lógica de Roles", () => {
 
     render(<Dashboard />);
 
-    // queryBy devuelve null si no lo encuentra, perfecto para este caso
     expect(screen.queryByTestId("velocity-chart")).toBeNull();
     expect(screen.queryByTestId("task-type-chart")).toBeNull();
   });

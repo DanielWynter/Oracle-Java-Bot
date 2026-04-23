@@ -43,15 +43,15 @@ describe("TaskDetailsPanel Component", () => {
     // Encontramos el input por su valor actual
     const titleInput = screen.getByDisplayValue("Diseñar Base de Datos");
 
-    // Simulamos que el usuario borra y escribe algo nuevo
+    // simulamos que el usuario borra y escribe algo nuevo
     await user.clear(titleInput);
     await user.type(titleInput, "Nueva BD Optimizada");
 
-    // Guardamos
+    // guardae
     const saveButton = screen.getByText("Save Changes");
     await user.click(saveButton);
 
-    // Verificamos que la función espía se llamó con el nuevo título
+    // Verificamos que la funcion espia se llamo
     expect(mockOnUpdate).toHaveBeenCalledWith(
       expect.objectContaining({ title: "Nueva BD Optimizada" }),
     );
@@ -67,7 +67,6 @@ describe("TaskDetailsPanel Component", () => {
       />,
     );
 
-    // Cambiamos el select de status
     const statusSelect = screen.getAllByDisplayValue("To Do")[0];
     await user.selectOptions(statusSelect, "done");
 
@@ -75,7 +74,7 @@ describe("TaskDetailsPanel Component", () => {
     const saveButton = screen.getAllByText("Save Changes")[0];
     await user.click(saveButton);
 
-    // Verificamos que el estado de la tarea cambió a 'done'
+    // Verificamos que el estado de la tarea cambio a 'done'
     expect(mockOnUpdate).toHaveBeenCalledWith(
       expect.objectContaining({ status: "done" }),
     );

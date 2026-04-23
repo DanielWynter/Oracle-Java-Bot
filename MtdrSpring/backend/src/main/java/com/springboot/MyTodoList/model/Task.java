@@ -24,8 +24,14 @@ public class Task {
     @Column(name = "CREATED_AT")
     private LocalDateTime createdAt;
 
-    @Column(name = "HOURS")
+    @Column(name = "ESTIMATED_TIME")
     private Double hours;
+
+    @Column(name = "TASK_TYPE")
+    private String taskType;
+
+    @Column(name = "TOTAL_TIME")
+    private Double totalTime;
 
     @ManyToOne
     @JoinColumn(name = "SPRINT_ID")
@@ -85,6 +91,22 @@ public class Task {
 
     public void setHours(Double hours) {
         this.hours = hours;
+    }
+
+    public String getTaskType() {
+        return taskType;
+    }
+
+    public void setTaskType(String taskType) {
+        this.taskType = taskType;
+    }
+
+    public Double getTotalTime() {
+        return totalTime;
+    }
+
+    public void setTotalTime(Double totalTime) {
+        this.totalTime = totalTime;
     }
 
     public Sprint getSprint() {

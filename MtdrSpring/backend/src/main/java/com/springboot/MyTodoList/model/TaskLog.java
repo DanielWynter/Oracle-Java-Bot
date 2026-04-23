@@ -22,5 +22,35 @@ public class TaskLog {
     @JoinColumn(name = "TASK_ID")
     private Task task;
 
-    // Getters y Setters...
+    public Long getLogId() {
+        return logId;
+    }
+
+    public void setLogId(Long logId) {
+        this.logId = logId;
+    }
+
+    public LocalDateTime getLogTimestamp() {
+        return logTimestamp;
+    }
+
+    public void setLogTimestamp(LocalDateTime logTimestamp) {
+        this.logTimestamp = logTimestamp;
+    }
+
+    public String getLogContent() {
+        return logContent;
+    }
+
+    public void setLogContent(String logContent) {
+        this.logContent = logContent;
+    }
+
+    public Task getTask() {
+        return task;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
+    }
 }

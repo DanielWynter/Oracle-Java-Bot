@@ -39,5 +39,75 @@ public class Analytic {
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    // Getters y Setters...
+    public Long getAnalyticId() {
+        return analyticId;
+    }
+
+    public void setAnalyticId(Long analyticId) {
+        this.analyticId = analyticId;
+    }
+
+    public String getPreviousStatus() {
+        return previousStatus;
+    }
+
+    public void setPreviousStatus(String previousStatus) {
+        this.previousStatus = previousStatus;
+    }
+
+    public String getNewStatus() {
+        return newStatus;
+    }
+
+    public void setNewStatus(String newStatus) {
+        this.newStatus = newStatus;
+    }
+
+    public LocalDateTime getChangeTimestamp() {
+        return changeTimestamp;
+    }
+
+    public void setChangeTimestamp(LocalDateTime changeTimestamp) {
+        this.changeTimestamp = changeTimestamp;
+    }
+
+    public Integer getTasksCompleted() {
+        return tasksCompleted;
+    }
+
+    public void setTasksCompleted(Integer tasksCompleted) {
+        this.tasksCompleted = tasksCompleted;
+    }
+
+    public Integer getCommitsCount() {
+        return commitsCount;
+    }
+
+    public void setCommitsCount(Integer commitsCount) {
+        this.commitsCount = commitsCount;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public Task getTask() {
+        return task;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

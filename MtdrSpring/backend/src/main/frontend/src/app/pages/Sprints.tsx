@@ -10,7 +10,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 // 1. IMPORTAMOS EL TASK TABLE Y SU TIPO
-import TaskTable from "../components/TaskTable";
+import TaskTable from "../components/TaskTable.tsx";
 import { Task } from "./Tasks";
 
 const sprintData = [

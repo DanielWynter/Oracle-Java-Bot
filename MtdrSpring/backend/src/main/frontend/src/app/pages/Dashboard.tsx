@@ -6,7 +6,7 @@ import TaskTypeChart from "../components/TaskTypeChart.tsx";
 import TeamWorkload from "../components/TeamWorkload.tsx";
 import ActivityFeed from "../components/ActivityFeed.tsx";
 import {
-  Target,
+  Target, 
   CheckSquare,
   CheckCircle2,
   AlertCircle,

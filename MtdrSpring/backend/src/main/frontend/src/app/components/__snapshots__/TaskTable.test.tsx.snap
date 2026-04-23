@@ -1,0 +1,159 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`TaskTable Component > debería hacer match con el snapshot (Snapshot Testing) 1`] = `
+<DocumentFragment>
+  <div
+    class="bg-white rounded-xl border border-[#E5E7EB] shadow-sm overflow-hidden"
+  >
+    <div
+      class="overflow-x-auto"
+    >
+      <table
+        class="w-full"
+      >
+        <thead
+          class="bg-[#F7F8FA] border-b border-[#E5E7EB]"
+        >
+          <tr>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-[#6B7280] uppercase tracking-wider"
+            >
+              Task ID
+            </th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-[#6B7280] uppercase tracking-wider"
+            >
+              Title
+            </th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-[#6B7280] uppercase tracking-wider"
+            >
+              Status
+            </th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-[#6B7280] uppercase tracking-wider"
+            >
+              Type
+            </th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-[#6B7280] uppercase tracking-wider"
+            >
+              Assignee
+            </th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-[#6B7280] uppercase tracking-wider"
+            >
+              Estimation
+            </th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-[#6B7280] uppercase tracking-wider"
+            >
+              Actual
+            </th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-[#6B7280] uppercase tracking-wider"
+            >
+              Deviation
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          class="divide-y divide-[#E5E7EB]"
+        >
+          <tr
+            class="hover:bg-[#F7F8FA] transition-colors cursor-pointer"
+          >
+            <td
+              class="px-6 py-4 whitespace-nowrap"
+            >
+              <span
+                class="text-sm font-medium text-[#1A1A1A]"
+              >
+                TASK-1
+              </span>
+            </td>
+            <td
+              class="px-6 py-4"
+            >
+              <div
+                class="max-w-xs"
+              >
+                <p
+                  class="text-sm font-medium text-[#1A1A1A] truncate"
+                >
+                  Crear conexión con el bot
+                </p>
+              </div>
+            </td>
+            <td
+              class="px-6 py-4 whitespace-nowrap"
+            >
+              <span
+                class="px-3 py-1 rounded-full text-xs font-medium"
+                style="background-color: rgba(37, 99, 235, 0.082); color: rgb(37, 99, 235);"
+              >
+                In Progress
+              </span>
+            </td>
+            <td
+              class="px-6 py-4 whitespace-nowrap"
+            >
+              <span
+                class="px-3 py-1 rounded-full text-xs font-medium"
+                style="background-color: rgba(199, 70, 52, 0.082); color: rgb(199, 70, 52);"
+              >
+                Feature
+              </span>
+            </td>
+            <td
+              class="px-6 py-4 whitespace-nowrap"
+            >
+              <span
+                class="text-sm text-[#1A1A1A]"
+              >
+                Esteban
+              </span>
+            </td>
+            <td
+              class="px-6 py-4 whitespace-nowrap"
+            >
+              <span
+                class="text-sm text-[#1A1A1A]"
+              >
+                10h
+              </span>
+            </td>
+            <td
+              class="px-6 py-4 whitespace-nowrap"
+            >
+              <span
+                class="text-sm text-[#1A1A1A]"
+              >
+                5h
+              </span>
+            </td>
+            <td
+              class="px-6 py-4 whitespace-nowrap"
+            >
+              <div
+                class="flex items-center gap-1"
+              >
+                <span
+                  data-testid="alert-icon"
+                >
+                  Alert
+                </span>
+                <span
+                  class="text-sm font-medium text-[#16A34A]"
+                >
+                  -50%
+                </span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</DocumentFragment>
+`;

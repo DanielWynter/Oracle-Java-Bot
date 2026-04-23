@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Calendar, TrendingUp, CheckCircle2, Clock } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+// 1. IMPORTAMOS EL TASK TABLE Y SU TIPO
+import TaskTable from "../components/TaskTable";
+import { Task } from "./Tasks";
 
 const sprintData = [
   { id: "sprint-24", name: "Sprint 24", status: "active", progress: 78, startDate: "Feb 20", endDate: "Mar 6" },
@@ -17,6 +20,36 @@ const burndownData = [
   { day: "Day 6", remaining: 52 },
   { day: "Day 7", remaining: 38 },
   { day: "Day 8", remaining: 28 },
+];
+
+// 2. CREAMOS DATOS FALSOS PARA LA TABLA DEL SPRINT
+const sprintTasks: Task[] = [
+  {
+    id: "TASK-801",
+    title: "Diseño de base de datos",
+    description: "Crear esquemas",
+    status: "done",
+    type: "feature",
+    assignee: "Sarah Chen",
+    sprint: "Sprint 24",
+    estimation: 10,
+    actualTime: 12, // <- Aquí están Estimated Hours y Actual Hours
+    priority: "high",
+    createdAt: "2026-04-20",
+  },
+  {
+    id: "TASK-802",
+    title: "Implementar login",
+    description: "Auth JWT",
+    status: "in-progress",
+    type: "feature",
+    assignee: "David Kim",
+    sprint: "Sprint 24",
+    estimation: 8,
+    actualTime: 5,
+    priority: "high",
+    createdAt: "2026-04-21",
+  }
 ];
 
 export default function Sprints() {
@@ -201,6 +234,14 @@ export default function Sprints() {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* 3. AQUÍ AGREGAMOS LA TABLA PARA CUMPLIR LA RÚBRICA */}
+      <div className="bg-white rounded-xl p-6 border border-[#E5E7EB] shadow-sm">
+        <h3 className="text-lg font-semibold text-[#1A1A1A] mb-4">
+          Tasks for {selectedSprint.name}
+        </h3>
+        <TaskTable tasks={sprintTasks} onSelectTask={() => {}} />
       </div>
     </div>
   );

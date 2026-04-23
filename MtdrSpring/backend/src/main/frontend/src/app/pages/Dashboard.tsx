@@ -15,6 +15,9 @@ import {
 } from "lucide-react";
 
 export default function Dashboard() {
+  // SIMULACIÓN TEMPORAL DE ROLES PARA LOS TESTS
+  const userRole = localStorage.getItem("userRole") || "developer";
+
   const kpiData = [
     {
       label: "Sprint Completion",
@@ -88,12 +91,14 @@ export default function Dashboard() {
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <BurndownChart />
-        <VelocityChart />
+        {/* Renderizado condicional */}
+        {userRole === "admin" || userRole === "pm" ? <VelocityChart /> : null}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <EstimationChart />
-        <TaskTypeChart />
+        {/* Renderizado condicional */}
+        {userRole === "admin" || userRole === "pm" ? <TaskTypeChart /> : null}
       </div>
 
       {/* Team Workload & Activity */}

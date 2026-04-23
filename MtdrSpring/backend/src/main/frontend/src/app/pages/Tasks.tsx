@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, Filter, Plus } from "lucide-react";
 import TaskTable from "../components/TaskTable.tsx";
 import TaskDetailsPanel from "../components/TaskDetailsPanel.tsx";
@@ -20,89 +20,83 @@ export interface Task {
   createdAt: string;
 }
 
-const mockTasks: Task[] = [
-  {
-    id: "TASK-1234",
-    title: "Implement user authentication flow",
-    description: "Create login/logout functionality with JWT tokens",
-    status: "in-progress",
-    type: "feature",
-    assignee: "Sarah Chen",
-    sprint: "Sprint 24",
-    estimation: 8,
-    actualTime: 6,
-    priority: "high",
-    createdAt: "2026-02-28",
-  },
-  {
-    id: "TASK-1235",
-    title: "Fix API response timeout issue",
-    description: "Optimize database queries causing timeouts",
-    status: "done",
-    type: "bug",
-    assignee: "Michael Rodriguez",
-    sprint: "Sprint 24",
-    estimation: 5,
-    actualTime: 6,
-    priority: "high",
-    createdAt: "2026-02-27",
-  },
-  {
-    id: "TASK-1236",
-    title: "Update dashboard UI components",
-    description: "Refresh the design of dashboard widgets",
-    status: "todo",
-    type: "enhancement",
-    assignee: "Emily Thompson",
-    sprint: "Sprint 24",
-    estimation: 13,
-    actualTime: 0,
+interface TaskResponse {
+  taskId: number;
+  taskName: string;
+  description: string;
+  status: string;
+  taskType: string;
+  totalTime: number;
+  createdAt: string;
+  hours: number;
+  sprint: { sprintId: number; sprintName: string } | null;
+  project: { projectId: number; projectName: string } | null;
+  assignee: { userId: number; username: string } | null;
+}
+
+const mapDatabaseTaskToUITask = (dbTask: TaskResponse): Task => {
+  const statusMap: Record<string, TaskStatus> = {
+    todo: "todo",
+    "to-do": "todo",
+    pending: "todo",
+    "in-progress": "in-progress",
+    inprogress: "in-progress",
+    "in progress": "in-progress",
+    done: "done",
+    completed: "done",
+    finished: "done",
+    blocked: "blocked",
+  };
+
+  const typeMap: Record<string, TaskType> = {
+    feature: "feature",
+    bug: "bug",
+    issue: "issue",
+    enhancement: "enhancement",
+  };
+
+  return {
+    id: `TASK-${dbTask.taskId}`,
+    title: dbTask.taskName,
+    description: dbTask.description || "",
+    status: (statusMap[dbTask.status?.toLowerCase()] || "todo") as TaskStatus,
+    type: (typeMap[dbTask.taskType?.toLowerCase()] || "feature") as TaskType,
+    assignee: dbTask.assignee?.username || "Unassigned",
+    sprint: dbTask.sprint?.sprintName || "No Sprint",
+    estimation: dbTask.hours || 0,
+    actualTime: dbTask.totalTime || 0,
     priority: "medium",
-    createdAt: "2026-02-26",
-  },
-  {
-    id: "TASK-1237",
-    title: "Setup CI/CD pipeline",
-    description: "Configure automated testing and deployment",
-    status: "blocked",
-    type: "feature",
-    assignee: "David Kim",
-    sprint: "Sprint 24",
-    estimation: 8,
-    actualTime: 10,
-    priority: "high",
-    createdAt: "2026-02-25",
-  },
-  {
-    id: "TASK-1238",
-    title: "Documentation for API endpoints",
-    description: "Create comprehensive API documentation",
-    status: "in-progress",
-    type: "issue",
-    assignee: "Jessica Martinez",
-    sprint: "Sprint 24",
-    estimation: 3,
-    actualTime: 2,
-    priority: "low",
-    createdAt: "2026-02-24",
-  },
-  {
-    id: "TASK-1239",
-    title: "Implement data export feature",
-    description: "Add CSV and PDF export functionality",
-    status: "done",
-    type: "feature",
-    assignee: "Robert Johnson",
-    sprint: "Sprint 23",
-    estimation: 5,
-    actualTime: 5,
-    priority: "medium",
-    createdAt: "2026-02-20",
-  },
-];
+    createdAt: new Date(dbTask.createdAt).toISOString().split("T")[0],
+  };
+};
 
 export default function Tasks() {
-  const [tasks, setTasks] = useState<Task[]>(mockTasks);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch("/api/tasks");
+        if (!response.ok) {
+          throw new Error("Failed to fetch tasks");
+        }
+        const dbTasks: TaskResponse[] = await response.json();
+        const mappedTasks = dbTasks.map(mapDatabaseTaskToUITask);
+        setTasks(mappedTasks);
+        setError(null);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Unknown error occurred");
+        setTasks([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTasks();
+  }, []);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
@@ -118,9 +112,26 @@ export default function Tasks() {
     return matchesSearch && matchesStatus && matchesType;
   });
 
-  const handleUpdateTask = (updatedTask: Task) => {
-    setTasks(tasks.map((t) => (t.id === updatedTask.id ? updatedTask : t)));
-    setSelectedTask(updatedTask);
+  const handleUpdateTask = async (updatedTask: Task) => {
+    try {
+      const taskId = parseInt(updatedTask.id.replace("TASK-", ""));
+      const response = await fetch(`/api/tasks/${taskId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          taskName: updatedTask.title,
+          description: updatedTask.description,
+          status: updatedTask.status,
+          hours: updatedTask.estimation,
+        }),
+      });
+      if (response.ok) {
+        setTasks(tasks.map((t) => (t.id === updatedTask.id ? updatedTask : t)));
+        setSelectedTask(updatedTask);
+      }
+    } catch (err) {
+      console.error("Error updating task:", err);
+    }
   };
 
   return (
@@ -137,62 +148,88 @@ export default function Tasks() {
         </button>
       </div>
 
-      {/* Filters */}
-      <div className="bg-white rounded-xl p-4 border border-[#E5E7EB] shadow-sm">
-        <div className="flex flex-col md:flex-row gap-4">
-          {/* Search */}
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6B7280]" />
-            <input
-              type="text"
-              placeholder="Search tasks..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C74634] focus:border-transparent"
-            />
-          </div>
+      {/* Loading and Error States */}
+      {loading && (
+        <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 text-blue-800">
+          Loading tasks from database...
+        </div>
+      )}
 
-          {/* Status Filter */}
-          <div className="flex items-center gap-2">
-            <Filter className="w-5 h-5 text-[#6B7280]" />
+      {error && (
+        <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-red-800">
+          Error: {error}
+        </div>
+      )}
+
+      {/* Filters */}
+      {!loading && !error && (
+        <div className="bg-white rounded-xl p-4 border border-[#E5E7EB] shadow-sm">
+          <div className="flex flex-col md:flex-row gap-4">
+            {/* Search */}
+            <div className="flex-1 relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6B7280]" />
+              <input
+                type="text"
+                placeholder="Search tasks..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C74634] focus:border-transparent"
+              />
+            </div>
+
+            {/* Status Filter */}
+            <div className="flex items-center gap-2">
+              <Filter className="w-5 h-5 text-[#6B7280]" />
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="px-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C74634] focus:border-transparent"
+              >
+                <option value="all">All Status</option>
+                <option value="todo">To Do</option>
+                <option value="in-progress">In Progress</option>
+                <option value="done">Done</option>
+                <option value="blocked">Blocked</option>
+              </select>
+            </div>
+
+            {/* Type Filter */}
             <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
+              value={typeFilter}
+              onChange={(e) => setTypeFilter(e.target.value)}
               className="px-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C74634] focus:border-transparent"
             >
-              <option value="all">All Status</option>
-              <option value="todo">To Do</option>
-              <option value="in-progress">In Progress</option>
-              <option value="done">Done</option>
-              <option value="blocked">Blocked</option>
+              <option value="all">All Types</option>
+              <option value="feature">Feature</option>
+              <option value="bug">Bug</option>
+              <option value="issue">Issue</option>
+              <option value="enhancement">Enhancement</option>
             </select>
           </div>
-
-          {/* Type Filter */}
-          <select
-            value={typeFilter}
-            onChange={(e) => setTypeFilter(e.target.value)}
-            className="px-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C74634] focus:border-transparent"
-          >
-            <option value="all">All Types</option>
-            <option value="feature">Feature</option>
-            <option value="bug">Bug</option>
-            <option value="issue">Issue</option>
-            <option value="enhancement">Enhancement</option>
-          </select>
         </div>
-      </div>
+      )}
 
       {/* Task Table */}
-      <TaskTable tasks={filteredTasks} onSelectTask={setSelectedTask} />
+      {!loading && !error && (
+        <>
+          <TaskTable tasks={filteredTasks} onSelectTask={setSelectedTask} />
 
-      {/* Task Details Panel */}
-      {selectedTask && (
-        <TaskDetailsPanel
-          task={selectedTask}
-          onClose={() => setSelectedTask(null)}
-          onUpdate={handleUpdateTask}
-        />
+          {/* Task Details Panel */}
+          {selectedTask && (
+            <TaskDetailsPanel
+              task={selectedTask}
+              onClose={() => setSelectedTask(null)}
+              onUpdate={handleUpdateTask}
+            />
+          )}
+        </>
+      )}
+
+      {/* No Tasks Message */}
+      {!loading && !error && tasks.length === 0 && (
+        <div className="bg-gray-50 border border-gray-200 rounded-xl p-8 text-center">
+          <p className="text-gray-600">No tasks found in your database.</p>
+        </div>
       )}
     </div>
   );

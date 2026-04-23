@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s http://localhost:8080/api/tasks)",
+      "Bash(pkill -f \"spring-boot:run\")",
+      "Bash(pkill -f \"MyTodoListApplication\")",
+      "Bash(lsof -ti:8080)",
+      "Bash(xargs kill *)",
+      "Bash(python3 -m json.tool)",
+      "Bash(mvn compile *)",
+      "Bash(mvn dependency:resolve -q)",
+      "Bash(open -a Docker)",
+      "Bash(docker info *)"
+    ]
+  }
+}

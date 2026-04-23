@@ -1,8 +1,9 @@
 package com.springboot.MyTodoList.controller;
+
 import com.springboot.MyTodoList.model.User;
-import com.springboot.MyTodoList.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,66 +11,48 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/users")
+@Transactional
 public class UserController {
-    @Autowired
-    private UserService userService;
 
-    //@CrossOrigin
-    @GetMapping(value = "/users")
-    public List<User> getAllUsers(){
-        return userService.findAll();
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @GetMapping
+    public List<User> getAll() {
+        return entityManager.createQuery("SELECT u FROM User u", User.class).getResultList();
     }
 
-    //@CrossOrigin
-    @GetMapping(value = "/users/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable int id){
-        try{
-            ResponseEntity<User> responseEntity = userService.getUserById(id);
-            return new ResponseEntity<User>(responseEntity.getBody(), HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getById(@PathVariable Long id) {
+        User user = entityManager.find(User.class, id);
+        return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
+    }
+
+    @PostMapping
+    public ResponseEntity<User> create(@RequestBody User user) {
+        entityManager.persist(user);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User user) {
+        User existing = entityManager.find(User.class, id);
+        if (existing == null) {
+            return ResponseEntity.notFound().build();
         }
+        user.setUserId(id);
+        User merged = entityManager.merge(user);
+        return ResponseEntity.ok(merged);
     }
-    //@CrossOrigin
-    @PostMapping(value = "/adduser")
-    public ResponseEntity<User> addUser(@RequestBody User newUser) throws Exception{
-        User dbUser = userService.addUser(newUser);
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("location",""+dbUser.getID());
-        responseHeaders.set("Access-Control-Expose-Headers","location");
-        //URI location = URI.create(""+td.getID())
 
-        return ResponseEntity.ok()
-                .headers(responseHeaders).build();
-    }
-    //@CrossOrigin
-    @PutMapping(value = "updateUser/{id}")
-    public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable int id){
-        try{
-            User dbUser = userService.updateUser(id, user);
-            
-            return new ResponseEntity<>(dbUser,HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        User user = entityManager.find(User.class, id);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
         }
+        entityManager.remove(user);
+        return ResponseEntity.noContent().build();
     }
-    //@CrossOrigin
-    @DeleteMapping(value = "deleteUser/{id}")
-    public ResponseEntity<Boolean> deleteUser(@PathVariable("id") int id){
-        Boolean flag = false;
-        try{
-            flag = userService.deleteUser(id);
-            return new ResponseEntity<>(flag, HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(flag,HttpStatus.NOT_FOUND);
-        }
-    }
-
-
-    @GetMapping(value = "/unitTestAdd")
-    public User test(){
-        return userService.test();
-    }
-
-
 }

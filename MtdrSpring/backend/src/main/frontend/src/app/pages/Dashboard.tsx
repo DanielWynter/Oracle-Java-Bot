@@ -1,10 +1,10 @@
-import KPIWidget from "../components/KPIWidget";
-import BurndownChart from "../components/BurndownChart";
-import VelocityChart from "../components/VelocityChart";
-import EstimationChart from "../components/EstimationChart";
-import TaskTypeChart from "../components/TaskTypeChart";
-import TeamWorkload from "../components/TeamWorkload";
-import ActivityFeed from "../components/ActivityFeed";
+import KPIWidget from "../components/KPIWidget.tsx";
+import BurndownChart from "../components/BurndownChart.tsx";
+import VelocityChart from "../components/VelocityChart.tsx";
+import EstimationChart from "../components/EstimationChart.tsx";
+import TaskTypeChart from "../components/TaskTypeChart.tsx";
+import TeamWorkload from "../components/TeamWorkload.tsx";
+import ActivityFeed from "../components/ActivityFeed.tsx";
 import {
   Target,
   CheckSquare,

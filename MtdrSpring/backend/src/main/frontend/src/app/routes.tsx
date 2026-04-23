@@ -1,20 +1,24 @@
-import { createBrowserRouter } from "react-router";
-import Login from "./pages/Login";
-import MainLayout from "./layouts/MainLayout";
-import Dashboard from "./pages/Dashboard";
-import Tasks from "./pages/Tasks";
-import Sprints from "./pages/Sprints";
-import Team from "./pages/Team";
-import Reports from "./pages/Reports";
-import Settings from "./pages/Settings";
+import { createBrowserRouter } from "react-router-dom";
+import Login from "./pages/Login.tsx";
+import MainLayout from "./layouts/MainLayout.tsx";
+import Dashboard from "./pages/Dashboard.tsx";
+import Tasks from "./pages/Tasks.tsx";
+import Sprints from "./pages/Sprints.tsx";
+import Team from "./pages/Team.tsx";
+import Reports from "./pages/Reports.tsx";
+import Settings from "./pages/Settings.tsx";
 
 export const router = createBrowserRouter([
+  {
+    path: "/",
+    Component: Login,
+  },
   {
     path: "/login",
     Component: Login,
   },
   {
-    path: "/",
+    path: "/dashboard",
     Component: MainLayout,
     children: [
       { index: true, Component: Dashboard },

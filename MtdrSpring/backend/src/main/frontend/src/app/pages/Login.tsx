@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import oracleLogo from "../assets/oracle-logo.png";
 
@@ -21,7 +21,7 @@ export default function Login() {
       if (email && password) {
         localStorage.setItem("userRole", role);
         localStorage.setItem("userEmail", email);
-        navigate("/");
+        navigate("/dashboard");
       } else {
         setError("Please enter valid credentials");
       }
@@ -32,15 +32,10 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#F7F8FA] to-[#E5E7EB] flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-
         {/* Logo & Title */}
         <div className="text-center mb-8">
           <div className="flex justify-center mb-6">
-            <img
-              src={oracleLogo}
-              alt="Oracle Logo"
-              className="h-8 w-auto"
-            />
+            <img src={oracleLogo} alt="Oracle Logo" className="h-8 w-auto" />
           </div>
 
           <h1 className="text-3xl font-semibold text-[#1A1A1A] mb-2">
@@ -55,7 +50,6 @@ export default function Login() {
         {/* Login Card */}
         <div className="bg-white rounded-2xl shadow-xl p-8">
           <form onSubmit={handleLogin} className="space-y-6">
-
             {/* Role Selector */}
             <div>
               <label className="block text-sm font-medium text-[#1A1A1A] mb-3">

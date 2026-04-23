@@ -1,4 +1,4 @@
-import { NavLink } from "react-router";
+import { NavLink } from "react-router-dom";
 import {
   LayoutDashboard,
   CheckSquare,
@@ -17,12 +17,12 @@ interface SidebarProps {
 
 export default function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
   const navItems = [
-    { path: "/", label: "Dashboard", icon: LayoutDashboard },
-    { path: "/tasks", label: "Tasks", icon: CheckSquare },
-    { path: "/sprints", label: "Sprints", icon: Target },
-    { path: "/team", label: "Team", icon: Users },
-    { path: "/reports", label: "Reports", icon: BarChart3 },
-    { path: "/settings", label: "Settings", icon: Settings },
+    { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+    { path: "/dashboard/tasks", label: "Tasks", icon: CheckSquare },
+    { path: "/dashboard/sprints", label: "Sprints", icon: Target },
+    { path: "/dashboard/team", label: "Team", icon: Users },
+    { path: "/dashboard/reports", label: "Reports", icon: BarChart3 },
+    { path: "/dashboard/settings", label: "Settings", icon: Settings },
   ];
 
   return (
@@ -72,7 +72,7 @@ export default function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
             <li key={item.path}>
               <NavLink
                 to={item.path}
-                end={item.path === "/"}
+                end={item.path === "/dashboard"}
                 className={({ isActive }) =>
                   `flex items-center gap-3 px-3 py-3 rounded-lg transition-all relative group ${
                     isActive

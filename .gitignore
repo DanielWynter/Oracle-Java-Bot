@@ -28,14 +28,17 @@ hs_err_pid*
 
 # dependencies
 frontend/node_modules
+MtdrSpring/backend/src/main/frontend/node_modules
 frontend/.pnp
 .pnp.js
 
 # testing
 frontend/coverage
+MtdrSpring/backend/src/main/frontend/coverage
 
 # production
 frontend/build
+MtdrSpring/backend/src/main/frontend/build
 
 # misc
 .DS_Store
@@ -46,7 +49,10 @@ frontend/build
 .idea
 
 frontend/package-lock.json
+MtdrSpring/backend/src/main/frontend/package-lock.json
 frontend/npm-debug.log*
 frontend/yarn-debug.log*
+MtdrSpring/backend/src/main/frontend/npm-debug.log*
+MtdrSpring/backend/src/main/frontend/yarn-debug.log*
 frontend/yarn-error.log*
 /MtdrSpring/backend/wallet

@@ -18,7 +18,7 @@ const statusConfig: Record<
 
 const typeConfig: Record<TaskType, { label: string; color: string }> = {
   feature: { label: "Feature", color: "#C74634" },
-  bug: { label: "Bug", color: "#DC2626" },
+  bug: { label: "Bug", color: "#7C3AED" },
   issue: { label: "Issue", color: "#F59E0B" },
   enhancement: { label: "Enhancement", color: "#2563EB" },
 };

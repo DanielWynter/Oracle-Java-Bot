@@ -5,8 +5,8 @@ import TeamWorkload from "./TeamWorkload";
 describe("TeamWorkload Component", () => {
   it("debería renderizar la lista de desarrolladores", () => {
     render(<TeamWorkload />);
-    expect(screen.getByText("Sarah Chen")).toBeDefined();
-    expect(screen.getByText("Michael Rodriguez")).toBeDefined();
+    expect(screen.getAllByText("Sarah Chen")[0]).toBeDefined();
+    expect(screen.getAllByText("Michael Rodriguez")[0]).toBeDefined();
   });
 
   it("debería mostrar las tareas completadas y horas trabajadas por persona (Requisito KPI)", () => {

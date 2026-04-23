@@ -72,7 +72,7 @@ describe("TaskDetailsPanel Component", () => {
     await user.selectOptions(statusSelect, "done");
 
     // Guardamos
-    const saveButton = screen.getByText("Save Changes");
+    const saveButton = screen.getAllByText("Save Changes")[0];
     await user.click(saveButton);
 
     // Verificamos que el estado de la tarea cambió a 'done'

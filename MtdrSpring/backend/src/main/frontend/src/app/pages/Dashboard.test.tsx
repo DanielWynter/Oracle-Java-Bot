@@ -1,6 +1,11 @@
-import { render, screen } from "@testing-library/react";
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { render, screen, cleanup } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import Dashboard from "./Dashboard";
+
+// Limpieza obligatoria para que el admin no le deje su basura al developer
+afterEach(() => {
+  cleanup();
+});
 
 // MOCK MODULES: Reemplazamos todos los componentes hijos por mocks
 vi.mock("../components/KPIWidget", () => ({

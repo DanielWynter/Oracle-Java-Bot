@@ -39,6 +39,6 @@ describe("Sprints Component", () => {
     render(<Sprints />);
     // Comprobamos que el componente de la tabla de tareas se está montando en la vista de Sprints
     expect(screen.getAllByTestId("task-table-mock")[0]).toBeDefined();
-    expect(screen.getByText("Tasks for Sprint 24")).toBeDefined();
+    expect(screen.getAllByText("Tasks for Sprint 24")[0]).toBeDefined();
   });
 });

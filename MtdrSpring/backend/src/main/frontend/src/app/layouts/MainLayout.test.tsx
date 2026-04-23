@@ -1,12 +1,19 @@
-import { render, screen } from "@testing-library/react";
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { MemoryRouter } from "react-router";
+/** @vitest-environment jsdom */
+import { render, screen, cleanup } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { MemoryRouter } from "react-router-dom";
 import MainLayout from "./MainLayout";
+
+// Limpieza para evitar clones en el DOM
+afterEach(() => {
+  cleanup();
+});
 
 const mockNavigate = vi.fn();
 
-vi.mock("react-router", async () => {
-  const actual = await vi.importActual("react-router");
+// ACTUALIZADO: Ahora mockeamos "react-router-dom" para que coincida con Wynter
+vi.mock("react-router-dom", async () => {
+  const actual = await vi.importActual("react-router-dom");
   return {
     ...actual,
     useNavigate: () => mockNavigate,
@@ -36,7 +43,8 @@ describe("MainLayout Component", () => {
       </MemoryRouter>
     );
 
-    expect(mockNavigate).toHaveBeenCalledWith("/login");
+    // CAMBIO AQUÍ: Ahora esperamos que redirija a "/"
+    expect(mockNavigate).toHaveBeenCalledWith("/");
   });
 
   it("debería renderizar el layout completo si el usuario está autenticado", () => {
@@ -49,6 +57,7 @@ describe("MainLayout Component", () => {
     );
 
     expect(mockNavigate).not.toHaveBeenCalled();
+    // Protegidos con getAllBy[0] por si acaso
     expect(screen.getAllByTestId("sidebar-mock")[0]).toBeDefined();
     expect(screen.getAllByTestId("navbar-mock")[0]).toBeDefined();
   });

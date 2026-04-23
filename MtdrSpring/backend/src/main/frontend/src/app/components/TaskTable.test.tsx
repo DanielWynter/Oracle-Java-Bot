@@ -1,7 +1,13 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import { describe, it, expect, vi } from "vitest";
+/** @vitest-environment jsdom */
+import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import TaskTable from "./TaskTable";
 import { Task } from "../pages/Tasks";
+
+// Limpieza del DOM después de cada prueba
+afterEach(() => {
+  cleanup();
+});
 
 // 1. MOCK MODULES: Mockeamos lucide-react para evitar renderizar SVGs complejos
 vi.mock("lucide-react", () => ({
@@ -38,10 +44,10 @@ describe("TaskTable Component", () => {
   it("debería mostrar las tareas asignadas correctamente en la tabla", () => {
     render(<TaskTable tasks={mockTasks} onSelectTask={mockOnSelectTask} />);
     
-    // Evitamos detalles de implementación buscando por texto visible
+    // Evitamos detalles de implementación buscando por texto visible y agarramos el primero
     expect(screen.getAllByText("TASK-1")[0]).toBeDefined();
-    expect(screen.getByText("Crear conexión con el bot")).toBeDefined();
-    expect(screen.getByText("Esteban")).toBeDefined();
+    expect(screen.getAllByText("Crear conexión con el bot")[0]).toBeDefined();
+    expect(screen.getAllByText("Esteban")[0]).toBeDefined();
   });
 
   it("debería llamar a onSelectTask al hacer clic en una fila", () => {

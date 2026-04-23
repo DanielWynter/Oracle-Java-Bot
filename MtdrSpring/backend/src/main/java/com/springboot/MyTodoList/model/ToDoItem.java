@@ -1,41 +1,33 @@
 package com.springboot.MyTodoList.model;
 
-
 import jakarta.persistence.*;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
-/*
-    representation of the TODOITEM table that exists already
-    in the autonomous database
- */
 @Entity
-@Table(name = "TODOITEM")
+@Table(name = "TODO_ITEMS", schema = "DEV")
+@SequenceGenerator(name = "todo_seq", sequenceName = "DEV.TODO_SEQ", allocationSize = 1)
 public class ToDoItem {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int ID;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "todo_seq")
+    @Column(name = "ID")
+    private Integer id;
+
     @Column(name = "DESCRIPTION")
-    String description;
+    private String description;
+
+    @Column(name = "DONE")
+    private Boolean done;
+
     @Column(name = "CREATION_TS")
-    OffsetDateTime creation_ts;
-    @Column(name = "done")
-    boolean done;
-    public ToDoItem(){
+    private LocalDateTime creation_ts;
 
-    }
-    public ToDoItem(int ID, String description, OffsetDateTime creation_ts, boolean done) {
-        this.ID = ID;
-        this.description = description;
-        this.creation_ts = creation_ts;
-        this.done = done;
+    // Getters y Setters
+    public Integer getID() {
+        return id;
     }
 
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setID(Integer id) {
+        this.id = id;
     }
 
     public String getDescription() {
@@ -46,29 +38,19 @@ public class ToDoItem {
         this.description = description;
     }
 
-    public OffsetDateTime getCreation_ts() {
-        return creation_ts;
-    }
-
-    public void setCreation_ts(OffsetDateTime creation_ts) {
-        this.creation_ts = creation_ts;
-    }
-
-    public boolean isDone() {
+    public Boolean isDone() {
         return done;
     }
 
-    public void setDone(boolean done) {
+    public void setDone(Boolean done) {
         this.done = done;
     }
 
-    @Override
-    public String toString() {
-        return "ToDoItem{" +
-                "ID=" + ID +
-                ", description='" + description + '\'' +
-                ", creation_ts=" + creation_ts +
-                ", done=" + done +
-                '}';
+    public LocalDateTime getCreation_ts() {
+        return creation_ts;
+    }
+
+    public void setCreation_ts(LocalDateTime creation_ts) {
+        this.creation_ts = creation_ts;
     }
 }

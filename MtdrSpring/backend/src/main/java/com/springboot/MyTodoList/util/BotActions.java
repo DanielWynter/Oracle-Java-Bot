@@ -1,8 +1,9 @@
-package com.springboot.MyTodoList.util;
+/*package com.springboot.MyTodoList.util;
 
 import com.springboot.MyTodoList.model.ToDoItem;
 import com.springboot.MyTodoList.service.DeepSeekService;
 import com.springboot.MyTodoList.service.ToDoItemService;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -220,7 +221,7 @@ public class BotActions{
             return;
         ToDoItem newItem = new ToDoItem();
         newItem.setDescription(requestText);
-        newItem.setCreation_ts(OffsetDateTime.now());
+        newItem.setCreation_ts(LocalDateTime.now());
         newItem.setDone(false);
         todoService.addToDoItem(newItem);
 
@@ -245,4 +246,4 @@ public class BotActions{
     }
 
 
-}
+}*/

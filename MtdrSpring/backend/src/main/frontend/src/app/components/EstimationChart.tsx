@@ -1,4 +1,13 @@
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
 const data = [
   { task: "Task 1", estimated: 8, actual: 7 },
@@ -34,8 +43,18 @@ export default function EstimationChart() {
             }}
           />
           <Legend />
-          <Bar dataKey="estimated" fill="#F59E0B" name="Estimated" radius={[8, 8, 0, 0]} />
-          <Bar dataKey="actual" fill="#16A34A" name="Actual" radius={[8, 8, 0, 0]} />
+          <Bar
+            dataKey="estimated"
+            fill="#F59E0B"
+            name="Estimated"
+            radius={[8, 8, 0, 0]}
+          />
+          <Bar
+            dataKey="actual"
+            fill="#16A34A"
+            name="Actual"
+            radius={[8, 8, 0, 0]}
+          />
         </BarChart>
       </ResponsiveContainer>
     </div>

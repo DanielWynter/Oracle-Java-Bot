@@ -1,11 +1,29 @@
 export default function TeamWorkload() {
   const developers = [
     { name: "Sarah Chen", load: 85, tasks: 12, hours: 34, color: "#DC2626" },
-    { name: "Michael Rodriguez", load: 72, tasks: 10, hours: 28, color: "#F59E0B" },
+    {
+      name: "Michael Rodriguez",
+      load: 72,
+      tasks: 10,
+      hours: 28,
+      color: "#F59E0B",
+    },
     { name: "Emily Thompson", load: 68, tasks: 9, hours: 25, color: "#16A34A" },
     { name: "David Kim", load: 90, tasks: 14, hours: 38, color: "#DC2626" },
-    { name: "Jessica Martinez", load: 55, tasks: 7, hours: 20, color: "#16A34A" },
-    { name: "Robert Johnson", load: 78, tasks: 11, hours: 30, color: "#F59E0B" },
+    {
+      name: "Jessica Martinez",
+      load: 55,
+      tasks: 7,
+      hours: 20,
+      color: "#16A34A",
+    },
+    {
+      name: "Robert Johnson",
+      load: 78,
+      tasks: 11,
+      hours: 30,
+      color: "#F59E0B",
+    },
   ];
 
   return (
@@ -25,7 +43,10 @@ export default function TeamWorkload() {
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-[#C74634]/10 rounded-full flex items-center justify-center">
                   <span className="text-sm font-medium text-[#C74634]">
-                    {dev.name.split(" ").map((n) => n[0]).join("")}
+                    {dev.name
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
                   </span>
                 </div>
                 <div>
@@ -38,7 +59,10 @@ export default function TeamWorkload() {
                   </p>
                 </div>
               </div>
-              <span className="text-sm font-medium" style={{ color: dev.color }}>
+              <span
+                className="text-sm font-medium"
+                style={{ color: dev.color }}
+              >
                 {dev.load}%
               </span>
             </div>

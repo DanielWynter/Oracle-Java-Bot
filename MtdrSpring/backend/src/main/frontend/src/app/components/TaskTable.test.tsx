@@ -27,7 +27,7 @@ const mockTasks: Task[] = [
     actualTime: 5,
     priority: "high",
     createdAt: "2026-04-21",
-  }
+  },
 ];
 
 describe("TaskTable Component", () => {
@@ -36,14 +36,14 @@ describe("TaskTable Component", () => {
 
   it("debería hacer match con el snapshot (Snapshot Testing)", () => {
     const { asFragment } = render(
-      <TaskTable tasks={mockTasks} onSelectTask={mockOnSelectTask} />
+      <TaskTable tasks={mockTasks} onSelectTask={mockOnSelectTask} />,
     );
     expect(asFragment()).toMatchSnapshot();
   });
 
   it("debería mostrar las tareas asignadas correctamente en la tabla", () => {
     render(<TaskTable tasks={mockTasks} onSelectTask={mockOnSelectTask} />);
-    
+
     // Evitamos detalles de implementación buscando por texto visible y agarramos el primero
     expect(screen.getAllByText("TASK-1")[0]).toBeDefined();
     expect(screen.getAllByText("Crear conexión con el bot")[0]).toBeDefined();
@@ -52,7 +52,7 @@ describe("TaskTable Component", () => {
 
   it("debería llamar a onSelectTask al hacer clic en una fila", () => {
     render(<TaskTable tasks={mockTasks} onSelectTask={mockOnSelectTask} />);
-    
+
     const taskRow = screen.getAllByText("TASK-1")[0].closest("tr");
     fireEvent.click(taskRow!);
 

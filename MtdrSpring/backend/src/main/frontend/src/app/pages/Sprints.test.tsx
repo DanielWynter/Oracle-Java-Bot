@@ -25,7 +25,9 @@ vi.mock("lucide-react", () => ({
 
 // Mock del TaskTable para verificar que se le pasan las tareas (Evitando detalles de implementación)
 vi.mock("../components/TaskTable", () => ({
-  default: () => <div data-testid="task-table-mock">Tabla de Tareas del Sprint</div>,
+  default: () => (
+    <div data-testid="task-table-mock">Tabla de Tareas del Sprint</div>
+  ),
 }));
 
 describe("Sprints Component", () => {

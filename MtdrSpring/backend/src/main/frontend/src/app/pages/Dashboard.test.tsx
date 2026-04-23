@@ -51,20 +51,20 @@ describe("Dashboard Component - Lógica de Roles", () => {
 
   it("debería mostrar Velocity y TaskType Charts si el rol es 'admin'", () => {
     // Forzamos que el localStorage devuelva 'admin'
-    vi.spyOn(Storage.prototype, 'getItem').mockReturnValue('admin');
-    
+    vi.spyOn(Storage.prototype, "getItem").mockReturnValue("admin");
+
     render(<Dashboard />);
-    
+
     expect(screen.getByTestId("velocity-chart")).toBeDefined();
     expect(screen.getByTestId("task-type-chart")).toBeDefined();
   });
 
   it("debería ocultar Velocity y TaskType Charts si el rol es 'developer'", () => {
     // Forzamos que el localStorage devuelva 'developer'
-    vi.spyOn(Storage.prototype, 'getItem').mockReturnValue('developer');
-    
+    vi.spyOn(Storage.prototype, "getItem").mockReturnValue("developer");
+
     render(<Dashboard />);
-    
+
     // queryBy devuelve null si no lo encuentra, perfecto para este caso
     expect(screen.queryByTestId("velocity-chart")).toBeNull();
     expect(screen.queryByTestId("task-type-chart")).toBeNull();

@@ -40,7 +40,7 @@ describe("MainLayout Component", () => {
     render(
       <MemoryRouter>
         <MainLayout />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     // CAMBIO AQUÍ: Ahora esperamos que redirija a "/"
@@ -53,7 +53,7 @@ describe("MainLayout Component", () => {
     render(
       <MemoryRouter>
         <MainLayout />
-      </MemoryRouter>
+      </MemoryRouter>,
     );
 
     expect(mockNavigate).not.toHaveBeenCalled();

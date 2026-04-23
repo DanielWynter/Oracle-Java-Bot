@@ -164,7 +164,9 @@ export default function Settings() {
             <h3 className="text-lg font-semibold text-[#1A1A1A]">
               Theme Settings
             </h3>
-            <p className="text-sm text-[#6B7280]">Choose your preferred theme</p>
+            <p className="text-sm text-[#6B7280]">
+              Choose your preferred theme
+            </p>
           </div>
         </div>
 
@@ -205,7 +207,9 @@ export default function Settings() {
             <h3 className="text-lg font-semibold text-[#1A1A1A]">
               Role Management
             </h3>
-            <p className="text-sm text-[#6B7280]">Manage access and permissions</p>
+            <p className="text-sm text-[#6B7280]">
+              Manage access and permissions
+            </p>
           </div>
         </div>
 

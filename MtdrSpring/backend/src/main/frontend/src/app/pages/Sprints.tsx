@@ -1,14 +1,43 @@
 import { useState } from "react";
 import { Calendar, TrendingUp, CheckCircle2, Clock } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 // 1. IMPORTAMOS EL TASK TABLE Y SU TIPO
 import TaskTable from "../components/TaskTable";
 import { Task } from "./Tasks";
 
 const sprintData = [
-  { id: "sprint-24", name: "Sprint 24", status: "active", progress: 78, startDate: "Feb 20", endDate: "Mar 6" },
-  { id: "sprint-23", name: "Sprint 23", status: "completed", progress: 100, startDate: "Feb 6", endDate: "Feb 19" },
-  { id: "sprint-22", name: "Sprint 22", status: "completed", progress: 100, startDate: "Jan 23", endDate: "Feb 5" },
+  {
+    id: "sprint-24",
+    name: "Sprint 24",
+    status: "active",
+    progress: 78,
+    startDate: "Feb 20",
+    endDate: "Mar 6",
+  },
+  {
+    id: "sprint-23",
+    name: "Sprint 23",
+    status: "completed",
+    progress: 100,
+    startDate: "Feb 6",
+    endDate: "Feb 19",
+  },
+  {
+    id: "sprint-22",
+    name: "Sprint 22",
+    status: "completed",
+    progress: 100,
+    startDate: "Jan 23",
+    endDate: "Feb 5",
+  },
 ];
 
 const burndownData = [
@@ -49,7 +78,7 @@ const sprintTasks: Task[] = [
     actualTime: 5,
     priority: "high",
     createdAt: "2026-04-21",
-  }
+  },
 ];
 
 export default function Sprints() {
@@ -74,7 +103,7 @@ export default function Sprints() {
           value={selectedSprint.id}
           onChange={(e) =>
             setSelectedSprint(
-              sprintData.find((s) => s.id === e.target.value) || sprintData[0]
+              sprintData.find((s) => s.id === e.target.value) || sprintData[0],
             )
           }
           className="w-full md:w-64 px-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C74634] focus:border-transparent"
@@ -178,7 +207,11 @@ export default function Sprints() {
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={burndownData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-            <XAxis dataKey="day" stroke="#6B7280" style={{ fontSize: "12px" }} />
+            <XAxis
+              dataKey="day"
+              stroke="#6B7280"
+              style={{ fontSize: "12px" }}
+            />
             <YAxis stroke="#6B7280" style={{ fontSize: "12px" }} />
             <Tooltip
               contentStyle={{

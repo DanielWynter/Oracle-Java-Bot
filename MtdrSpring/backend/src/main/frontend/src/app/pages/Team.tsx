@@ -91,7 +91,7 @@ const developers: Developer[] = [
 
 export default function Team() {
   const [selectedDeveloper, setSelectedDeveloper] = useState<Developer | null>(
-    null
+    null,
   );
 
   return (
@@ -182,8 +182,8 @@ export default function Team() {
                       dev.workload > 80
                         ? "#DC2626"
                         : dev.workload > 60
-                        ? "#F59E0B"
-                        : "#16A34A",
+                          ? "#F59E0B"
+                          : "#16A34A",
                   }}
                 >
                   {dev.workload}%
@@ -198,8 +198,8 @@ export default function Team() {
                       dev.workload > 80
                         ? "#DC2626"
                         : dev.workload > 60
-                        ? "#F59E0B"
-                        : "#16A34A",
+                          ? "#F59E0B"
+                          : "#16A34A",
                   }}
                 />
               </div>

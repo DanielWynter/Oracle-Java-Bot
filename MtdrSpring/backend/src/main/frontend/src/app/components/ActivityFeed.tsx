@@ -67,7 +67,10 @@ export default function ActivityFeed() {
               className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
               style={{ backgroundColor: `${activity.color}15` }}
             >
-              <activity.icon className="w-4 h-4" style={{ color: activity.color }} />
+              <activity.icon
+                className="w-4 h-4"
+                style={{ color: activity.color }}
+              />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm text-[#1A1A1A]">

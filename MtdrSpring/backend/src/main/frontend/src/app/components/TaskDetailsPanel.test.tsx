@@ -33,16 +33,16 @@ describe("TaskDetailsPanel Component", () => {
   it("debería permitir editar el título de la tarea (State Change)", async () => {
     const user = userEvent.setup();
     render(
-      <TaskDetailsPanel 
-        task={initialTask} 
-        onClose={mockOnClose} 
-        onUpdate={mockOnUpdate} 
-      />
+      <TaskDetailsPanel
+        task={initialTask}
+        onClose={mockOnClose}
+        onUpdate={mockOnUpdate}
+      />,
     );
 
     // Encontramos el input por su valor actual
     const titleInput = screen.getByDisplayValue("Diseñar Base de Datos");
-    
+
     // Simulamos que el usuario borra y escribe algo nuevo
     await user.clear(titleInput);
     await user.type(titleInput, "Nueva BD Optimizada");
@@ -53,18 +53,18 @@ describe("TaskDetailsPanel Component", () => {
 
     // Verificamos que la función espía se llamó con el nuevo título
     expect(mockOnUpdate).toHaveBeenCalledWith(
-      expect.objectContaining({ title: "Nueva BD Optimizada" })
+      expect.objectContaining({ title: "Nueva BD Optimizada" }),
     );
   });
 
   it("debería permitir marcar la tarea como completada (Done)", async () => {
     const user = userEvent.setup();
     render(
-      <TaskDetailsPanel 
-        task={initialTask} 
-        onClose={mockOnClose} 
-        onUpdate={mockOnUpdate} 
-      />
+      <TaskDetailsPanel
+        task={initialTask}
+        onClose={mockOnClose}
+        onUpdate={mockOnUpdate}
+      />,
     );
 
     // Cambiamos el select de status
@@ -77,7 +77,7 @@ describe("TaskDetailsPanel Component", () => {
 
     // Verificamos que el estado de la tarea cambió a 'done'
     expect(mockOnUpdate).toHaveBeenCalledWith(
-      expect.objectContaining({ status: "done" })
+      expect.objectContaining({ status: "done" }),
     );
   });
 });

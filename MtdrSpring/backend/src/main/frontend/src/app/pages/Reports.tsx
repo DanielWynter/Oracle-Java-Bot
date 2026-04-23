@@ -1,6 +1,17 @@
 import { useState } from "react";
 import { Download, FileText, Calendar } from "lucide-react";
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import {
+  LineChart,
+  Line,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
 const productivityData = [
   { week: "Week 1", productivity: 85, tasks: 32 },
@@ -112,7 +123,11 @@ export default function Reports() {
         <ResponsiveContainer width="100%" height={350}>
           <LineChart data={productivityData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-            <XAxis dataKey="week" stroke="#6B7280" style={{ fontSize: "12px" }} />
+            <XAxis
+              dataKey="week"
+              stroke="#6B7280"
+              style={{ fontSize: "12px" }}
+            />
             <YAxis stroke="#6B7280" style={{ fontSize: "12px" }} />
             <Tooltip
               contentStyle={{
@@ -156,7 +171,11 @@ export default function Reports() {
         <ResponsiveContainer width="100%" height={350}>
           <BarChart data={performanceData} layout="vertical">
             <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-            <XAxis type="number" stroke="#6B7280" style={{ fontSize: "12px" }} />
+            <XAxis
+              type="number"
+              stroke="#6B7280"
+              style={{ fontSize: "12px" }}
+            />
             <YAxis
               type="category"
               dataKey="name"
@@ -172,7 +191,12 @@ export default function Reports() {
                 padding: "8px 12px",
               }}
             />
-            <Bar dataKey="score" fill="#C74634" name="Score" radius={[0, 8, 8, 0]} />
+            <Bar
+              dataKey="score"
+              fill="#C74634"
+              name="Score"
+              radius={[0, 8, 8, 0]}
+            />
           </BarChart>
         </ResponsiveContainer>
       </div>

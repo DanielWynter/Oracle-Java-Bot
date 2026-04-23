@@ -1,4 +1,11 @@
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  Legend,
+  Tooltip,
+} from "recharts";
 
 const data = [
   { name: "Feature", value: 45 },
@@ -16,7 +23,9 @@ export default function TaskTypeChart() {
         <h3 className="text-lg font-semibold text-[#1A1A1A] mb-1">
           Tasks by Type
         </h3>
-        <p className="text-sm text-[#6B7280]">Distribution of task categories</p>
+        <p className="text-sm text-[#6B7280]">
+          Distribution of task categories
+        </p>
       </div>
       <ResponsiveContainer width="100%" height={300}>
         <PieChart>
@@ -33,7 +42,10 @@ export default function TaskTypeChart() {
             dataKey="value"
           >
             {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              <Cell
+                key={`cell-${index}`}
+                fill={COLORS[index % COLORS.length]}
+              />
             ))}
           </Pie>
           <Tooltip

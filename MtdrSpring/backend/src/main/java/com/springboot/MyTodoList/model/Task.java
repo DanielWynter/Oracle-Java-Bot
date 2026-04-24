@@ -1,14 +1,17 @@
 package com.springboot.MyTodoList.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.Check;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "TASKS", schema = "DEV")
-@SequenceGenerator(name = "task_seq", sequenceName = "DEV.TASK_SEQ", allocationSize = 1)
+@SequenceGenerator(name = "tasks_seq", sequenceName = "DEV.TASKS_SEQ", allocationSize = 1)
+@Check(constraints = "STATUS IN ('TO_DO','IN_PROGRESS','COMPLETED','STOPPED') AND PRIORITY IN ('LOW','MEDIUM','HIGH','CRITICAL')")
 public class Task {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "task_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tasks_seq")
     @Column(name = "TASK_ID")
     private Long taskId;
 
@@ -18,10 +21,12 @@ public class Task {
     @Column(name = "DESCRIPTION")
     private String description;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "STATUS")
-    private String status;
+    private Status status;
 
-    @Column(name = "CREATED_AT")
+    @Column(name = "CREATED_AT", insertable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "ESTIMATED_TIME")
@@ -33,11 +38,13 @@ public class Task {
     @Column(name = "TOTAL_TIME")
     private Double totalTime;
 
-    @Transient
-    private String priority;
-
-    @Transient
+    @Column(name = "FINISHED_AT", insertable = false, updatable = false)
     private LocalDateTime finishedAt;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "PRIORITY")
+    private Priority priority = Priority.MEDIUM;
 
     @ManyToOne
     @JoinColumn(name = "SPRINT_ID")
@@ -75,11 +82,11 @@ public class Task {
         this.description = description;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -115,11 +122,11 @@ public class Task {
         this.totalTime = totalTime;
     }
 
-    public String getPriority() {
+    public Priority getPriority() {
         return priority;
     }
 
-    public void setPriority(String priority) {
+    public void setPriority(Priority priority) {
         this.priority = priority;
     }
 

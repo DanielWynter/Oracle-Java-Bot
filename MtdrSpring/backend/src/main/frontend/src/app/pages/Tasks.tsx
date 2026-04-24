@@ -14,6 +14,7 @@ export interface Task {
   type: TaskType;
   assignee: string;
   sprint: string;
+  sprintId: number | null;
   estimation: number;
   actualTime: number;
   priority: "low" | "medium" | "high";
@@ -63,6 +64,7 @@ const mapDatabaseTaskToUITask = (dbTask: TaskResponse): Task => {
     type: (typeMap[dbTask.taskType?.toLowerCase()] || "feature") as TaskType,
     assignee: dbTask.assignee?.username || "Unassigned",
     sprint: dbTask.sprint?.sprintName || "No Sprint",
+    sprintId: dbTask.sprint?.sprintId ?? null,
     estimation: dbTask.hours || 0,
     actualTime: dbTask.totalTime || 0,
     priority: "medium",
@@ -101,6 +103,15 @@ export default function Tasks() {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [typeFilter, setTypeFilter] = useState<string>("all");
+  const [sprintFilter, setSprintFilter] = useState<string>("all");
+
+  const sprints = Array.from(
+    new Map(
+      tasks
+        .filter((t) => t.sprintId !== null)
+        .map((t) => [t.sprintId, { id: t.sprintId!, name: t.sprint }])
+    ).values()
+  ).sort((a, b) => a.id - b.id);
 
   const filteredTasks = tasks.filter((task) => {
     const matchesSearch =
@@ -109,7 +120,9 @@ export default function Tasks() {
     const matchesStatus =
       statusFilter === "all" || task.status === statusFilter;
     const matchesType = typeFilter === "all" || task.type === typeFilter;
-    return matchesSearch && matchesStatus && matchesType;
+    const matchesSprint =
+      sprintFilter === "all" || String(task.sprintId) === sprintFilter;
+    return matchesSearch && matchesStatus && matchesType && matchesSprint;
   });
 
   const handleUpdateTask = async (updatedTask: Task) => {
@@ -204,6 +217,20 @@ export default function Tasks() {
               <option value="bug">Bug</option>
               <option value="issue">Issue</option>
               <option value="enhancement">Enhancement</option>
+            </select>
+
+            {/* Sprint Filter */}
+            <select
+              value={sprintFilter}
+              onChange={(e) => setSprintFilter(e.target.value)}
+              className="px-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C74634] focus:border-transparent"
+            >
+              <option value="all">All Sprints</option>
+              {sprints.map((s) => (
+                <option key={s.id} value={String(s.id)}>
+                  {s.name}
+                </option>
+              ))}
             </select>
           </div>
         </div>

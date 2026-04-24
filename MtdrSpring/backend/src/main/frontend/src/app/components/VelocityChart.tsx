@@ -1,4 +1,13 @@
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
 const data = [
   { sprint: "Sprint 18", velocity: 35 },
@@ -24,7 +33,11 @@ export default function VelocityChart() {
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={data}>
           <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-          <XAxis dataKey="sprint" stroke="#6B7280" style={{ fontSize: "12px" }} />
+          <XAxis
+            dataKey="sprint"
+            stroke="#6B7280"
+            style={{ fontSize: "12px" }}
+          />
           <YAxis stroke="#6B7280" style={{ fontSize: "12px" }} />
           <Tooltip
             contentStyle={{
@@ -35,7 +48,12 @@ export default function VelocityChart() {
             }}
           />
           <Legend />
-          <Bar dataKey="velocity" fill="#2563EB" name="Velocity" radius={[8, 8, 0, 0]} />
+          <Bar
+            dataKey="velocity"
+            fill="#2563EB"
+            name="Velocity"
+            radius={[8, 8, 0, 0]}
+          />
         </BarChart>
       </ResponsiveContainer>
     </div>

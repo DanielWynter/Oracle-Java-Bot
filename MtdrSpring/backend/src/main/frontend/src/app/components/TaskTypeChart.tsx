@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
+import { useSprint } from "../context/SprintContext.tsx";
 
 const TYPE_COLORS: Record<string, string> = {
   Feature: "#C74634",
@@ -10,30 +11,39 @@ const TYPE_COLORS: Record<string, string> = {
 
 const FALLBACK_COLORS = ["#C74634", "#7C3AED", "#F59E0B", "#2563EB", "#16A34A"];
 
+interface TaskRaw {
+  taskType?: string;
+  sprint?: { sprintId: number } | null;
+}
+
 interface ChartEntry {
   name: string;
   value: number;
 }
 
 export default function TaskTypeChart() {
-  const [data, setData] = useState<ChartEntry[]>([]);
+  const { selectedSprintId } = useSprint();
+  const [allTasks, setAllTasks] = useState<TaskRaw[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("/api/tasks")
       .then((res) => res.json())
-      .then((tasks: { taskType?: string }[]) => {
-        const counts: Record<string, number> = {};
-        tasks.forEach((t) => {
-          const type = t.taskType || "Unknown";
-          counts[type] = (counts[type] || 0) + 1;
-        });
-        setData(
-          Object.entries(counts).map(([name, value]) => ({ name, value }))
-        );
-      })
+      .then(setAllTasks)
       .finally(() => setLoading(false));
   }, []);
+
+  const tasks = selectedSprintId
+    ? allTasks.filter((t) => t.sprint?.sprintId === selectedSprintId)
+    : allTasks;
+
+  const data: ChartEntry[] = Object.entries(
+    tasks.reduce<Record<string, number>>((counts, t) => {
+      const type = t.taskType || "Unknown";
+      counts[type] = (counts[type] || 0) + 1;
+      return counts;
+    }, {})
+  ).map(([name, value]) => ({ name, value }));
 
   return (
     <div className="bg-white rounded-xl p-6 border border-[#E5E7EB] shadow-sm">

@@ -1,9 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, Bell, User, LogOut, ChevronDown } from "lucide-react";
+import { Search, Bell, User, LogOut, ChevronDown, Layers } from "lucide-react";
+import { useSprint } from "../context/SprintContext.tsx";
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const { sprints, selectedSprintId, setSelectedSprintId } = useSprint();
   const [showDropdown, setShowDropdown] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -20,7 +22,6 @@ export default function Navbar() {
         setShowDropdown(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -32,13 +33,26 @@ export default function Navbar() {
 
   return (
     <div className="h-16 bg-white border-b border-[#E5E7EB] flex items-center justify-between px-6">
-      {/* Current Sprint Indicator */}
-      <div className="flex items-center gap-4">
-        <div className="px-4 py-2 bg-[#2563EB]/10 border border-[#2563EB]/20 rounded-lg">
-          <span className="text-sm text-[#2563EB] font-medium">
-            Sprint 24 • Week 2
-          </span>
-        </div>
+      {/* Sprint Selector */}
+      <div className="flex items-center gap-2">
+        <Layers className="w-4 h-4 text-[#2563EB]" />
+        <select
+          value={selectedSprintId ?? ""}
+          onChange={(e) =>
+            setSelectedSprintId(
+              e.target.value !== "" ? Number(e.target.value) : null
+            )
+          }
+          className="px-3 py-1.5 bg-[#2563EB]/10 border border-[#2563EB]/20 rounded-lg text-sm text-[#2563EB] font-medium focus:outline-none focus:ring-2 focus:ring-[#2563EB] cursor-pointer"
+        >
+          <option value="">All Sprints</option>
+          {sprints.map((s) => (
+            <option key={s.sprintId} value={s.sprintId}>
+              {s.sprintName}
+              {s.status?.toLowerCase() === "active" ? " (Active)" : ""}
+            </option>
+          ))}
+        </select>
       </div>
 
       {/* Search & Actions */}

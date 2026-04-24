@@ -12,7 +12,12 @@
       "Bash(open -a Docker)",
       "Bash(docker info *)",
       "Bash(npx tsc *)",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:8080/api/sprints)",
+      "Bash(curl -s http://localhost:8080/api/users)",
+      "Bash(python3 -c ' *)",
+      "Bash(curl -s \"http://localhost:8080/api/users\")",
+      "Bash(curl -s \"http://localhost:8080/api/tasks\")"
     ]
   }
 }

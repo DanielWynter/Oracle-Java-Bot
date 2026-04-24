@@ -10,7 +10,9 @@
       "Bash(mvn compile *)",
       "Bash(mvn dependency:resolve -q)",
       "Bash(open -a Docker)",
-      "Bash(docker info *)"
+      "Bash(docker info *)",
+      "Bash(npx tsc *)",
+      "Bash(npm run *)"
     ]
   }
 }

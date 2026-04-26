@@ -33,6 +33,12 @@ public class Task {
     @Column(name = "TOTAL_TIME")
     private Double totalTime;
 
+    @Column(name = "PRIORITY")
+    private String priority;
+
+    @Column(name = "FINISHED_AT")
+    private LocalDateTime finishedAt;
+
     @ManyToOne
     @JoinColumn(name = "SPRINT_ID")
     private Sprint sprint;
@@ -107,6 +113,22 @@ public class Task {
 
     public void setTotalTime(Double totalTime) {
         this.totalTime = totalTime;
+    }
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
+    }
+
+    public LocalDateTime getFinishedAt() {
+        return finishedAt;
+    }
+
+    public void setFinishedAt(LocalDateTime finishedAt) {
+        this.finishedAt = finishedAt;
     }
 
     public Sprint getSprint() {

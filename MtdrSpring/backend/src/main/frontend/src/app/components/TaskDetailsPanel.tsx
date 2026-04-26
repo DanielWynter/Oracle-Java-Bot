@@ -2,10 +2,24 @@ import { useState } from "react";
 import { X, Clock, User, Calendar } from "lucide-react";
 import { Task, TaskStatus, TaskType } from "../pages/Tasks.tsx";
 
+function localISOString(): string {
+  const now = new Date();
+  return new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 19);
+}
+
 interface TaskDetailsPanelProps {
   task: Task;
   onClose: () => void;
   onUpdate: (task: Task) => void;
+}
+
+function formatDateTime(iso: string | null | undefined): string {
+  if (!iso) return "—";
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return "—";
+  return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+    + " · "
+    + d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
 }
 
 export default function TaskDetailsPanel({
@@ -14,9 +28,37 @@ export default function TaskDetailsPanel({
   onUpdate,
 }: TaskDetailsPanelProps) {
   const [editedTask, setEditedTask] = useState<Task>(task);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSave = () => {
-    onUpdate(editedTask);
+  const handleSave = async () => {
+    setSaving(true);
+    setError("");
+    try {
+      const taskId = parseInt(editedTask.id.replace("TASK-", ""));
+      const res = await fetch(`/api/tasks/${taskId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          taskName: editedTask.title,
+          description: editedTask.description,
+          status: editedTask.status,
+          taskType: editedTask.type,
+          hours: editedTask.estimation,
+          totalTime: editedTask.actualTime,
+          priority: editedTask.priority,
+          finishedAt: editedTask.status === "done" ? localISOString() : null,
+        }),
+      });
+      if (!res.ok) throw new Error("Server error");
+      const saved = await res.json();
+      onUpdate({ ...editedTask, finishedAt: saved.finishedAt ?? null });
+      onClose();
+    } catch {
+      setError("Failed to save changes. Please try again.");
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -119,6 +161,27 @@ export default function TaskDetailsPanel({
               </select>
             </div>
 
+            {/* Priority */}
+            <div>
+              <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+                Priority
+              </label>
+              <select
+                value={editedTask.priority}
+                onChange={(e) =>
+                  setEditedTask({
+                    ...editedTask,
+                    priority: e.target.value as "low" | "medium" | "high",
+                  })
+                }
+                className="w-full px-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C74634] focus:border-transparent"
+              >
+                <option value="high">↑ High</option>
+                <option value="medium">→ Medium</option>
+                <option value="low">↓ Low</option>
+              </select>
+            </div>
+
             {/* Assignee */}
             <div>
               <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
@@ -187,35 +250,42 @@ export default function TaskDetailsPanel({
               </div>
             </div>
 
-            {/* Activity Log */}
-            <div>
-              <h3 className="text-sm font-medium text-[#1A1A1A] mb-3">
-                Activity Log
-              </h3>
-              <div className="space-y-3">
-                <div className="p-3 bg-[#F7F8FA] rounded-lg">
-                  <p className="text-sm text-[#1A1A1A]">
-                    <span className="font-medium">Sarah Chen</span> updated
-                    status to <span className="font-medium">In Progress</span>
-                  </p>
-                  <p className="text-xs text-[#6B7280] mt-1">2 hours ago</p>
+            {/* Timestamps */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+                  Created At
+                </label>
+                <div className="flex items-center gap-3 px-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg">
+                  <Clock className="w-4 h-4 text-[#6B7280] flex-shrink-0" />
+                  <span className="text-sm text-[#1A1A1A]">
+                    {formatDateTime(editedTask.createdAt)}
+                  </span>
                 </div>
-                <div className="p-3 bg-[#F7F8FA] rounded-lg">
-                  <p className="text-sm text-[#1A1A1A]">
-                    Task created by <span className="font-medium">Manager</span>
-                  </p>
-                  <p className="text-xs text-[#6B7280] mt-1">1 day ago</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+                  Finished At
+                </label>
+                <div className="flex items-center gap-3 px-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg">
+                  <Clock className="w-4 h-4 text-[#6B7280] flex-shrink-0" />
+                  <span className={`text-sm ${editedTask.finishedAt ? "text-[#1A1A1A]" : "text-[#9CA3AF]"}`}>
+                    {formatDateTime(editedTask.finishedAt)}
+                  </span>
                 </div>
               </div>
             </div>
+
+            {error && <p className="text-sm text-[#DC2626]">{error}</p>}
 
             {/* Actions */}
             <div className="flex gap-3 pt-4 border-t border-[#E5E7EB]">
               <button
                 onClick={handleSave}
-                className="flex-1 px-4 py-2 bg-[#C74634] text-white rounded-lg hover:bg-[#9E2A1F] transition-colors"
+                disabled={saving}
+                className="flex-1 px-4 py-2 bg-[#C74634] text-white rounded-lg hover:bg-[#9E2A1F] transition-colors disabled:opacity-60"
               >
-                Save Changes
+                {saving ? "Saving..." : "Save Changes"}
               </button>
               <button
                 onClick={onClose}

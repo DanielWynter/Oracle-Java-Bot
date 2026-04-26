@@ -10,7 +10,24 @@
       "Bash(mvn compile *)",
       "Bash(mvn dependency:resolve -q)",
       "Bash(open -a Docker)",
-      "Bash(docker info *)"
+      "Bash(docker info *)",
+      "Bash(npx tsc *)",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:8080/api/sprints)",
+      "Bash(curl -s http://localhost:8080/api/users)",
+      "Bash(python3 -c ' *)",
+      "Bash(curl -s \"http://localhost:8080/api/users\")",
+      "Bash(curl -s \"http://localhost:8080/api/tasks\")",
+      "Bash(curl -s -X POST http://localhost:8080/api/tasks -H 'Content-Type: application/json' -d '{\"taskName\":\"Test Task\",\"description\":\"Test\",\"status\":\"todo\",\"taskType\":\"feature\",\"priority\":\"medium\",\"hours\":2,\"createdAt\":\"2026-04-26T10:00:00\"}')",
+      "Bash(mvn spring-boot:run -q)",
+      "Bash(echo \"PID: $!\")",
+      "Bash(curl -s -X POST http://localhost:8080/api/tasks -H 'Content-Type: application/json' -d '{\"taskName\":\"Test\",\"status\":\"todo\",\"taskType\":\"feature\",\"priority\":\"medium\",\"hours\":1,\"createdAt\":\"2026-04-26T10:00:00\"}')",
+      "Bash(mvn spring-boot:run)",
+      "Bash(echo \"Started PID $!\")",
+      "Bash(curl -v -X POST http://localhost:8080/api/tasks -H 'Content-Type: application/json' -d '{\"taskName\":\"Test\",\"status\":\"todo\",\"taskType\":\"feature\",\"priority\":\"medium\",\"hours\":1,\"createdAt\":\"2026-04-26T10:00:00\"}')",
+      "Bash(curl -s http://localhost:3000/api/tasks)",
+      "Bash(curl -s -X POST http://localhost:8080/api/tasks -H 'Content-Type: application/json' -d '{\"taskName\":\"Test desde frontend\",\"status\":\"todo\",\"taskType\":\"feature\",\"priority\":\"high\",\"hours\":3,\"createdAt\":\"2026-04-26T12:00:00\",\"description\":\"descripcion de prueba\"}')",
+      "Bash(mvn package *)"
     ]
   }
 }

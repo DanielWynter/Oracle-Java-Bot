@@ -1,28 +1,118 @@
-import { useState } from "react";
-import { User, Bell, Palette, Shield } from "lucide-react";
+import { useEffect, useState } from "react";
+import { User, Bell, Palette, Shield, Check } from "lucide-react";
 
-export default function Settings() {
-  const [notifications, setNotifications] = useState({
+interface UserFull {
+  userId: number;
+  username: string;
+  email: string;
+  userRole: string;
+  passwordHash: string;
+  team: object | null;
+  project: object | null;
+}
+
+interface NotificationPrefs {
+  emailNotifications: boolean;
+  taskAssignments: boolean;
+  sprintUpdates: boolean;
+  weeklyReports: boolean;
+}
+
+const NOTIF_KEY = "notificationPrefs";
+
+function loadNotifPrefs(): NotificationPrefs {
+  try {
+    const stored = localStorage.getItem(NOTIF_KEY);
+    if (stored) return JSON.parse(stored);
+  } catch {}
+  return {
     emailNotifications: true,
     taskAssignments: true,
     sprintUpdates: true,
     weeklyReports: false,
-  });
+  };
+}
 
-  const [profile, setProfile] = useState({
-    name: localStorage.getItem("userEmail")?.split("@")[0] || "User",
-    email: localStorage.getItem("userEmail") || "user@oracle.com",
-    role: localStorage.getItem("userRole") || "developer",
-  });
+const NOTIF_LABELS: Record<keyof NotificationPrefs, string> = {
+  emailNotifications: "Email Notifications",
+  taskAssignments: "Task Assignments",
+  sprintUpdates: "Sprint Updates",
+  weeklyReports: "Weekly Reports",
+};
+
+export default function Settings() {
+  const [currentUser, setCurrentUser] = useState<UserFull | null>(null);
+  const [profile, setProfile] = useState({ name: "", email: "", role: "" });
+  const [loading, setLoading] = useState(true);
+  const [profileSaved, setProfileSaved] = useState(false);
+  const [profileError, setProfileError] = useState("");
+
+  const [notifications, setNotifications] =
+    useState<NotificationPrefs>(loadNotifPrefs);
+  const [notifSaved, setNotifSaved] = useState(false);
 
   const [theme, setTheme] = useState("light");
 
-  const handleSaveProfile = () => {
-    alert("Profile updated successfully!");
+  // Load user from DB on mount
+  useEffect(() => {
+    const email = localStorage.getItem("userEmail");
+    if (!email) { setLoading(false); return; }
+
+    fetch("/api/users")
+      .then((r) => r.json())
+      .then((users: UserFull[]) => {
+        const me = users.find((u) => u.email === email);
+        if (me) {
+          setCurrentUser(me);
+          setProfile({
+            name: me.username ?? "",
+            email: me.email ?? "",
+            role: me.userRole ?? "developer",
+          });
+        } else {
+          // Fallback to localStorage values
+          setProfile({
+            name: email.split("@")[0],
+            email,
+            role: localStorage.getItem("userRole") ?? "developer",
+          });
+        }
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  const handleSaveProfile = async () => {
+    setProfileError("");
+    try {
+      if (currentUser) {
+        const body: UserFull = {
+          ...currentUser,
+          username: profile.name,
+          email: profile.email,
+          userRole: profile.role,
+        };
+        const res = await fetch(`/api/users/${currentUser.userId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        if (!res.ok) throw new Error("Server error");
+        const updated: UserFull = await res.json();
+        setCurrentUser(updated);
+      }
+      localStorage.setItem("userEmail", profile.email);
+      localStorage.setItem("userRole", profile.role);
+      setProfileSaved(true);
+      setTimeout(() => setProfileSaved(false), 3000);
+    } catch {
+      setProfileError("Failed to save profile. Please try again.");
+    }
   };
 
   const handleSaveNotifications = () => {
-    alert("Notification preferences saved!");
+    localStorage.setItem(NOTIF_KEY, JSON.stringify(notifications));
+    setNotifSaved(true);
+    setTimeout(() => setNotifSaved(false), 3000);
   };
 
   return (
@@ -49,54 +139,66 @@ export default function Settings() {
           </div>
         </div>
 
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
-              Full Name
-            </label>
-            <input
-              type="text"
-              value={profile.name}
-              onChange={(e) => setProfile({ ...profile, name: e.target.value })}
-              className="w-full px-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C74634] focus:border-transparent"
-            />
+        {loading ? (
+          <div className="space-y-4">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-10 bg-[#F7F8FA] rounded-lg animate-pulse" />
+            ))}
           </div>
+        ) : (
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+                Full Name
+              </label>
+              <input
+                type="text"
+                value={profile.name}
+                onChange={(e) => setProfile({ ...profile, name: e.target.value })}
+                className="w-full px-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C74634] focus:border-transparent"
+              />
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
-              Email Address
-            </label>
-            <input
-              type="email"
-              value={profile.email}
-              onChange={(e) =>
-                setProfile({ ...profile, email: e.target.value })
-              }
-              className="w-full px-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C74634] focus:border-transparent"
-            />
-          </div>
+            <div>
+              <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+                Email Address
+              </label>
+              <input
+                type="email"
+                value={profile.email}
+                onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+                className="w-full px-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C74634] focus:border-transparent"
+              />
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
-              Role
-            </label>
-            <select
-              value={profile.role}
-              onChange={(e) => setProfile({ ...profile, role: e.target.value })}
-              className="w-full px-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C74634] focus:border-transparent"
+            <div>
+              <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+                Role
+              </label>
+              <input
+                type="text"
+                value={profile.role}
+                readOnly
+                className="w-full px-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg text-[#6B7280] cursor-not-allowed"
+              />
+              <p className="text-xs text-[#6B7280] mt-1">
+                Role is managed by your administrator.
+              </p>
+            </div>
+
+            {profileError && (
+              <p className="text-sm text-[#DC2626]">{profileError}</p>
+            )}
+
+            <button
+              onClick={handleSaveProfile}
+              className="flex items-center gap-2 px-6 py-2 bg-[#C74634] text-white rounded-lg hover:bg-[#9E2A1F] transition-colors"
             >
-              <option value="developer">Developer</option>
-              <option value="manager">Manager</option>
-            </select>
+              {profileSaved && <Check className="w-4 h-4" />}
+              {profileSaved ? "Saved!" : "Save Profile"}
+            </button>
           </div>
-
-          <button
-            onClick={handleSaveProfile}
-            className="px-6 py-2 bg-[#C74634] text-white rounded-lg hover:bg-[#9E2A1F] transition-colors"
-          >
-            Save Profile
-          </button>
-        </div>
+        )}
       </div>
 
       {/* Notification Preferences */}
@@ -116,13 +218,11 @@ export default function Settings() {
         </div>
 
         <div className="space-y-4">
-          {Object.entries(notifications).map(([key, value]) => (
+          {(Object.keys(notifications) as (keyof NotificationPrefs)[]).map((key) => (
             <div key={key} className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-[#1A1A1A]">
-                  {key
-                    .replace(/([A-Z])/g, " $1")
-                    .replace(/^./, (str) => str.toUpperCase())}
+                  {NOTIF_LABELS[key]}
                 </p>
                 <p className="text-xs text-[#6B7280] mt-1">
                   Receive notifications for this event
@@ -130,15 +230,15 @@ export default function Settings() {
               </div>
               <button
                 onClick={() =>
-                  setNotifications({ ...notifications, [key]: !value })
+                  setNotifications({ ...notifications, [key]: !notifications[key] })
                 }
                 className={`relative w-12 h-6 rounded-full transition-colors ${
-                  value ? "bg-[#C74634]" : "bg-[#E5E7EB]"
+                  notifications[key] ? "bg-[#C74634]" : "bg-[#E5E7EB]"
                 }`}
               >
                 <div
                   className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform ${
-                    value ? "translate-x-7" : "translate-x-1"
+                    notifications[key] ? "translate-x-7" : "translate-x-1"
                   }`}
                 />
               </button>
@@ -147,9 +247,10 @@ export default function Settings() {
 
           <button
             onClick={handleSaveNotifications}
-            className="px-6 py-2 bg-[#C74634] text-white rounded-lg hover:bg-[#9E2A1F] transition-colors mt-4"
+            className="flex items-center gap-2 px-6 py-2 bg-[#C74634] text-white rounded-lg hover:bg-[#9E2A1F] transition-colors mt-4"
           >
-            Save Preferences
+            {notifSaved && <Check className="w-4 h-4" />}
+            {notifSaved ? "Saved!" : "Save Preferences"}
           </button>
         </div>
       </div>
@@ -216,10 +317,11 @@ export default function Settings() {
         <div className="space-y-3">
           <div className="p-4 bg-[#F7F8FA] rounded-lg border border-[#E5E7EB]">
             <p className="text-sm font-medium text-[#1A1A1A] mb-1">
-              Current Role: <span className="capitalize">{profile.role}</span>
+              Current Role:{" "}
+              <span className="capitalize">{profile.role || "—"}</span>
             </p>
             <p className="text-xs text-[#6B7280]">
-              {profile.role === "manager"
+              {profile.role?.toLowerCase() === "manager"
                 ? "Full access to all features including team management and reports"
                 : "Access to task management and personal dashboard"}
             </p>
@@ -227,7 +329,7 @@ export default function Settings() {
 
           <div className="p-4 bg-[#2563EB]/5 border border-[#2563EB]/20 rounded-lg">
             <p className="text-sm text-[#2563EB]">
-              💡 Contact your administrator to change your role permissions
+              Contact your administrator to change your role permissions.
             </p>
           </div>
         </div>

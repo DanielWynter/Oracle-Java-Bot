@@ -135,27 +135,8 @@ export default function Tasks() {
     return matchesSearch && matchesStatus && matchesType && matchesPriority && matchesSprint;
   });
 
-  const handleUpdateTask = async (updatedTask: Task) => {
-    try {
-      const taskId = parseInt(updatedTask.id.replace("TASK-", ""));
-      const response = await fetch(`/api/tasks/${taskId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          taskName: updatedTask.title,
-          description: updatedTask.description,
-          status: updatedTask.status,
-          hours: updatedTask.estimation,
-          priority: updatedTask.priority,
-        }),
-      });
-      if (response.ok) {
-        setTasks(tasks.map((t) => (t.id === updatedTask.id ? updatedTask : t)));
-        setSelectedTask(updatedTask);
-      }
-    } catch (err) {
-      console.error("Error updating task:", err);
-    }
+  const handleUpdateTask = (updatedTask: Task) => {
+    setTasks((prev) => prev.map((t) => (t.id === updatedTask.id ? updatedTask : t)));
   };
 
   return (

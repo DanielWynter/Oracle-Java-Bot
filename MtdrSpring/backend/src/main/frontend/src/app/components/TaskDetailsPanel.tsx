@@ -119,6 +119,27 @@ export default function TaskDetailsPanel({
               </select>
             </div>
 
+            {/* Priority */}
+            <div>
+              <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+                Priority
+              </label>
+              <select
+                value={editedTask.priority}
+                onChange={(e) =>
+                  setEditedTask({
+                    ...editedTask,
+                    priority: e.target.value as "low" | "medium" | "high",
+                  })
+                }
+                className="w-full px-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C74634] focus:border-transparent"
+              >
+                <option value="high">↑ High</option>
+                <option value="medium">→ Medium</option>
+                <option value="low">↓ Low</option>
+              </select>
+            </div>
+
             {/* Assignee */}
             <div>
               <label className="block text-sm font-medium text-[#1A1A1A] mb-2">

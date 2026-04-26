@@ -28,6 +28,7 @@ interface TaskResponse {
   description: string;
   status: string;
   taskType: string;
+  priority: string;
   totalTime: number;
   createdAt: string;
   hours: number;
@@ -68,7 +69,9 @@ const mapDatabaseTaskToUITask = (dbTask: TaskResponse): Task => {
     sprintId: dbTask.sprint?.sprintId ?? null,
     estimation: dbTask.hours || 0,
     actualTime: dbTask.totalTime || 0,
-    priority: "medium",
+    priority: (["low", "medium", "high"].includes(dbTask.priority?.toLowerCase())
+      ? dbTask.priority.toLowerCase()
+      : "medium") as "low" | "medium" | "high",
     createdAt: new Date(dbTask.createdAt).toISOString().split("T")[0],
   };
 };
@@ -105,6 +108,7 @@ export default function Tasks() {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [typeFilter, setTypeFilter] = useState<string>("all");
+  const [priorityFilter, setPriorityFilter] = useState<string>("all");
 
   const filteredTasks = tasks.filter((task) => {
     const matchesSearch =
@@ -113,10 +117,12 @@ export default function Tasks() {
     const matchesStatus =
       statusFilter === "all" || task.status === statusFilter;
     const matchesType = typeFilter === "all" || task.type === typeFilter;
+    const matchesPriority =
+      priorityFilter === "all" || task.priority === priorityFilter;
     // Global sprint filter from Navbar; null means "All Sprints"
     const matchesSprint =
       selectedSprintId === null || task.sprintId === selectedSprintId;
-    return matchesSearch && matchesStatus && matchesType && matchesSprint;
+    return matchesSearch && matchesStatus && matchesType && matchesPriority && matchesSprint;
   });
 
   const handleUpdateTask = async (updatedTask: Task) => {
@@ -130,6 +136,7 @@ export default function Tasks() {
           description: updatedTask.description,
           status: updatedTask.status,
           hours: updatedTask.estimation,
+          priority: updatedTask.priority,
         }),
       });
       if (response.ok) {
@@ -211,6 +218,18 @@ export default function Tasks() {
               <option value="bug">Bug</option>
               <option value="issue">Issue</option>
               <option value="enhancement">Enhancement</option>
+            </select>
+
+            {/* Priority Filter */}
+            <select
+              value={priorityFilter}
+              onChange={(e) => setPriorityFilter(e.target.value)}
+              className="px-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C74634] focus:border-transparent"
+            >
+              <option value="all">All Priorities</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
             </select>
 
           </div>

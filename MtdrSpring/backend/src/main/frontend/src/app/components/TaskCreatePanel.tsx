@@ -3,6 +3,11 @@ import { X, Clock } from "lucide-react";
 import { useSprint } from "../context/SprintContext.tsx";
 import type { Task, TaskStatus, TaskType } from "../pages/Tasks.tsx";
 
+function localISOString(): string {
+  const now = new Date();
+  return new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 19);
+}
+
 interface UserOption {
   userId: number;
   username: string;
@@ -52,7 +57,7 @@ export default function TaskCreatePanel({ onClose, onCreate }: TaskCreatePanelPr
         taskType: form.type,
         priority: form.priority,
         hours: form.estimation,
-        createdAt: new Date().toISOString().slice(0, 19),
+        createdAt: localISOString(),
       };
       if (form.sprintId) body.sprint = { sprintId: Number(form.sprintId) };
       if (form.assigneeId) body.assignee = { userId: Number(form.assigneeId) };

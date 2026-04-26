@@ -82,9 +82,11 @@ public class TaskController {
         existing.setTotalTime(task.getTotalTime());
         existing.setPriority(task.getPriority());
 
-        if ("done".equalsIgnoreCase(task.getStatus()) && existing.getFinishedAt() == null) {
-            existing.setFinishedAt(java.time.LocalDateTime.now());
-        } else if (!"done".equalsIgnoreCase(task.getStatus())) {
+        if ("done".equalsIgnoreCase(task.getStatus())) {
+            if (existing.getFinishedAt() == null) {
+                existing.setFinishedAt(task.getFinishedAt());
+            }
+        } else {
             existing.setFinishedAt(null);
         }
 

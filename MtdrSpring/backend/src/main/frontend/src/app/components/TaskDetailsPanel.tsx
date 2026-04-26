@@ -2,6 +2,11 @@ import { useState } from "react";
 import { X, Clock, User, Calendar } from "lucide-react";
 import { Task, TaskStatus, TaskType } from "../pages/Tasks.tsx";
 
+function localISOString(): string {
+  const now = new Date();
+  return new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 19);
+}
+
 interface TaskDetailsPanelProps {
   task: Task;
   onClose: () => void;
@@ -42,6 +47,7 @@ export default function TaskDetailsPanel({
           hours: editedTask.estimation,
           totalTime: editedTask.actualTime,
           priority: editedTask.priority,
+          finishedAt: editedTask.status === "done" ? localISOString() : null,
         }),
       });
       if (!res.ok) throw new Error("Server error");

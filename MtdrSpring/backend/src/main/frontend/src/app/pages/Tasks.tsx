@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Search, Filter, Plus } from "lucide-react";
 import TaskTable from "../components/TaskTable.tsx";
 import TaskDetailsPanel from "../components/TaskDetailsPanel.tsx";
+import TaskCreatePanel from "../components/TaskCreatePanel.tsx";
 import { useSprint } from "../context/SprintContext.tsx";
 
 export type TaskStatus = "todo" | "in-progress" | "done" | "blocked";
@@ -20,6 +21,7 @@ export interface Task {
   actualTime: number;
   priority: "low" | "medium" | "high";
   createdAt: string;
+  finishedAt: string | null;
 }
 
 interface TaskResponse {
@@ -31,6 +33,7 @@ interface TaskResponse {
   priority: string;
   totalTime: number;
   createdAt: string;
+  finishedAt: string | null;
   hours: number;
   sprint: { sprintId: number; sprintName: string } | null;
   project: { projectId: number; projectName: string } | null;
@@ -72,7 +75,8 @@ const mapDatabaseTaskToUITask = (dbTask: TaskResponse): Task => {
     priority: (["low", "medium", "high"].includes(dbTask.priority?.toLowerCase())
       ? dbTask.priority.toLowerCase()
       : "medium") as "low" | "medium" | "high",
-    createdAt: new Date(dbTask.createdAt).toISOString().split("T")[0],
+    createdAt: dbTask.createdAt || "",
+    finishedAt: dbTask.finishedAt || null,
   };
 };
 
@@ -105,10 +109,16 @@ export default function Tasks() {
     fetchTasks();
   }, []);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [showCreatePanel, setShowCreatePanel] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [typeFilter, setTypeFilter] = useState<string>("all");
   const [priorityFilter, setPriorityFilter] = useState<string>("all");
+
+  const handleCreateTask = (newTask: Task) => {
+    setTasks((prev) => [newTask, ...prev]);
+    setShowCreatePanel(false);
+  };
 
   const filteredTasks = tasks.filter((task) => {
     const matchesSearch =
@@ -156,7 +166,10 @@ export default function Tasks() {
           <h1 className="text-3xl font-semibold text-[#1A1A1A] mb-2">Tasks</h1>
           <p className="text-[#6B7280]">Manage and track all project tasks</p>
         </div>
-        <button className="px-4 py-2 bg-[#C74634] text-white rounded-lg hover:bg-[#9E2A1F] transition-colors flex items-center gap-2 shadow-lg">
+        <button
+          onClick={() => setShowCreatePanel(true)}
+          className="px-4 py-2 bg-[#C74634] text-white rounded-lg hover:bg-[#9E2A1F] transition-colors flex items-center gap-2 shadow-lg"
+        >
           <Plus className="w-5 h-5" />
           New Task
         </button>
@@ -250,6 +263,14 @@ export default function Tasks() {
             />
           )}
         </>
+      )}
+
+      {/* Create Task Panel */}
+      {showCreatePanel && (
+        <TaskCreatePanel
+          onClose={() => setShowCreatePanel(false)}
+          onCreate={handleCreateTask}
+        />
       )}
 
       {/* No Tasks Message */}

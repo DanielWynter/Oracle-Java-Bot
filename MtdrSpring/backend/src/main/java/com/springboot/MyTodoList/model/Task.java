@@ -33,10 +33,10 @@ public class Task {
     @Column(name = "TOTAL_TIME")
     private Double totalTime;
 
-    @Transient
+    @Column(name = "PRIORITY")
     private String priority;
 
-    @Transient
+    @Column(name = "FINISHED_AT")
     private LocalDateTime finishedAt;
 
     @ManyToOne

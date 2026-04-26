@@ -1,6 +1,9 @@
 package com.springboot.MyTodoList.controller;
 
+import com.springboot.MyTodoList.model.Project;
+import com.springboot.MyTodoList.model.Sprint;
 import com.springboot.MyTodoList.model.Task;
+import com.springboot.MyTodoList.model.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -31,8 +34,38 @@ public class TaskController {
 
     @PostMapping
     public ResponseEntity<Task> create(@RequestBody Task task) {
+        // Re-attach relations so persist() doesn't see detached entities
+        if (task.getSprint() != null && task.getSprint().getSprintId() != null) {
+            Sprint sprint = entityManager.find(Sprint.class, task.getSprint().getSprintId());
+            task.setSprint(sprint);
+            if (sprint != null && sprint.getProject() != null) {
+                task.setProject(sprint.getProject());
+            }
+        } else {
+            task.setSprint(null);
+        }
+        if (task.getAssignee() != null && task.getAssignee().getUserId() != null) {
+            task.setAssignee(entityManager.getReference(User.class, task.getAssignee().getUserId()));
+        } else {
+            task.setAssignee(null);
+        }
+        if (task.getProject() == null) {
+            task.setProject(null);
+        }
+        task.setTaskId(null); // ensure it's treated as new
         entityManager.persist(task);
-        return new ResponseEntity<>(task, HttpStatus.CREATED);
+        entityManager.flush();
+
+        Task response = new Task();
+        response.setTaskId(task.getTaskId());
+        response.setTaskName(task.getTaskName());
+        response.setDescription(task.getDescription());
+        response.setStatus(task.getStatus());
+        response.setCreatedAt(task.getCreatedAt());
+        response.setHours(task.getHours());
+        response.setTaskType(task.getTaskType());
+        response.setPriority(task.getPriority());
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
@@ -41,9 +74,18 @@ public class TaskController {
         if (existing == null) {
             return ResponseEntity.notFound().build();
         }
-        task.setTaskId(id);
-        Task merged = entityManager.merge(task);
-        return ResponseEntity.ok(merged);
+        existing.setTaskName(task.getTaskName());
+        existing.setDescription(task.getDescription());
+        existing.setStatus(task.getStatus());
+        existing.setHours(task.getHours());
+        existing.setPriority(task.getPriority());
+        if (task.getSprint() != null && task.getSprint().getSprintId() != null) {
+            existing.setSprint(entityManager.getReference(Sprint.class, task.getSprint().getSprintId()));
+        }
+        if (task.getAssignee() != null && task.getAssignee().getUserId() != null) {
+            existing.setAssignee(entityManager.getReference(User.class, task.getAssignee().getUserId()));
+        }
+        return ResponseEntity.ok(existing);
     }
 
     @DeleteMapping("/{id}")

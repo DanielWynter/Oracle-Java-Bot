@@ -8,6 +8,15 @@ interface TaskDetailsPanelProps {
   onUpdate: (task: Task) => void;
 }
 
+function formatDateTime(iso: string | null | undefined): string {
+  if (!iso) return "—";
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return "—";
+  return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+    + " · "
+    + d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+}
+
 export default function TaskDetailsPanel({
   task,
   onClose,
@@ -208,24 +217,28 @@ export default function TaskDetailsPanel({
               </div>
             </div>
 
-            {/* Activity Log */}
-            <div>
-              <h3 className="text-sm font-medium text-[#1A1A1A] mb-3">
-                Activity Log
-              </h3>
-              <div className="space-y-3">
-                <div className="p-3 bg-[#F7F8FA] rounded-lg">
-                  <p className="text-sm text-[#1A1A1A]">
-                    <span className="font-medium">Sarah Chen</span> updated
-                    status to <span className="font-medium">In Progress</span>
-                  </p>
-                  <p className="text-xs text-[#6B7280] mt-1">2 hours ago</p>
+            {/* Timestamps */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+                  Created At
+                </label>
+                <div className="flex items-center gap-3 px-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg">
+                  <Clock className="w-4 h-4 text-[#6B7280] flex-shrink-0" />
+                  <span className="text-sm text-[#1A1A1A]">
+                    {formatDateTime(editedTask.createdAt)}
+                  </span>
                 </div>
-                <div className="p-3 bg-[#F7F8FA] rounded-lg">
-                  <p className="text-sm text-[#1A1A1A]">
-                    Task created by <span className="font-medium">Manager</span>
-                  </p>
-                  <p className="text-xs text-[#6B7280] mt-1">1 day ago</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+                  Finished At
+                </label>
+                <div className="flex items-center gap-3 px-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg">
+                  <Clock className="w-4 h-4 text-[#6B7280] flex-shrink-0" />
+                  <span className={`text-sm ${editedTask.finishedAt ? "text-[#1A1A1A]" : "text-[#9CA3AF]"}`}>
+                    {formatDateTime(editedTask.finishedAt)}
+                  </span>
                 </div>
               </div>
             </div>

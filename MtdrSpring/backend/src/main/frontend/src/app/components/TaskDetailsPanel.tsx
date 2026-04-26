@@ -23,9 +23,36 @@ export default function TaskDetailsPanel({
   onUpdate,
 }: TaskDetailsPanelProps) {
   const [editedTask, setEditedTask] = useState<Task>(task);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSave = () => {
-    onUpdate(editedTask);
+  const handleSave = async () => {
+    setSaving(true);
+    setError("");
+    try {
+      const taskId = parseInt(editedTask.id.replace("TASK-", ""));
+      const res = await fetch(`/api/tasks/${taskId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          taskName: editedTask.title,
+          description: editedTask.description,
+          status: editedTask.status,
+          taskType: editedTask.type,
+          hours: editedTask.estimation,
+          totalTime: editedTask.actualTime,
+          priority: editedTask.priority,
+        }),
+      });
+      if (!res.ok) throw new Error("Server error");
+      const saved = await res.json();
+      onUpdate({ ...editedTask, finishedAt: saved.finishedAt ?? null });
+      onClose();
+    } catch {
+      setError("Failed to save changes. Please try again.");
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -243,13 +270,16 @@ export default function TaskDetailsPanel({
               </div>
             </div>
 
+            {error && <p className="text-sm text-[#DC2626]">{error}</p>}
+
             {/* Actions */}
             <div className="flex gap-3 pt-4 border-t border-[#E5E7EB]">
               <button
                 onClick={handleSave}
-                className="flex-1 px-4 py-2 bg-[#C74634] text-white rounded-lg hover:bg-[#9E2A1F] transition-colors"
+                disabled={saving}
+                className="flex-1 px-4 py-2 bg-[#C74634] text-white rounded-lg hover:bg-[#9E2A1F] transition-colors disabled:opacity-60"
               >
-                Save Changes
+                {saving ? "Saving..." : "Save Changes"}
               </button>
               <button
                 onClick={onClose}

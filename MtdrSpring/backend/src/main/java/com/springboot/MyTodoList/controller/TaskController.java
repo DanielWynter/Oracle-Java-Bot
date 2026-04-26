@@ -77,15 +77,38 @@ public class TaskController {
         existing.setTaskName(task.getTaskName());
         existing.setDescription(task.getDescription());
         existing.setStatus(task.getStatus());
+        existing.setTaskType(task.getTaskType());
         existing.setHours(task.getHours());
+        existing.setTotalTime(task.getTotalTime());
         existing.setPriority(task.getPriority());
+
+        if ("done".equalsIgnoreCase(task.getStatus()) && existing.getFinishedAt() == null) {
+            existing.setFinishedAt(java.time.LocalDateTime.now());
+        } else if (!"done".equalsIgnoreCase(task.getStatus())) {
+            existing.setFinishedAt(null);
+        }
+
         if (task.getSprint() != null && task.getSprint().getSprintId() != null) {
             existing.setSprint(entityManager.getReference(Sprint.class, task.getSprint().getSprintId()));
         }
         if (task.getAssignee() != null && task.getAssignee().getUserId() != null) {
             existing.setAssignee(entityManager.getReference(User.class, task.getAssignee().getUserId()));
         }
-        return ResponseEntity.ok(existing);
+
+        entityManager.flush();
+
+        Task response = new Task();
+        response.setTaskId(existing.getTaskId());
+        response.setTaskName(existing.getTaskName());
+        response.setDescription(existing.getDescription());
+        response.setStatus(existing.getStatus());
+        response.setTaskType(existing.getTaskType());
+        response.setHours(existing.getHours());
+        response.setTotalTime(existing.getTotalTime());
+        response.setPriority(existing.getPriority());
+        response.setCreatedAt(existing.getCreatedAt());
+        response.setFinishedAt(existing.getFinishedAt());
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")

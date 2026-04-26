@@ -20,6 +20,7 @@ export interface Task {
   actualTime: number;
   priority: "low" | "medium" | "high";
   createdAt: string;
+  finishedAt: string | null;
 }
 
 interface TaskResponse {
@@ -31,6 +32,7 @@ interface TaskResponse {
   priority: string;
   totalTime: number;
   createdAt: string;
+  finishedAt: string | null;
   hours: number;
   sprint: { sprintId: number; sprintName: string } | null;
   project: { projectId: number; projectName: string } | null;
@@ -72,7 +74,8 @@ const mapDatabaseTaskToUITask = (dbTask: TaskResponse): Task => {
     priority: (["low", "medium", "high"].includes(dbTask.priority?.toLowerCase())
       ? dbTask.priority.toLowerCase()
       : "medium") as "low" | "medium" | "high",
-    createdAt: new Date(dbTask.createdAt).toISOString().split("T")[0],
+    createdAt: dbTask.createdAt || "",
+    finishedAt: dbTask.finishedAt || null,
   };
 };
 

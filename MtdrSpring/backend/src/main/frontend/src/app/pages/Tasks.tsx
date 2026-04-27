@@ -180,14 +180,14 @@ export default function Tasks() {
         <div className="bg-white rounded-xl p-4 border border-[#E5E7EB] shadow-sm">
           <div className="flex flex-col md:flex-row gap-4">
             {/* Search */}
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6B7280]" />
+            <div className="flex-1 flex items-center gap-2 px-3 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg focus-within:ring-2 focus-within:ring-[#C74634] focus-within:border-transparent">
+              <Search className="w-5 h-5 text-[#6B7280] flex-shrink-0" />
               <input
                 type="text"
                 placeholder="Search tasks..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C74634] focus:border-transparent"
+                className="flex-1 bg-transparent outline-none text-sm text-[#1A1A1A] placeholder-[#9CA3AF]"
               />
             </div>
 

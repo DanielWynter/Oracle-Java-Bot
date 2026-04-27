@@ -38,6 +38,11 @@ exports[`TaskTable Component > debería hacer match con el snapshot (Snapshot Te
             <th
               class="px-6 py-4 text-left text-xs font-medium text-[#6B7280] uppercase tracking-wider"
             >
+              Priority
+            </th>
+            <th
+              class="px-6 py-4 text-left text-xs font-medium text-[#6B7280] uppercase tracking-wider"
+            >
               Assignee
             </th>
             <th
@@ -103,6 +108,19 @@ exports[`TaskTable Component > debería hacer match con el snapshot (Snapshot Te
                 style="background-color: rgba(199, 70, 52, 0.082); color: rgb(199, 70, 52);"
               >
                 Feature
+              </span>
+            </td>
+            <td
+              class="px-6 py-4 whitespace-nowrap"
+            >
+              <span
+                class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium"
+                style="background-color: rgba(220, 38, 38, 0.082); color: rgb(220, 38, 38);"
+              >
+                <span>
+                  ↑
+                </span>
+                High
               </span>
             </td>
             <td

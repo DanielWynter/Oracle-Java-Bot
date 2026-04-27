@@ -21,12 +21,13 @@ function loadColor(load: number): string {
 }
 
 function initials(name: string): string {
+  // Si no hay nombre, regresamos unas iniciales por defecto para que no explote
+  if (!name) return "??"; 
+  
   return name
     .split(" ")
     .map((n) => n[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
+    .join("");
 }
 
 export default function TeamWorkload() {

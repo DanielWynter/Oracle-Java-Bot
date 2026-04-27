@@ -15,6 +15,7 @@ export interface Task {
   status: TaskStatus;
   type: TaskType;
   assignee: string;
+  assigneeId: number | null;
   sprint: string;
   sprintId: number | null;
   estimation: number;
@@ -68,6 +69,7 @@ const mapDatabaseTaskToUITask = (dbTask: TaskResponse): Task => {
     status: (statusMap[dbTask.status?.toLowerCase()] || "todo") as TaskStatus,
     type: (typeMap[dbTask.taskType?.toLowerCase()] || "feature") as TaskType,
     assignee: dbTask.assignee?.username || "Unassigned",
+    assigneeId: dbTask.assignee?.userId ?? null,
     sprint: dbTask.sprint?.sprintName || "No Sprint",
     sprintId: dbTask.sprint?.sprintId ?? null,
     estimation: dbTask.hours || 0,
@@ -137,6 +139,10 @@ export default function Tasks() {
 
   const handleUpdateTask = (updatedTask: Task) => {
     setTasks((prev) => prev.map((t) => (t.id === updatedTask.id ? updatedTask : t)));
+  };
+
+  const handleDeleteTask = (taskId: string) => {
+    setTasks((prev) => prev.filter((t) => t.id !== taskId));
   };
 
   return (
@@ -241,6 +247,7 @@ export default function Tasks() {
               task={selectedTask}
               onClose={() => setSelectedTask(null)}
               onUpdate={handleUpdateTask}
+              onDelete={handleDeleteTask}
             />
           )}
         </>

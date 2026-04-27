@@ -81,6 +81,7 @@ export default function TaskCreatePanel({ onClose, onCreate }: TaskCreatePanelPr
         type: form.type,
         priority: form.priority,
         assignee: selectedUser?.username || "Unassigned",
+        assigneeId: selectedUser?.userId ?? null,
         sprint: selectedSprint?.sprintName || "No Sprint",
         sprintId: selectedSprint?.sprintId ?? null,
         estimation: form.estimation,

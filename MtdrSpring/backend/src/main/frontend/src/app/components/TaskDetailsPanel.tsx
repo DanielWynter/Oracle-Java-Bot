@@ -1,6 +1,12 @@
-import { useState } from "react";
-import { X, Clock, User, Calendar } from "lucide-react";
+import { useState, useEffect } from "react";
+import { X, Clock, Calendar, Trash2 } from "lucide-react";
 import { Task, TaskStatus, TaskType } from "../pages/Tasks.tsx";
+import { useSprint } from "../context/SprintContext.tsx";
+
+interface UserOption {
+  userId: number;
+  username: string;
+}
 
 function localISOString(): string {
   const now = new Date();
@@ -11,6 +17,7 @@ interface TaskDetailsPanelProps {
   task: Task;
   onClose: () => void;
   onUpdate: (task: Task) => void;
+  onDelete: (taskId: string) => void;
 }
 
 function formatDateTime(iso: string | null | undefined): string {
@@ -26,10 +33,43 @@ export default function TaskDetailsPanel({
   task,
   onClose,
   onUpdate,
+  onDelete,
 }: TaskDetailsPanelProps) {
+  const { sprints } = useSprint();
   const [editedTask, setEditedTask] = useState<Task>(task);
+  const [users, setUsers] = useState<UserOption[]>([]);
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    fetch("/api/users")
+      .then((r) => r.json())
+      .then(setUsers)
+      .catch(() => {});
+  }, []);
+
+  const handleDelete = async () => {
+    if (!confirmDelete) {
+      setConfirmDelete(true);
+      return;
+    }
+    setDeleting(true);
+    setError("");
+    try {
+      const taskId = parseInt(editedTask.id.replace("TASK-", ""));
+      const res = await fetch(`/api/tasks/${taskId}`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Server error");
+      onDelete(editedTask.id);
+      onClose();
+    } catch {
+      setError("Failed to delete task. Please try again.");
+      setConfirmDelete(false);
+    } finally {
+      setDeleting(false);
+    }
+  };
 
   const handleSave = async () => {
     setSaving(true);
@@ -48,6 +88,8 @@ export default function TaskDetailsPanel({
           totalTime: editedTask.actualTime,
           priority: editedTask.priority,
           finishedAt: editedTask.status === "done" ? localISOString() : null,
+          assignee: editedTask.assigneeId ? { userId: editedTask.assigneeId } : null,
+          sprint: editedTask.sprintId ? { sprintId: editedTask.sprintId } : null,
         }),
       });
       if (!res.ok) throw new Error("Server error");
@@ -187,12 +229,23 @@ export default function TaskDetailsPanel({
               <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
                 Assignee
               </label>
-              <div className="flex items-center gap-3 px-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg">
-                <User className="w-5 h-5 text-[#6B7280]" />
-                <span className="text-sm text-[#1A1A1A]">
-                  {editedTask.assignee}
-                </span>
-              </div>
+              <select
+                value={editedTask.assigneeId ?? ""}
+                onChange={(e) => {
+                  const selected = users.find((u) => u.userId === Number(e.target.value));
+                  setEditedTask({
+                    ...editedTask,
+                    assigneeId: selected?.userId ?? null,
+                    assignee: selected?.username ?? "Unassigned",
+                  });
+                }}
+                className="w-full px-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C74634] focus:border-transparent"
+              >
+                <option value="">Unassigned</option>
+                {users.map((u) => (
+                  <option key={u.userId} value={u.userId}>{u.username}</option>
+                ))}
+              </select>
             </div>
 
             {/* Estimation & Actual Time */}
@@ -242,11 +295,25 @@ export default function TaskDetailsPanel({
               <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
                 Sprint
               </label>
-              <div className="flex items-center gap-3 px-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg">
-                <Calendar className="w-5 h-5 text-[#6B7280]" />
-                <span className="text-sm text-[#1A1A1A]">
-                  {editedTask.sprint}
-                </span>
+              <div className="flex items-center gap-3 px-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg focus-within:ring-2 focus-within:ring-[#C74634] focus-within:border-transparent">
+                <Calendar className="w-5 h-5 text-[#6B7280] flex-shrink-0" />
+                <select
+                  value={editedTask.sprintId ?? ""}
+                  onChange={(e) => {
+                    const selected = sprints.find((s) => s.sprintId === Number(e.target.value));
+                    setEditedTask({
+                      ...editedTask,
+                      sprintId: selected?.sprintId ?? null,
+                      sprint: selected?.sprintName ?? "No Sprint",
+                    });
+                  }}
+                  className="flex-1 bg-transparent outline-none text-sm text-[#1A1A1A]"
+                >
+                  <option value="">No Sprint</option>
+                  {sprints.map((s) => (
+                    <option key={s.sprintId} value={s.sprintId}>{s.sprintName}</option>
+                  ))}
+                </select>
               </div>
             </div>
 
@@ -282,10 +349,22 @@ export default function TaskDetailsPanel({
             <div className="flex gap-3 pt-4 border-t border-[#E5E7EB]">
               <button
                 onClick={handleSave}
-                disabled={saving}
+                disabled={saving || deleting}
                 className="flex-1 px-4 py-2 bg-[#C74634] text-white rounded-lg hover:bg-[#9E2A1F] transition-colors disabled:opacity-60"
               >
                 {saving ? "Saving..." : "Save Changes"}
+              </button>
+              <button
+                onClick={handleDelete}
+                disabled={saving || deleting}
+                className={`px-4 py-2 rounded-lg transition-colors disabled:opacity-60 flex items-center gap-2 ${
+                  confirmDelete
+                    ? "bg-[#DC2626] text-white hover:bg-[#B91C1C]"
+                    : "bg-[#F7F8FA] text-[#DC2626] hover:bg-[#FEE2E2]"
+                }`}
+              >
+                <Trash2 className="w-4 h-4" />
+                {deleting ? "Deleting..." : confirmDelete ? "Confirm Delete" : "Delete"}
               </button>
               <button
                 onClick={onClose}

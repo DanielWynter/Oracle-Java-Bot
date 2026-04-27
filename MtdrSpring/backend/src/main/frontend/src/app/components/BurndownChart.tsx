@@ -141,8 +141,8 @@ export default function BurndownChart() {
   );
 
   const chosen: Sprint | undefined =
-    // Use the explicitly selected sprint if it has tasks
-    (selectedSprintId && sprints.find((s) => s.sprintId === selectedSprintId)) ??
+    // Usamos el ternario para evitar que el && nos regrese un 0 numérico
+    (selectedSprintId ? sprints.find((s) => s.sprintId === selectedSprintId) : undefined) ??
     // Otherwise fall back to most recent sprint with tasks
     sprints.find((s) => sprintsWithTasks.has(s.sprintId));
 

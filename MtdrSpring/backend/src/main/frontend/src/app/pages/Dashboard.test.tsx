@@ -1,3 +1,4 @@
+/** @vitest-environment jsdom */
 import { render, screen, cleanup } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import Dashboard from "./Dashboard";

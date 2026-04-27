@@ -1,3 +1,4 @@
+/** @vitest-environment jsdom */
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, it, expect, vi } from "vitest";
@@ -24,6 +25,8 @@ const initialTask: Task = {
   actualTime: 0,
   priority: "medium",
   createdAt: "2026-04-21",
+  sprintId: 1, 
+  finishedAt: "2026-04-26"
 };
 
 describe("TaskDetailsPanel Component", () => {

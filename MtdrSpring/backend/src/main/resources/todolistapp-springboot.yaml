@@ -58,6 +58,12 @@ spec:
               value: "oracle.jdbc.OracleDriver"
             - name: OCI_REGION
               value: "%OCI_REGION%"
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: openai-secret
+                  key: api-key
+                  optional: true
             - name: dbpassword
               valueFrom:
                 secretKeyRef:

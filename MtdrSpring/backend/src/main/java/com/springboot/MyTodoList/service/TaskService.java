@@ -18,6 +18,10 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
+    public List<Task> findBySprintId(Long sprintId) {
+        return taskRepository.findBySprint_SprintId(sprintId);
+    }
+
     public Optional<Task> findById(Long id) {
         return taskRepository.findById(id);
     }

@@ -27,7 +27,8 @@
       "Bash(curl -v -X POST http://localhost:8080/api/tasks -H 'Content-Type: application/json' -d '{\"taskName\":\"Test\",\"status\":\"todo\",\"taskType\":\"feature\",\"priority\":\"medium\",\"hours\":1,\"createdAt\":\"2026-04-26T10:00:00\"}')",
       "Bash(curl -s http://localhost:3000/api/tasks)",
       "Bash(curl -s -X POST http://localhost:8080/api/tasks -H 'Content-Type: application/json' -d '{\"taskName\":\"Test desde frontend\",\"status\":\"todo\",\"taskType\":\"feature\",\"priority\":\"high\",\"hours\":3,\"createdAt\":\"2026-04-26T12:00:00\",\"description\":\"descripcion de prueba\"}')",
-      "Bash(mvn package *)"
+      "Bash(mvn package *)",
+      "Bash(xargs cat *)"
     ]
   }
 }

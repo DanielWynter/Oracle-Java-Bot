@@ -92,9 +92,13 @@ public class TaskController {
 
         if (task.getSprint() != null && task.getSprint().getSprintId() != null) {
             existing.setSprint(entityManager.getReference(Sprint.class, task.getSprint().getSprintId()));
+        } else {
+            existing.setSprint(null);
         }
         if (task.getAssignee() != null && task.getAssignee().getUserId() != null) {
             existing.setAssignee(entityManager.getReference(User.class, task.getAssignee().getUserId()));
+        } else {
+            existing.setAssignee(null);
         }
 
         entityManager.flush();

@@ -39,7 +39,8 @@ export default function TaskTypeChart() {
 
   const data: ChartEntry[] = Object.entries(
     tasks.reduce<Record<string, number>>((counts, t) => {
-      const type = t.taskType || "Unknown";
+      const raw = t.taskType || "Unknown";
+      const type = raw.charAt(0).toUpperCase() + raw.slice(1).toLowerCase();
       counts[type] = (counts[type] || 0) + 1;
       return counts;
     }, {})

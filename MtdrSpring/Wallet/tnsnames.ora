@@ -1,0 +1,12 @@
+team23_high = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.mx-queretaro-1.oraclecloud.com))(connect_data=(service_name=gda5c95a1124adf_team23_high.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+team23_medium = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.mx-queretaro-1.oraclecloud.com))(connect_data=(service_name=gda5c95a1124adf_team23_medium.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+team23_low = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.mx-queretaro-1.oraclecloud.com))(connect_data=(service_name=gda5c95a1124adf_team23_low.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+team23_tp = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.mx-queretaro-1.oraclecloud.com))(connect_data=(service_name=gda5c95a1124adf_team23_tp.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+team23_tpurgent = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.mx-queretaro-1.oraclecloud.com))(connect_data=(service_name=gda5c95a1124adf_team23_tpurgent.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+
+

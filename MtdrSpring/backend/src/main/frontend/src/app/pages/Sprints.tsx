@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import TaskTable from "../components/TaskTable.tsx";
 import { Calendar, TrendingUp, CheckCircle2, Clock } from "lucide-react";
 import { useSprint } from "../context/SprintContext.tsx";
 import type { Sprint } from "../context/SprintContext.tsx";

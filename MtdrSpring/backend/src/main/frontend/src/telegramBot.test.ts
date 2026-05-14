@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 
-// 1. Mock: Simulamos las respuestas de la API del Bot de Telegram
+// 1. Mock
 const mockTelegramBot = {
   crearTarea: vi.fn().mockResolvedValue({ status: 200, message: "Tarea creada en el board" }),
   verTareasSprint: vi.fn().mockResolvedValue([

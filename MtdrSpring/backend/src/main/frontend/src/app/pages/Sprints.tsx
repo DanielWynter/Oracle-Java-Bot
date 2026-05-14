@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import TaskTable from "../components/TaskTable.tsx";
 import { Calendar, TrendingUp, CheckCircle2, Clock } from "lucide-react";
 import { useSprint } from "../context/SprintContext.tsx";
 import type { Sprint } from "../context/SprintContext.tsx";
@@ -76,36 +75,6 @@ function computeStats(sprint: Sprint, tasks: TaskRaw[]): SprintStats {
     velocity,
   };
 }
-
-// 2. CREAMOS DATOS FALSOS PARA LA TABLA DEL SPRINT
-const sprintTasks: Task[] = [
-  {
-    id: "TASK-801",
-    title: "Diseño de base de datos",
-    description: "Crear esquemas",
-    status: "done",
-    type: "feature",
-    assignee: "Sarah Chen",
-    sprint: "Sprint 24",
-    estimation: 10,
-    actualTime: 12, // <- Aquí están Estimated Hours y Actual Hours
-    priority: "high",
-    createdAt: "2026-04-20",
-  },
-  {
-    id: "TASK-802",
-    title: "Implementar login",
-    description: "Auth JWT",
-    status: "in-progress",
-    type: "feature",
-    assignee: "David Kim",
-    sprint: "Sprint 24",
-    estimation: 8,
-    actualTime: 5,
-    priority: "high",
-    createdAt: "2026-04-21",
-  },
-];
 
 export default function Sprints() {
   const { sprints, selectedSprintId } = useSprint();
@@ -338,14 +307,6 @@ export default function Sprints() {
             ))}
           </div>
         )}
-      </div>
-
-      {/* 3. AQUÍ AGREGAMOS LA TABLA PARA CUMPLIR LA RÚBRICA */}
-      <div className="bg-white rounded-xl p-6 border border-[#E5E7EB] shadow-sm">
-        <h3 className="text-lg font-semibold text-[#1A1A1A] mb-4">
-          Tasks for {selectedSprint.name}
-        </h3>
-        <TaskTable tasks={sprintTasks} onSelectTask={() => {}} />
       </div>
     </div>
   );

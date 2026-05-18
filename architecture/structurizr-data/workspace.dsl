@@ -1,144 +1,345 @@
 workspace {
-    name "Oracle Java Bot - Architecture (C4)"
-    description "Structurizr DSL model for the Oracle Java Bot system using the C4 model. Includes System Landscape, System Context, Container, Component, Deployment and Dynamic views." 
+
+    name "Oracle Java Bot - C4 Architecture Model"
+    description "Architecture model for the Oracle Java Bot project using Structurizr DSL and the C4 model."
 
     model {
-        /* People / Actors */
-        developer = person "Developer" "Writes code and logs tasks via Telegram"
-        manager = person "Manager" "Team manager who reviews reports and status"
 
-        /* External systems */
-        jira = softwareSystem "Jira API" "Issue tracking system (external)"
-        github = softwareSystem "GitHub API" "Source code hosting API (external)"
-        cicd = softwareSystem "CI/CD Pipeline" "Continuous integration and delivery system (external)"
-        telegram = softwareSystem "Telegram Cloud" "Telegram messaging platform (cloud)"
-        gitSystem = softwareSystem "Git Repository / CI System" "Git repository and CI tooling (represents repo + pipeline)"
+        /*
+         * PEOPLE
+         */
 
-        /* Main system with nested containers and components (DSL-friendly) */
-        oracleBot = softwareSystem "Oracle Java Bot" "Main system that manages tasks, deployments and reports for Java projects (C4 modeled)" {
-            telegramBot = container "Telegram Bot Interface" "Node.js / Bot API" "Receives messages from Telegram and forwards them to the core services; returns confirmations to users."
-            core = container "Core Business Services" "Java / Spring Boot" "Core layered services: business logic and orchestration (contains components)." {
-                activityLogger = component "ActivityLogger" "Logs developer and system activity into the Oracle Database." "Java service"
-                taskManager = component "TaskManager" "Handles task creation, update, synchronization with Jira and business logic." "Java service"
-                deploymentManager = component "DeploymentManager" "Coordinates deployments and integration with GitHub and CI/CD." "Java service"
-                reportGenerator = component "ReportGenerator" "Produces reports and orchestrates analytics queries." "Java service"
-                notifier = component "Notifier" "Sends notifications to users (via Telegram and other channels)." "Java service"
+        developer = person "Developer" "Developer that uses the bot to manage tasks, deployments and daily activity through Telegram."
+
+        manager = person "Manager" "Manager that monitors sprint progress, productivity and team reports."
+
+        devTeam = person "Development Team" "Team responsible for software development activities."
+
+        management = person "Management Team" "Team responsible for monitoring productivity and project progress."
+
+
+        /*
+         * EXTERNAL SYSTEMS
+         */
+
+        telegram = softwareSystem "Telegram Cloud" "Telegram messaging platform."
+
+        jira = softwareSystem "Jira" "Platform used for project and sprint management."
+
+        github = softwareSystem "GitHub" "Repository and source code platform."
+
+        cicd = softwareSystem "CI/CD Platform" "Testing and deployment services."
+
+        oci = softwareSystem "Oracle Cloud Infrastructure" "Cloud platform hosting the application infrastructure."
+
+        reporting = softwareSystem "Reporting Services" "External reporting and analytics services used by the organization."
+
+
+        /*
+         * MAIN SYSTEM
+         */
+
+        oracleBot = softwareSystem "Oracle Java Bot" "Productivity and project management assistant for development teams." {
+
+            /*
+             * CONTAINERS
+             */
+
+            telegramBot = container "Telegram Bot Interface" "Node.js" "Receives Telegram commands and returns responses to users."
+
+            core = container "Core Business Services" "Java / Spring Boot" "Handles the main business logic of the system." {
+
+                commandProcessor = component "CommandProcessor" "Processes Telegram commands and routes them to the correct service." "Spring Component"
+
+                taskManager = component "TaskManager" "Handles tasks, sprint assignments and Jira synchronization." "Spring Service"
+
+                deploymentManager = component "DeploymentManager" "Handles deployment and testing requests." "Spring Service"
+
+                activityLogger = component "ActivityLogger" "Stores developer activity and task history." "Spring Service"
+
+                reportGenerator = component "ReportGenerator" "Generates productivity and sprint reports." "Spring Service"
+
+                notifier = component "Notifier" "Sends alerts and notifications to Telegram users." "Spring Service"
             }
-            analytics = container "Analytics Service" "Python / Flask" "Processes analytics, aggregates metrics and generates data for reports."
-            db = container "Oracle Database" "Oracle DB" "Primary relational datastore for tasks, activities and reports."
-            integrations = container "External Integrations" "Adapter layer" "Adapters for third-party APIs (Jira, GitHub, CI/CD)."
+
+            analytics = container "Analytics Service" "Python / Flask" "Processes analytics and productivity metrics."
+
+            integrations = container "External Integrations Service" "Java Adapters" "Handles integrations with Jira, GitHub and CI/CD services."
+
+            db = container "Oracle Database" "Oracle Database" "Stores users, teams, projects, sprints, tasks, logs and analytics." {
+                tags "Database"
+            }
+
+
+            /*
+             * RELATIONSHIPS
+             */
+
+            developer -> telegramBot "Uses Telegram commands"
+
+            manager -> telegramBot "Requests reports and sprint status"
+
+            telegram -> telegramBot "Delivers Telegram messages"
+
+            telegramBot -> core "Sends commands"
+
+            core -> db "Reads and writes data"
+
+            core -> analytics "Requests analytics"
+
+            core -> integrations "Uses external integrations"
+
+            integrations -> jira "Synchronizes tasks and sprints"
+
+            integrations -> github "Retrieves repository activity"
+
+            integrations -> cicd "Triggers deployments and testing"
+
+            analytics -> db "Reads analytics data"
+
+
+            /*
+             * COMPONENT RELATIONSHIPS
+             */
+
+            commandProcessor -> taskManager "Routes task commands"
+
+            taskManager -> notifier "Requests confirmation notification"
+
+            commandProcessor -> deploymentManager "Routes deployment requests"
+
+            commandProcessor -> reportGenerator "Routes report requests"
+
+            taskManager -> activityLogger "Stores activity"
+
+            taskManager -> integrations "Synchronizes Jira issues"
+
+            deploymentManager -> integrations "Triggers CI/CD workflows"
+
+            reportGenerator -> analytics "Requests analytics metrics"
+
+            activityLogger -> db "Stores activity logs"
+
+            taskManager -> db "Stores task and sprint data"
+
+            deploymentManager -> db "Stores deployment history"
+
+            reportGenerator -> db "Reads report data"
+
+            notifier -> telegramBot "Sends notifications"
+
+            telegramBot -> commandProcessor "Processes command"
         }
 
-        /* Relationships: actors -> system/containers/components */
-        developer -> telegramBot "Sends task or command via Telegram" "Telegram Bot API"
-        manager -> oracleBot "Views reports and status" "Web UI / Telegram"
 
-        telegram -> telegramBot "Delivers messages to the bot" "Telegram Bot API"
+        /*
+         * ENTERPRISE RELATIONSHIPS
+         */
 
-        telegramBot -> taskManager "Forwards incoming task payloads" "HTTPS/JSON"
-        telegramBot -> notifier "Receives outgoing notifications to send" "HTTP/JSON"
+        devTeam -> oracleBot "Uses the platform for development workflow"
 
-        taskManager -> jira "Creates / updates issues" "REST API"
-        taskManager -> activityLogger "Records task-related events" "in-process call"
-        taskManager -> db "Reads/writes task metadata" "JDBC"
+        management -> oracleBot "Monitors project productivity"
 
-        deploymentManager -> github "Interacts with repo to trigger deployments" "REST API"
-        deploymentManager -> cicd "Triggers CI/CD pipelines" "Webhook / REST API"
-        deploymentManager -> db "Stores deployment records" "JDBC"
+        oracleBot -> oci "Runs on cloud infrastructure"
 
-        activityLogger -> db "Persists activity logs" "JDBC"
-        reportGenerator -> analytics "Requests aggregated metrics" "HTTP/JSON"
-        analytics -> db "Reads analytics data" "JDBC"
+        oracleBot -> reporting "Exports productivity metrics"
 
-        notifier -> telegramBot "Sends messages to be delivered to users" "HTTP/JSON"
-        notifier -> developer "Sends notifications" "Telegram"
-        notifier -> manager "Sends notifications" "Telegram / Email"
 
-        integrations -> jira "Adapter to Jira API" "REST API"
-        integrations -> github "Adapter to GitHub API" "REST API"
-        integrations -> cicd "Adapter to CI/CD" "REST API / Webhooks"
 
-        /* Additional model relationships used by the dynamic scenario */
-        jira -> taskManager "Returns issue creation result" "REST API"
-        db -> taskManager "Acknowledges persistence" "JDBC"
-        taskManager -> telegramBot "Sends confirmation payload" "HTTPS/JSON"
-        telegramBot -> developer "Delivers confirmation message" "Telegram Bot API"
+        /*
+         * DEPLOYMENT MODEL
+         */
 
-        /* Tags (optional) - removed addTags calls to keep DSL compatibility; add tags inside declarations if needed */
+        production = deploymentEnvironment "Production" {
 
-        /* Deployment nodes removed temporarily to allow export; add later if needed */
+            cloud = deploymentNode "Oracle Cloud Infrastructure" "Cloud Platform" {
+
+                webServer = deploymentNode "Application Server" "Linux VM" {
+                    containerInstance telegramBot
+                    containerInstance core
+                }
+
+                analyticsNode = deploymentNode "Analytics Server" "Linux VM" {
+                    containerInstance analytics
+                }
+
+                integrationNode = deploymentNode "Integration Server" "Linux VM" {
+                    containerInstance integrations
+                }
+
+                databaseNode = deploymentNode "Oracle DB Server" "Oracle Database Server" {
+                    containerInstance db
+                }
+            }
+        }
     }
 
-    views {
-        /* System Landscape */
-        systemLandscape {
-            include *
-            autolayout lr
-            description "System Landscape: all systems and people relevant to Oracle Java Bot."
-        }
 
-        /* System Context for Oracle Java Bot */
-        systemContext oracleBot {
+    /*
+     * VIEWS
+     */
+
+    views {
+
+        /*
+         * SYSTEM LANDSCAPE
+         */
+
+        systemLandscape {
+
+            include devTeam
+            include management
+
             include oracleBot
-            include developer
-            include manager
+
             include telegram
             include jira
             include github
             include cicd
-            include gitSystem
+            include oci
+            include reporting
+
             autolayout lr
-            description "System Context: shows how the Oracle Java Bot fits into the wider environment."
+
+            description "Enterprise-level view showing the Oracle Java Bot ecosystem and related systems."
         }
 
-        /* Container view for Oracle Java Bot */
+
+        /*
+         * SYSTEM CONTEXT
+         */
+
+        systemContext oracleBot {
+
+            include developer
+            include manager
+
+            include oracleBot
+
+            include telegram
+            include jira
+            include github
+            include cicd
+
+            autolayout lr
+
+            description "Shows how users and external systems interact with Oracle Java Bot."
+        }
+
+
+        /*
+         * CONTAINER VIEW
+         */
+
         container oracleBot {
+
             include *
+
             autolayout lr
-            description "Container diagram: shows containers inside Oracle Java Bot and relationships to users and external systems."
+
+            description "Shows the main containers, database and integrations inside the system."
         }
 
-        /* Component view for Core Business Services */
+
+        /*
+         * COMPONENT VIEW
+         */
+
         component core {
+
             include *
+
             autolayout lr
-            description "Component diagram: internal components of the Core Business Services container."
+
+            description "Shows the internal components of the Core Business Services container."
         }
 
-        /* Deployment view (removed temporarily to allow export; can be re-added with a declared environment) */
 
-        /* Dynamic diagram modelling the use case: Developer logs a task through Telegram */
-          dynamic core {
-              title "Developer logs a task via Telegram"
-              description "Sequence: Developer -> Telegram Bot -> TaskManager -> Jira API -> Oracle Database -> Response back to Developer"
+        /*
+         * DEPLOYMENT VIEW
+         */
 
-            developer -> telegramBot "Sends 'create task' message" "Telegram Bot API"
-            telegramBot -> taskManager "Forwards task payload" "HTTPS/JSON"
-            taskManager -> jira "Creates issue in Jira" "REST API"
-            jira -> taskManager "Returns issue creation result" "REST API"
-            taskManager -> db "Persists canonical task data" "JDBC"
-            db -> taskManager "Acknowledges persistence" "JDBC"
-            taskManager -> telegramBot "Sends confirmation payload" "HTTPS/JSON"
-            telegramBot -> developer "Delivers confirmation message" "Telegram Bot API"
+        deployment oracleBot production {
+
+            include *
+
+            autolayout lr
+
+            description "Shows how the application is deployed in the production environment."
         }
+
+
+        /*
+         * DYNAMIC VIEW
+         */
+
+        dynamic core {
+
+            title "Developer creates a task through Telegram"
+
+            description "Flow showing task creation and Jira synchronization."
+
+            developer -> telegramBot "Sends /createTask command"
+
+            telegramBot -> commandProcessor "Processes command"
+
+            commandProcessor -> taskManager "Validates request"
+
+            taskManager -> integrations "Requests Jira issue creation"
+
+            integrations -> jira "Creates Jira issue"
+
+            jira -> integrations "Returns issue ID"
+
+            taskManager -> db "Stores task data"
+
+            taskManager -> activityLogger "Stores activity log"
+
+            activityLogger -> db "Persists logs"
+
+            taskManager -> notifier "Requests notification"
+
+            notifier -> telegramBot "Sends confirmation"
+
+            telegramBot -> developer "Returns confirmation"
+        }
+
+
+        /*
+         * STYLES
+         */
 
         styles {
+
             element "Person" {
                 shape person
+                background #08427b
+                color #ffffff
             }
+
             element "Software System" {
-                shape roundedBox
+                shape roundedbox
+                background #1168bd
+                color #ffffff
             }
+
             element "Container" {
-                shape component
+                shape roundedbox
+                background #438dd5
+                color #ffffff
             }
+
             element "Component" {
                 shape hexagon
+                background #85bbf0
+                color #000000
             }
+
             element "Database" {
                 shape cylinder
+                background #ffcc66
+                color #000000
             }
         }
     }
-
 }

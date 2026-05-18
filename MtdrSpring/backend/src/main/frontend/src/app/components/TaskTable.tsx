@@ -23,6 +23,12 @@ const typeConfig: Record<TaskType, { label: string; color: string }> = {
   enhancement: { label: "Enhancement", color: "#2563EB" },
 };
 
+const priorityConfig: Record<"low" | "medium" | "high", { label: string; color: string; icon: string }> = {
+  high:   { label: "High",   color: "#DC2626", icon: "↑" },
+  medium: { label: "Medium", color: "#F59E0B", icon: "→" },
+  low:    { label: "Low",    color: "#16A34A", icon: "↓" },
+};
+
 export default function TaskTable({ tasks, onSelectTask }: TaskTableProps) {
   const getDeviation = (estimated: number, actual: number) => {
     if (actual === 0) return null;
@@ -47,6 +53,9 @@ export default function TaskTable({ tasks, onSelectTask }: TaskTableProps) {
               </th>
               <th className="px-6 py-4 text-left text-xs font-medium text-[#6B7280] uppercase tracking-wider">
                 Type
+              </th>
+              <th className="px-6 py-4 text-left text-xs font-medium text-[#6B7280] uppercase tracking-wider">
+                Priority
               </th>
               <th className="px-6 py-4 text-left text-xs font-medium text-[#6B7280] uppercase tracking-wider">
                 Assignee
@@ -103,6 +112,18 @@ export default function TaskTable({ tasks, onSelectTask }: TaskTableProps) {
                       }}
                     >
                       {typeConfig[task.type].label}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span
+                      className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium"
+                      style={{
+                        backgroundColor: `${priorityConfig[task.priority].color}15`,
+                        color: priorityConfig[task.priority].color,
+                      }}
+                    >
+                      <span>{priorityConfig[task.priority].icon}</span>
+                      {priorityConfig[task.priority].label}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">

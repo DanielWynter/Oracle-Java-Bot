@@ -6,6 +6,7 @@ import EstimationChart from "../components/EstimationChart.tsx";
 import TaskTypeChart from "../components/TaskTypeChart.tsx";
 import TeamWorkload from "../components/TeamWorkload.tsx";
 import ActivityFeed from "../components/ActivityFeed.tsx";
+import { useSprint } from "../context/SprintContext.tsx";
 import {
   Target,
   CheckSquare,
@@ -20,12 +21,7 @@ interface TaskRaw {
   status: string;
   hours: number;
   totalTime: number;
-  sprint: { sprintId: number; sprintName: string } | null;
-}
-
-interface SprintRaw {
-  sprintId: number;
-  endDate: string;
+  sprint: { sprintId: number } | null;
 }
 
 const isDone = (status: string) =>
@@ -37,36 +33,41 @@ function formatChange(diff: number, isPercent = false): string {
 }
 
 export default function Dashboard() {
+  const { sprints, selectedSprintId } = useSprint();
   const [tasks, setTasks] = useState<TaskRaw[]>([]);
-  const [sprints, setSprints] = useState<SprintRaw[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    Promise.all([
-      fetch("/api/tasks").then((r) => r.json()),
-      fetch("/api/sprints").then((r) => r.json()),
-    ])
-      .then(([tasksData, sprintsData]) => {
-        setTasks(tasksData);
-        setSprints(sprintsData);
-      })
+    fetch("/api/tasks")
+      .then((r) => r.json())
+      .then(setTasks)
       .finally(() => setLoading(false));
   }, []);
 
-  // Unique sprint IDs sorted descending (most recent first)
-  const sprintIds = [
-    ...new Set(
-      tasks
-        .map((t) => t.sprint?.sprintId)
-        .filter((id): id is number => id != null)
-    ),
-  ].sort((a, b) => b - a);
+  // Determine current and previous sprint IDs
+  // sprints is sorted descending by sprintId (most recent first)
+  const sortedSprintIds = sprints.map((s) => s.sprintId);
 
-  const currId = sprintIds[0];
-  const prevId = sprintIds[1];
+  const currId =
+    selectedSprintId ??
+    // When "All Sprints" is selected, use the most recent sprint with tasks
+    [...new Set(tasks.map((t) => t.sprint?.sprintId).filter((id): id is number => id != null))]
+      .sort((a, b) => b - a)[0];
 
-  const currTasks = tasks.filter((t) => t.sprint?.sprintId === currId);
-  const prevTasks = tasks.filter((t) => t.sprint?.sprintId === prevId);
+  const currIdxInSprints = sortedSprintIds.indexOf(currId);
+  const prevId =
+    currIdxInSprints >= 0
+      ? sortedSprintIds[currIdxInSprints + 1]
+      : undefined;
+
+  // Filter tasks
+  const currTasks = selectedSprintId
+    ? tasks.filter((t) => t.sprint?.sprintId === currId)
+    : tasks; // "All Sprints" shows aggregate of all tasks
+  const prevTasks = prevId
+    ? tasks.filter((t) => t.sprint?.sprintId === prevId)
+    : [];
+
   const currDone = currTasks.filter((t) => isDone(t.status));
   const prevDone = prevTasks.filter((t) => isDone(t.status));
 
@@ -84,8 +85,8 @@ export default function Dashboard() {
   // Total Tasks
   const totalDiff = currTasks.length - prevTasks.length;
 
-  // Completed Tasks (all time)
-  const completedTotal = tasks.filter((t) => isDone(t.status)).length;
+  // Completed Tasks
+  const completedTotal = currTasks.filter((t) => isDone(t.status)).length;
   const completedDiff = currDone.length - prevDone.length;
 
   // Overdue: not done and sprint ended before today
@@ -95,11 +96,13 @@ export default function Dashboard() {
   );
   const overdueTasks = tasks.filter((t) => {
     if (!t.sprint || isDone(t.status)) return false;
+    // Only count overdue for selected sprint (or all if no selection)
+    if (selectedSprintId && t.sprint.sprintId !== selectedSprintId) return false;
     const end = sprintEndMap[t.sprint.sprintId];
     return end && new Date(end) < today;
   }).length;
 
-  // Velocity: estimated hours completed in current sprint
+  // Velocity: estimated hours completed in current sprint scope
   const currVelocity = Math.round(
     currDone.reduce((s, t) => s + (t.hours || 0), 0)
   );
@@ -109,7 +112,7 @@ export default function Dashboard() {
   const velocityDiff = currVelocity - prevVelocity;
 
   // Estimation Accuracy
-  const withBoth = tasks.filter(
+  const withBoth = currTasks.filter(
     (t) => isDone(t.status) && t.hours > 0 && t.totalTime > 0
   );
   const accuracy =
@@ -152,7 +155,7 @@ export default function Dashboard() {
     },
     {
       label: "Total Tasks",
-      value: `${tasks.length}`,
+      value: `${currTasks.length}`,
       change: formatChange(totalDiff),
       trend: totalDiff >= 0 ? ("up" as const) : ("down" as const),
       icon: CheckSquare,
@@ -176,7 +179,7 @@ export default function Dashboard() {
     },
     {
       label: "Velocity",
-      value: `${currVelocity}`,
+      value: `${currVelocity}h`,
       change: formatChange(velocityDiff),
       trend: velocityDiff >= 0 ? ("up" as const) : ("down" as const),
       icon: TrendingUp,
@@ -200,7 +203,9 @@ export default function Dashboard() {
           Dashboard
         </h1>
         <p className="text-[#6B7280]">
-          Monitor your team's productivity and sprint progress
+          {selectedSprintId
+            ? `Showing data for ${sprints.find((s) => s.sprintId === selectedSprintId)?.sprintName ?? "selected sprint"}`
+            : "Showing aggregate data across all sprints"}
         </p>
       </div>
 

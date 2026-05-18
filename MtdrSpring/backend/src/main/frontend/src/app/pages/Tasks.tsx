@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Search, Filter, Plus } from "lucide-react";
 import TaskTable from "../components/TaskTable.tsx";
 import TaskDetailsPanel from "../components/TaskDetailsPanel.tsx";
+import TaskCreatePanel from "../components/TaskCreatePanel.tsx";
+import { useSprint } from "../context/SprintContext.tsx";
 
 export type TaskStatus = "todo" | "in-progress" | "done" | "blocked";
 export type TaskType = "feature" | "bug" | "issue" | "enhancement";
@@ -13,12 +15,14 @@ export interface Task {
   status: TaskStatus;
   type: TaskType;
   assignee: string;
+  assigneeId: number | null;
   sprint: string;
   sprintId: number | null;
   estimation: number;
   actualTime: number;
   priority: "low" | "medium" | "high";
   createdAt: string;
+  finishedAt: string | null;
 }
 
 interface TaskResponse {
@@ -27,8 +31,10 @@ interface TaskResponse {
   description: string;
   status: string;
   taskType: string;
+  priority: string;
   totalTime: number;
   createdAt: string;
+  finishedAt: string | null;
   hours: number;
   sprint: { sprintId: number; sprintName: string } | null;
   project: { projectId: number; projectName: string } | null;
@@ -63,16 +69,21 @@ const mapDatabaseTaskToUITask = (dbTask: TaskResponse): Task => {
     status: (statusMap[dbTask.status?.toLowerCase()] || "todo") as TaskStatus,
     type: (typeMap[dbTask.taskType?.toLowerCase()] || "feature") as TaskType,
     assignee: dbTask.assignee?.username || "Unassigned",
+    assigneeId: dbTask.assignee?.userId ?? null,
     sprint: dbTask.sprint?.sprintName || "No Sprint",
     sprintId: dbTask.sprint?.sprintId ?? null,
     estimation: dbTask.hours || 0,
     actualTime: dbTask.totalTime || 0,
-    priority: "medium",
-    createdAt: new Date(dbTask.createdAt).toISOString().split("T")[0],
+    priority: (["low", "medium", "high"].includes(dbTask.priority?.toLowerCase())
+      ? dbTask.priority.toLowerCase()
+      : "medium") as "low" | "medium" | "high",
+    createdAt: dbTask.createdAt || "",
+    finishedAt: dbTask.finishedAt || null,
   };
 };
 
 export default function Tasks() {
+  const { selectedSprintId } = useSprint();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -100,18 +111,16 @@ export default function Tasks() {
     fetchTasks();
   }, []);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [showCreatePanel, setShowCreatePanel] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [typeFilter, setTypeFilter] = useState<string>("all");
-  const [sprintFilter, setSprintFilter] = useState<string>("all");
+  const [priorityFilter, setPriorityFilter] = useState<string>("all");
 
-  const sprints = Array.from(
-    new Map(
-      tasks
-        .filter((t) => t.sprintId !== null)
-        .map((t) => [t.sprintId, { id: t.sprintId!, name: t.sprint }])
-    ).values()
-  ).sort((a, b) => a.id - b.id);
+  const handleCreateTask = (newTask: Task) => {
+    setTasks((prev) => [newTask, ...prev]);
+    setShowCreatePanel(false);
+  };
 
   const filteredTasks = tasks.filter((task) => {
     const matchesSearch =
@@ -120,31 +129,20 @@ export default function Tasks() {
     const matchesStatus =
       statusFilter === "all" || task.status === statusFilter;
     const matchesType = typeFilter === "all" || task.type === typeFilter;
+    const matchesPriority =
+      priorityFilter === "all" || task.priority === priorityFilter;
+    // Global sprint filter from Navbar; null means "All Sprints"
     const matchesSprint =
-      sprintFilter === "all" || String(task.sprintId) === sprintFilter;
-    return matchesSearch && matchesStatus && matchesType && matchesSprint;
+      selectedSprintId === null || task.sprintId === selectedSprintId;
+    return matchesSearch && matchesStatus && matchesType && matchesPriority && matchesSprint;
   });
 
-  const handleUpdateTask = async (updatedTask: Task) => {
-    try {
-      const taskId = parseInt(updatedTask.id.replace("TASK-", ""));
-      const response = await fetch(`/api/tasks/${taskId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          taskName: updatedTask.title,
-          description: updatedTask.description,
-          status: updatedTask.status,
-          hours: updatedTask.estimation,
-        }),
-      });
-      if (response.ok) {
-        setTasks(tasks.map((t) => (t.id === updatedTask.id ? updatedTask : t)));
-        setSelectedTask(updatedTask);
-      }
-    } catch (err) {
-      console.error("Error updating task:", err);
-    }
+  const handleUpdateTask = (updatedTask: Task) => {
+    setTasks((prev) => prev.map((t) => (t.id === updatedTask.id ? updatedTask : t)));
+  };
+
+  const handleDeleteTask = (taskId: string) => {
+    setTasks((prev) => prev.filter((t) => t.id !== taskId));
   };
 
   return (
@@ -155,7 +153,10 @@ export default function Tasks() {
           <h1 className="text-3xl font-semibold text-[#1A1A1A] mb-2">Tasks</h1>
           <p className="text-[#6B7280]">Manage and track all project tasks</p>
         </div>
-        <button className="px-4 py-2 bg-[#C74634] text-white rounded-lg hover:bg-[#9E2A1F] transition-colors flex items-center gap-2 shadow-lg">
+        <button
+          onClick={() => setShowCreatePanel(true)}
+          className="px-4 py-2 bg-[#C74634] text-white rounded-lg hover:bg-[#9E2A1F] transition-colors flex items-center gap-2 shadow-lg"
+        >
           <Plus className="w-5 h-5" />
           New Task
         </button>
@@ -179,14 +180,14 @@ export default function Tasks() {
         <div className="bg-white rounded-xl p-4 border border-[#E5E7EB] shadow-sm">
           <div className="flex flex-col md:flex-row gap-4">
             {/* Search */}
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6B7280]" />
+            <div className="flex-1 flex items-center gap-2 px-3 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg focus-within:ring-2 focus-within:ring-[#C74634] focus-within:border-transparent">
+              <Search className="w-5 h-5 text-[#6B7280] flex-shrink-0" />
               <input
                 type="text"
                 placeholder="Search tasks..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C74634] focus:border-transparent"
+                className="flex-1 bg-transparent outline-none text-sm text-[#1A1A1A] placeholder-[#9CA3AF]"
               />
             </div>
 
@@ -219,19 +220,18 @@ export default function Tasks() {
               <option value="enhancement">Enhancement</option>
             </select>
 
-            {/* Sprint Filter */}
+            {/* Priority Filter */}
             <select
-              value={sprintFilter}
-              onChange={(e) => setSprintFilter(e.target.value)}
+              value={priorityFilter}
+              onChange={(e) => setPriorityFilter(e.target.value)}
               className="px-4 py-2 bg-[#F7F8FA] border border-[#E5E7EB] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C74634] focus:border-transparent"
             >
-              <option value="all">All Sprints</option>
-              {sprints.map((s) => (
-                <option key={s.id} value={String(s.id)}>
-                  {s.name}
-                </option>
-              ))}
+              <option value="all">All Priorities</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
             </select>
+
           </div>
         </div>
       )}
@@ -247,9 +247,18 @@ export default function Tasks() {
               task={selectedTask}
               onClose={() => setSelectedTask(null)}
               onUpdate={handleUpdateTask}
+              onDelete={handleDeleteTask}
             />
           )}
         </>
+      )}
+
+      {/* Create Task Panel */}
+      {showCreatePanel && (
+        <TaskCreatePanel
+          onClose={() => setShowCreatePanel(false)}
+          onCreate={handleCreateTask}
+        />
       )}
 
       {/* No Tasks Message */}

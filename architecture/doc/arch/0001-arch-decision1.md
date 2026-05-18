@@ -1,17 +1,18 @@
-ADR-001: Use Layered Architecture
-15/05/2026 | Accepted | Team members
+ADR-001: Use Monolithic Spring Boot Architecture  
+18/05/2026 | Accepted | Team members
 
-Context:
-The Oracle Java Bot handles multiple responsibilities such as Telegram interaction, task management, analytics, notifications and database operations. The project needs a clear separation between interface logic, business logic and persistence to keep the system maintainable and easier to scale during future iterations.
+Context:  
+The project combines several features such as task management, Telegram bot integration, AI-based task analysis, analytics and database access. Since the team is still developing the platform and the application is not extremely large yet, we needed an architecture that was easier to develop, test and deploy.
 
-Decision:
-Implement a layered architecture separating the system into Presentation Layer, Business Logic Layer and Persistence Layer. All database access must go through the persistence layer instead of allowing direct communication between business components and the database.
+Decision:  
+Use a monolithic Spring Boot application where the REST API, Telegram bot logic, AI integrations and database access are all part of the same deployable application. The frontend is developed separately in React, but it gets bundled into the same Spring Boot application during deployment.
 
-Consequences:
-Improves maintainability and separation of concerns.
-Makes components easier to modify or replace independently.
-Adds slightly more complexity because requests must pass through additional layers.
+Consequences:  
+Simplifies deployment because only one application needs to be executed.  
+Makes development easier since all business logic stays in one place.  
+Reduces infrastructure complexity during early development stages.  
+Can become harder to scale independently if the system grows too much in the future.
 
-Alternative:
-Allow business components to directly access the database without a dedicated persistence layer.
-This simplifies development initially, but increases coupling and makes the system harder to maintain and scale over time.
+Alternative:  
+Split the application into multiple microservices for task management, analytics, notifications and AI integrations.  
+This would improve scalability and service isolation, but would add significantly more complexity for communication, deployment and infrastructure management.

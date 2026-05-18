@@ -1,18 +1,17 @@
-ADR-002: Use Modular Component-Based Architecture  
-15/05/2026 | Accepted | Team members
+ADR-002: Use Telegram Long-Polling Instead of Webhooks  
+18/05/2026 | Accepted | Team members
 
 Context:  
-The Oracle Java Bot is command driven and supports different user actions such as task tracking, deployment requests, report generation and repository notifications. These features involve different responsibilities and external integrations.
+The Oracle Java Bot needs to receive Telegram messages and commands from developers and managers. During development, the application is usually executed locally and does not always have a public HTTPS endpoint available.
 
 Decision:  
-Partition the system into cohesive modules based on actors and actions. Components such as ActivityLogger, TaskManager, DeploymentManager, ReportGenerator and Notifier will operate independently while communicating through clearly defined interfaces.
+Implement the Telegram bot using long-polling through SpringLongPollingBot instead of using Telegram webhooks. The bot continuously checks for new updates directly from Telegram servers.
 
 Consequences:  
-Improves modularity and organization of the system.  
-Makes testing and future feature expansion easier.  
-Allows individual components to evolve independently.  
-Requires more planning for communication between modules.
+Simplifies local development and testing because no public server or HTTPS configuration is required.  
+Makes the bot easier to execute during development stages.  
+Slightly less efficient than webhooks because the application constantly polls Telegram for updates.
 
 Alternative:  
-Implement the entire application as a single monolithic module with shared logic and responsibilities.  
-This reduces initial setup complexity, but makes the project harder to maintain, extend and debug as the application grows.
+Use Telegram webhooks with a public HTTPS endpoint.  
+This would be more efficient in production environments, but would require additional infrastructure, SSL certificates and public network configuration even during local development.

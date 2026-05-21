@@ -3,7 +3,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recha
 import { useSprint } from "../context/SprintContext.tsx";
 
 const TYPE_COLORS: Record<string, string> = {
-  Feature: "#C74634",
+  Feature: "#16A34A",
   Bug: "#7C3AED",
   Issue: "#F59E0B",
   Enhancement: "#2563EB",

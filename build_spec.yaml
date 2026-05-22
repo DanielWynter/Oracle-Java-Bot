@@ -23,6 +23,9 @@ steps:
       source env.sh;
       cat at.cfg | docker login -u "axcxkzmvnpt2/a01645202@tec.mx" --password-stdin mx-queretaro-1.ocir.io
   - type: Command
+    name: "Copy Wallet"
+    command: cp -r MtdrSpring/wallet MtdrSpring/backend/wallet;
+  - type: Command
     name: "Build"
     command: cd MtdrSpring;
       source env.sh;

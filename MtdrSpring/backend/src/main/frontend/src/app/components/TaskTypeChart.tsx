@@ -10,7 +10,7 @@ import {
 import { useSprint } from "../context/SprintContext.tsx";
 
 const TYPE_COLORS: Record<string, string> = {
-  Feature: "#d510a0",
+  Feature: "#10c8d5",
   Bug: "#7C3AED",
   Issue: "#F59E0B",
   Enhancement: "#2563EB",

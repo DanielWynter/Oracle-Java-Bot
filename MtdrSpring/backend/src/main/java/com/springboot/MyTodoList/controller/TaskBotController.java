@@ -1,7 +1,9 @@
 package com.springboot.MyTodoList.controller;
 
 import com.springboot.MyTodoList.config.BotProps;
+import com.springboot.MyTodoList.model.Priority;
 import com.springboot.MyTodoList.model.Sprint;
+import com.springboot.MyTodoList.model.Status;
 import com.springboot.MyTodoList.model.Task;
 import com.springboot.MyTodoList.model.User;
 import com.springboot.MyTodoList.service.SprintService;
@@ -293,17 +295,30 @@ public class TaskBotController implements SpringLongPollingBot, LongPollingSingl
     // ── Helpers ────────────────────────────────────────────────────────────────
 
     private List<Task> filterByStatus(List<Task> tasks, String status) {
+        Status target = resolveStatusFilter(status);
         return tasks.stream()
-            .filter(t -> status.equalsIgnoreCase(t.getStatus()))
+            .filter(t -> target != null && target == t.getStatus())
             .collect(Collectors.toList());
+    }
+
+    private Status resolveStatusFilter(String status) {
+        if (status == null) return null;
+        switch (status.toLowerCase()) {
+            case "todo": return Status.TO_DO;
+            case "in-progress": return Status.IN_PROGRESS;
+            case "blocked": return Status.STOPPED;
+            case "done": return Status.DONE;
+            default: return null;
+        }
     }
 
     private void appendGroup(StringBuilder sb, String title, List<Task> tasks) {
         if (tasks.isEmpty()) return;
         sb.append("<b>").append(title).append("</b> (").append(tasks.size()).append(")\n");
         for (Task t : tasks) {
-            String priority = t.getPriority() != null ? t.getPriority().toLowerCase() : "medium";
-            String dot = "high".equals(priority) ? "🔴" : "low".equals(priority) ? "🟢" : "🟡";
+            Priority p = t.getPriority() != null ? t.getPriority() : Priority.MEDIUM;
+            String dot = (p == Priority.HIGH || p == Priority.CRITICAL) ? "🔴"
+                : p == Priority.LOW ? "🟢" : "🟡";
             sb.append(dot).append(" ").append(t.getTaskName());
             if (t.getAssignee() != null) sb.append(" (").append(t.getAssignee().getUsername()).append(")");
             sb.append("\n");

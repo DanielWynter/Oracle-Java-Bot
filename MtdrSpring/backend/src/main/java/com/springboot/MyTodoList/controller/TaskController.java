@@ -2,6 +2,7 @@ package com.springboot.MyTodoList.controller;
 
 import com.springboot.MyTodoList.model.Project;
 import com.springboot.MyTodoList.model.Sprint;
+import com.springboot.MyTodoList.model.Status;
 import com.springboot.MyTodoList.model.Task;
 import com.springboot.MyTodoList.model.User;
 import jakarta.persistence.EntityManager;
@@ -82,7 +83,7 @@ public class TaskController {
         existing.setTotalTime(task.getTotalTime());
         existing.setPriority(task.getPriority());
 
-        if ("done".equalsIgnoreCase(task.getStatus())) {
+        if (task.getStatus() == Status.DONE) {
             if (existing.getFinishedAt() == null) {
                 existing.setFinishedAt(task.getFinishedAt());
             }

@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  Legend,
+  Tooltip,
+} from "recharts";
 import { useSprint } from "../context/SprintContext.tsx";
 
 const TYPE_COLORS: Record<string, string> = {
-  Feature: "#C74634",
+  Feature: "#bd1d3d",
   Bug: "#7C3AED",
   Issue: "#F59E0B",
   Enhancement: "#2563EB",
@@ -43,7 +50,7 @@ export default function TaskTypeChart() {
       const type = raw.charAt(0).toUpperCase() + raw.slice(1).toLowerCase();
       counts[type] = (counts[type] || 0) + 1;
       return counts;
-    }, {})
+    }, {}),
   ).map(([name, value]) => ({ name, value }));
 
   return (
@@ -78,7 +85,10 @@ export default function TaskTypeChart() {
               {data.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
-                  fill={TYPE_COLORS[entry.name] ?? FALLBACK_COLORS[index % FALLBACK_COLORS.length]}
+                  fill={
+                    TYPE_COLORS[entry.name] ??
+                    FALLBACK_COLORS[index % FALLBACK_COLORS.length]
+                  }
                 />
               ))}
             </Pie>

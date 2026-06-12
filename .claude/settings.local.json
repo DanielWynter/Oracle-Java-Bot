@@ -28,7 +28,14 @@
       "Bash(curl -s http://localhost:3000/api/tasks)",
       "Bash(curl -s -X POST http://localhost:8080/api/tasks -H 'Content-Type: application/json' -d '{\"taskName\":\"Test desde frontend\",\"status\":\"todo\",\"taskType\":\"feature\",\"priority\":\"high\",\"hours\":3,\"createdAt\":\"2026-04-26T12:00:00\",\"description\":\"descripcion de prueba\"}')",
       "Bash(mvn package *)",
-      "Bash(git pull *)"
+      "Bash(git pull *)",
+      "Bash(git -C /Users/danieledenwynter/Desktop/Oracle-Java-Bot log --oneline)",
+      "Bash(git -C /Users/danieledenwynter/Desktop/Oracle-Java-Bot log --oneline --all)",
+      "Bash(git -C /Users/danieledenwynter/Desktop/Oracle-Java-Bot branch -a)",
+      "Bash(xargs ls -la)",
+      "Bash(xargs ls)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); deps={**d.get\\('dependencies',{}\\), **d.get\\('devDependencies',{}\\)}; [print\\(k,v\\) for k,v in deps.items\\(\\) if any\\(x in k.lower\\(\\) for x in ['chart','recharts','victory','d3','plot','vis','nivo','apexchart']\\)]\")",
+      "Bash(node -e ' *)"
     ]
   }
 }

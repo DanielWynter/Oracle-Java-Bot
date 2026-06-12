@@ -6,6 +6,7 @@ import EstimationChart from "../components/EstimationChart.tsx";
 import TaskTypeChart from "../components/TaskTypeChart.tsx";
 import TeamWorkload from "../components/TeamWorkload.tsx";
 import ActivityFeed from "../components/ActivityFeed.tsx";
+import DevTaskAnalysis from "../components/DevTaskAnalysis.tsx";
 import { useSprint } from "../context/SprintContext.tsx";
 import {
   Target,
@@ -231,6 +232,9 @@ export default function Dashboard() {
         <EstimationChart />
         <TaskTypeChart />
       </div>
+
+      {/* Dev Task Analysis */}
+      <DevTaskAnalysis />
 
       {/* Team Workload & Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

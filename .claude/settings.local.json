@@ -35,7 +35,10 @@
       "Bash(xargs ls -la)",
       "Bash(xargs ls)",
       "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); deps={**d.get\\('dependencies',{}\\), **d.get\\('devDependencies',{}\\)}; [print\\(k,v\\) for k,v in deps.items\\(\\) if any\\(x in k.lower\\(\\) for x in ['chart','recharts','victory','d3','plot','vis','nivo','apexchart']\\)]\")",
-      "Bash(node -e ' *)"
+      "Bash(node -e ' *)",
+      "Bash(python3 -)",
+      "Bash(mvn test *)",
+      "Bash(open /Users/danieledenwynter/Desktop/Oracle-Java-Bot/MtdrSpring/backend/target/site/jacoco/index.html)"
     ]
   }
 }

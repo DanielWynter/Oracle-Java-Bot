@@ -1,0 +1,1275 @@
+{
+  "config": {
+    "configFile": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/playwright.config.ts",
+    "rootDir": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 2
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "html",
+        {
+          "open": "never",
+          "outputFolder": "e2e/playwright-report"
+        }
+      ],
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "e2e/test-results/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.60.0",
+    "workers": 2,
+    "webServer": {
+      "command": "npm start",
+      "url": "http://localhost:3000",
+      "reuseExistingServer": true,
+      "timeout": 120000
+    }
+  },
+  "suites": [
+    {
+      "title": "auth-suite.spec.ts",
+      "file": "auth-suite.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Authentication Suite @auth",
+          "file": "auth-suite.spec.ts",
+          "line": 7,
+          "column": 6,
+          "specs": [
+            {
+              "title": "shows error on empty credentials then logs in successfully",
+              "ok": true,
+              "tags": [
+                "auth"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 14070,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-13T01:59:10.683Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/auth-suite-Authentication--c81b0-s-then-logs-in-successfully-chromium/test-finished-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/auth-suite-Authentication--c81b0-s-then-logs-in-successfully-chromium/video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/auth-suite-Authentication--c81b0-s-then-logs-in-successfully-chromium/trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "81bd651531f1c7e58bf5-f23577e823eb55bbdf84",
+              "file": "auth-suite.spec.ts",
+              "line": 16,
+              "column": 7
+            },
+            {
+              "title": "developer role reaches dashboard with mocked KPIs",
+              "ok": true,
+              "tags": [
+                "auth"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 14245,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-13T01:59:10.683Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/auth-suite-Authentication--465b8--dashboard-with-mocked-KPIs-chromium/test-finished-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/auth-suite-Authentication--465b8--dashboard-with-mocked-KPIs-chromium/video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/auth-suite-Authentication--465b8--dashboard-with-mocked-KPIs-chromium/trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "81bd651531f1c7e58bf5-e5239436a6deec6e2082",
+              "file": "auth-suite.spec.ts",
+              "line": 28,
+              "column": 7
+            },
+            {
+              "title": "manager role can open dashboard",
+              "ok": true,
+              "tags": [
+                "auth"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 10448,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-13T01:59:29.687Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/auth-suite-Authentication--307c8-ger-role-can-open-dashboard-chromium/test-finished-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/auth-suite-Authentication--307c8-ger-role-can-open-dashboard-chromium/video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/auth-suite-Authentication--307c8-ger-role-can-open-dashboard-chromium/trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "81bd651531f1c7e58bf5-f74432e0982adbf1e04e",
+              "file": "auth-suite.spec.ts",
+              "line": 39,
+              "column": 7
+            },
+            {
+              "title": "login page snapshot",
+              "ok": true,
+              "tags": [
+                "auth"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 9094,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-13T01:59:29.816Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/auth-suite-Authentication-Suite-auth-login-page-snapshot-chromium/test-finished-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/auth-suite-Authentication-Suite-auth-login-page-snapshot-chromium/video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/auth-suite-Authentication-Suite-auth-login-page-snapshot-chromium/trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "81bd651531f1c7e58bf5-cb50f02746374f54a78a",
+              "file": "auth-suite.spec.ts",
+              "line": 45,
+              "column": 7
+            },
+            {
+              "title": "documents optional fail annotation for invalid API",
+              "ok": true,
+              "tags": [
+                "auth"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "fail",
+                      "location": {
+                        "file": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/tests/auth-suite.spec.ts",
+                        "line": 50,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "expectedStatus": "failed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 4477,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n    at /Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/tests/auth-suite.spec.ts:51:18",
+                        "location": {
+                          "file": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/tests/auth-suite.spec.ts",
+                          "column": 18,
+                          "line": 51
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 49 |\u001b[39m\n \u001b[90m 50 |\u001b[39m   test\u001b[33m.\u001b[39mfail(\u001b[32m\"documents optional fail annotation for invalid API\"\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 |\u001b[39m     expect(\u001b[36mtrue\u001b[39m)\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 53 |\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 54 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/tests/auth-suite.spec.ts",
+                            "column": 18,
+                            "line": 51
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\n\u001b[0m \u001b[90m 49 |\u001b[39m\n \u001b[90m 50 |\u001b[39m   test\u001b[33m.\u001b[39mfail(\u001b[32m\"documents optional fail annotation for invalid API\"\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 |\u001b[39m     expect(\u001b[36mtrue\u001b[39m)\u001b[33m.\u001b[39mtoBe(\u001b[36mfalse\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 53 |\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 54 |\u001b[39m\u001b[0m\n\u001b[2m    at /Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/tests/auth-suite.spec.ts:51:18\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-13T01:59:39.210Z",
+                      "annotations": [
+                        {
+                          "type": "fail",
+                          "location": {
+                            "file": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/tests/auth-suite.spec.ts",
+                            "line": 50,
+                            "column": 8
+                          }
+                        }
+                      ],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/auth-suite-Authentication--4f41d--annotation-for-invalid-API-chromium/test-finished-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/auth-suite-Authentication--4f41d--annotation-for-invalid-API-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/auth-suite-Authentication--4f41d--annotation-for-invalid-API-chromium/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/auth-suite-Authentication--4f41d--annotation-for-invalid-API-chromium/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/tests/auth-suite.spec.ts",
+                        "column": 18,
+                        "line": 51
+                      }
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "81bd651531f1c7e58bf5-e41c026ed9b248f06e3d",
+              "file": "auth-suite.spec.ts",
+              "line": 50,
+              "column": 8
+            }
+          ]
+        },
+        {
+          "title": "Auth with clock @auth @slow",
+          "file": "auth-suite.spec.ts",
+          "line": 55,
+          "column": 6,
+          "specs": [
+            {
+              "title": "sign-in loading state with fake clock",
+              "ok": true,
+              "tags": [
+                "auth",
+                "slow"
+              ],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [
+                    {
+                      "type": "slow",
+                      "location": {
+                        "file": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/tests/auth-suite.spec.ts",
+                        "line": 56,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 5051,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-13T01:59:40.408Z",
+                      "annotations": [
+                        {
+                          "type": "slow",
+                          "location": {
+                            "file": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/tests/auth-suite.spec.ts",
+                            "line": 56,
+                            "column": 8
+                          }
+                        }
+                      ],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/auth-suite-Auth-with-clock-3f2e7-ading-state-with-fake-clock-chromium/test-finished-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/auth-suite-Auth-with-clock-3f2e7-ading-state-with-fake-clock-chromium/video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/auth-suite-Auth-with-clock-3f2e7-ading-state-with-fake-clock-chromium/trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "81bd651531f1c7e58bf5-8466b3589a2c683009fe",
+              "file": "auth-suite.spec.ts",
+              "line": 58,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "developer-tasks-suite.spec.ts",
+      "file": "developer-tasks-suite.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Developer Tasks Suite @developer",
+          "file": "developer-tasks-suite.spec.ts",
+          "line": 13,
+          "column": 6,
+          "specs": [
+            {
+              "title": "developer sees assigned tasks count",
+              "ok": true,
+              "tags": [
+                "developer"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 7933,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-13T01:59:44.328Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/developer-tasks-suite-Deve-08fbd-r-sees-assigned-tasks-count-chromium/test-finished-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/developer-tasks-suite-Deve-08fbd-r-sees-assigned-tasks-count-chromium/video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/developer-tasks-suite-Deve-08fbd-r-sees-assigned-tasks-count-chromium/trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ab3b69d7873abf9fe6bb-323b349baa3440608d04",
+              "file": "developer-tasks-suite.spec.ts",
+              "line": 22,
+              "column": 7
+            },
+            {
+              "title": "parameterized filter: todo filter",
+              "ok": true,
+              "tags": [
+                "developer"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 6245,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-13T01:59:47.512Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/developer-tasks-suite-Deve-9edc1-eterized-filter-todo-filter-chromium/test-finished-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/developer-tasks-suite-Deve-9edc1-eterized-filter-todo-filter-chromium/video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/developer-tasks-suite-Deve-9edc1-eterized-filter-todo-filter-chromium/trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ab3b69d7873abf9fe6bb-dee2a38878caaf863979",
+              "file": "developer-tasks-suite.spec.ts",
+              "line": 36,
+              "column": 9
+            },
+            {
+              "title": "parameterized filter: done filter",
+              "ok": true,
+              "tags": [
+                "developer"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 13906,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-13T01:59:53.395Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/developer-tasks-suite-Deve-f25d9-eterized-filter-done-filter-chromium/test-finished-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/developer-tasks-suite-Deve-f25d9-eterized-filter-done-filter-chromium/video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/developer-tasks-suite-Deve-f25d9-eterized-filter-done-filter-chromium/trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ab3b69d7873abf9fe6bb-3fd246b3caba19a03869",
+              "file": "developer-tasks-suite.spec.ts",
+              "line": 36,
+              "column": 9
+            },
+            {
+              "title": "developer marks a task as done via details panel",
+              "ok": true,
+              "tags": [
+                "developer"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 13145,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-13T01:59:54.160Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/developer-tasks-suite-Deve-a9fb5-k-as-done-via-details-panel-chromium/test-finished-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/developer-tasks-suite-Deve-a9fb5-k-as-done-via-details-panel-chromium/video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/developer-tasks-suite-Deve-a9fb5-k-as-done-via-details-panel-chromium/trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "ab3b69d7873abf9fe6bb-f0bdc8f2bd50e0f44727",
+              "file": "developer-tasks-suite.spec.ts",
+              "line": 46,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "manager-reports-suite.spec.ts",
+      "file": "manager-reports-suite.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Manager Reports Suite @manager",
+          "file": "manager-reports-suite.spec.ts",
+          "line": 8,
+          "column": 6,
+          "specs": [
+            {
+              "title": "manager views team analytics on reports page",
+              "ok": true,
+              "tags": [
+                "manager"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 11306,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-13T02:00:07.676Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/manager-reports-suite-Mana-537c5-m-analytics-on-reports-page-chromium/test-finished-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/manager-reports-suite-Mana-537c5-m-analytics-on-reports-page-chromium/video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/manager-reports-suite-Mana-537c5-m-analytics-on-reports-page-chromium/trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5023ecabfc236477e57c-f86cb7356b91a2c8d9a0",
+              "file": "manager-reports-suite.spec.ts",
+              "line": 17,
+              "column": 7
+            },
+            {
+              "title": "manager exports CSV with mocked data",
+              "ok": true,
+              "tags": [
+                "manager"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 11154,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-13T02:00:07.679Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/manager-reports-suite-Mana-9b2cc-xports-CSV-with-mocked-data-chromium/test-finished-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/manager-reports-suite-Mana-9b2cc-xports-CSV-with-mocked-data-chromium/video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/manager-reports-suite-Mana-9b2cc-xports-CSV-with-mocked-data-chromium/trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5023ecabfc236477e57c-5d25533880549c81a316",
+              "file": "manager-reports-suite.spec.ts",
+              "line": 31,
+              "column": 7
+            },
+            {
+              "title": "manager opens team page and sees members",
+              "ok": true,
+              "tags": [
+                "manager"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 8547,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-13T02:00:19.250Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/manager-reports-suite-Mana-b4921--team-page-and-sees-members-chromium/test-finished-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/manager-reports-suite-Mana-b4921--team-page-and-sees-members-chromium/video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/manager-reports-suite-Mana-b4921--team-page-and-sees-members-chromium/trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5023ecabfc236477e57c-7e8d20d3c581c83f3453",
+              "file": "manager-reports-suite.spec.ts",
+              "line": 44,
+              "column": 7
+            },
+            {
+              "title": "skipped example: PDF export on CI only",
+              "ok": true,
+              "tags": [
+                "manager"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/tests/manager-reports-suite.spec.ts",
+                        "line": 53,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": -1,
+                      "parallelIndex": -1,
+                      "status": "skipped",
+                      "duration": 0,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-13T02:00:19.371Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "location": {
+                            "file": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/tests/manager-reports-suite.spec.ts",
+                            "line": 53,
+                            "column": 8
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "5023ecabfc236477e57c-bce4fc990af710ce36a9",
+              "file": "manager-reports-suite.spec.ts",
+              "line": 53,
+              "column": 8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "task-management-suite.spec.ts",
+      "file": "task-management-suite.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Task Management Suite @tasks",
+          "file": "task-management-suite.spec.ts",
+          "line": 17,
+          "column": 6,
+          "specs": [
+            {
+              "title": "create task: E2E Task Alpha",
+              "ok": true,
+              "tags": [
+                "tasks"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 8397,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-13T02:00:19.386Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/task-management-suite-Task-5892f--create-task-E2E-Task-Alpha-chromium/test-finished-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/task-management-suite-Task-5892f--create-task-E2E-Task-Alpha-chromium/video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/task-management-suite-Task-5892f--create-task-E2E-Task-Alpha-chromium/trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c4230ade36fd937e21d1-ca918d31081a581a7cbe",
+              "file": "task-management-suite.spec.ts",
+              "line": 27,
+              "column": 9
+            },
+            {
+              "title": "create task: E2E Task Beta",
+              "ok": true,
+              "tags": [
+                "tasks"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 22875,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-13T02:00:28.297Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/task-management-suite-Task-3ffe6-s-create-task-E2E-Task-Beta-chromium/test-finished-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/task-management-suite-Task-3ffe6-s-create-task-E2E-Task-Beta-chromium/video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/task-management-suite-Task-3ffe6-s-create-task-E2E-Task-Beta-chromium/trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c4230ade36fd937e21d1-0e2b05568aad032e8a78",
+              "file": "task-management-suite.spec.ts",
+              "line": 27,
+              "column": 9
+            },
+            {
+              "title": "create task: E2E Task Gamma",
+              "ok": true,
+              "tags": [
+                "tasks"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 22905,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-13T02:00:28.242Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/task-management-suite-Task-f2baf--create-task-E2E-Task-Gamma-chromium/test-finished-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/task-management-suite-Task-f2baf--create-task-E2E-Task-Gamma-chromium/video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/task-management-suite-Task-f2baf--create-task-E2E-Task-Gamma-chromium/trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c4230ade36fd937e21d1-9f199f36f75a91bc6473",
+              "file": "task-management-suite.spec.ts",
+              "line": 27,
+              "column": 9
+            },
+            {
+              "title": "modify three tasks to completed, in-progress, and blocked",
+              "ok": true,
+              "tags": [
+                "tasks"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 14860,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-13T02:00:51.918Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/task-management-suite-Task-0fb04-ted-in-progress-and-blocked-chromium/test-finished-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/task-management-suite-Task-0fb04-ted-in-progress-and-blocked-chromium/video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/task-management-suite-Task-0fb04-ted-in-progress-and-blocked-chromium/trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c4230ade36fd937e21d1-7ba4b6e43b19f16e108e",
+              "file": "task-management-suite.spec.ts",
+              "line": 45,
+              "column": 7
+            },
+            {
+              "title": "search filters tasks with negative assertion",
+              "ok": true,
+              "tags": [
+                "tasks"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 14485,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-13T02:00:51.919Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/task-management-suite-Task-3dfd3-sks-with-negative-assertion-chromium/test-finished-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/task-management-suite-Task-3dfd3-sks-with-negative-assertion-chromium/video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/task-management-suite-Task-3dfd3-sks-with-negative-assertion-chromium/trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c4230ade36fd937e21d1-26dc2fa5c1d1f6c9413d",
+              "file": "task-management-suite.spec.ts",
+              "line": 64,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "HAR mock suite @har",
+          "file": "task-management-suite.spec.ts",
+          "line": 75,
+          "column": 6,
+          "specs": [
+            {
+              "title": "loads tasks from HAR file without backend",
+              "ok": true,
+              "tags": [
+                "har"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6906,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-13T02:01:07.359Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/task-management-suite-HAR--e7e4c-om-HAR-file-without-backend-chromium/test-finished-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/task-management-suite-HAR--e7e4c-om-HAR-file-without-backend-chromium/video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/estebanochoa/Proyectos/Oracle-Java-Bot/MtdrSpring/backend/src/main/frontend/e2e/test-results/task-management-suite-HAR--e7e4c-om-HAR-file-without-backend-chromium/trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c4230ade36fd937e21d1-50639403a820432ea3d3",
+              "file": "task-management-suite.spec.ts",
+              "line": 76,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-06-13T01:59:07.949Z",
+    "duration": 129877.42000000001,
+    "expected": 19,
+    "skipped": 1,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

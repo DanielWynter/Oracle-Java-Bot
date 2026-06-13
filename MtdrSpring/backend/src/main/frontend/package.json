@@ -21,11 +21,18 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build"
+    "build": "react-scripts build",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:report": "playwright show-report e2e/playwright-report",
+    "test:e2e:video": "playwright test && echo 'Videos en e2e/test-results/*/video.webm'",
+    "docs:pdf": "node e2e/docs/generate-pdf.mjs"
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@playwright/test": "^1.49.0",
     "autoprefixer": "^10.5.0",
+    "md-to-pdf": "^5.2.5",
     "postcss": "^8.5.10"
   },
   "eslintConfig": {

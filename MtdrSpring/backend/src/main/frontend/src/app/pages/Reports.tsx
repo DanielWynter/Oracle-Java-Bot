@@ -5,6 +5,7 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 } from "recharts";
 import { useSprint } from "../context/SprintContext.tsx";
+import { fetchJsonArray } from "../utils/api.ts";
 
 interface TaskRaw {
   taskId: number;
@@ -82,8 +83,8 @@ export default function Reports() {
 
   useEffect(() => {
     Promise.all([
-      fetch("/api/tasks").then((r) => r.json()),
-      fetch("/api/users").then((r) => r.json()),
+      fetchJsonArray<TaskRaw>("/api/tasks"),
+      fetchJsonArray<UserRaw>("/api/users"),
     ])
       .then(([t, u]) => { setAllTasks(t); setUsers(u); })
       .finally(() => setLoading(false));

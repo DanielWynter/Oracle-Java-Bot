@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { User, Bell, Palette, Shield, Check } from "lucide-react";
+import { fetchJsonArray } from "../utils/api.ts";
 
 interface UserFull {
   userId: number;
@@ -58,9 +59,8 @@ export default function Settings() {
     const email = localStorage.getItem("userEmail");
     if (!email) { setLoading(false); return; }
 
-    fetch("/api/users")
-      .then((r) => r.json())
-      .then((users: UserFull[]) => {
+    fetchJsonArray<UserFull>("/api/users")
+      .then((users) => {
         const me = users.find((u) => u.email === email);
         if (me) {
           setCurrentUser(me);

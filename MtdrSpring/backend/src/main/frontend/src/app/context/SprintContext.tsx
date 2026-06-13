@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
+import { fetchJsonArray } from "../utils/api.ts";
 
 export interface Sprint {
   sprintId: number;
@@ -26,13 +27,10 @@ export function SprintProvider({ children }: { children: ReactNode }) {
   const [selectedSprintId, setSelectedSprintId] = useState<number | null>(null);
 
   useEffect(() => {
-    fetch("/api/sprints")
-      .then((r) => r.json())
-      .then((data: Sprint[]) => {
-        const sorted = [...data].sort((a, b) => b.sprintId - a.sprintId);
-        setSprints(sorted);
-        // Default: null = All Sprints (shows aggregate across all)
-      });
+    fetchJsonArray<Sprint>("/api/sprints").then((data) => {
+      const sorted = [...data].sort((a, b) => b.sprintId - a.sprintId);
+      setSprints(sorted);
+    });
   }, []);
 
   return (

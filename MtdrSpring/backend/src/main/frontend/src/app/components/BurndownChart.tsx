@@ -10,6 +10,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useSprint } from "../context/SprintContext.tsx";
+import { fetchJsonArray } from "../utils/api.ts";
 import type { Sprint } from "../context/SprintContext.tsx";
 
 interface TaskRaw {
@@ -125,8 +126,8 @@ export default function BurndownChart() {
 
   useEffect(() => {
     Promise.all([
-      fetch("/api/tasks").then((r) => r.json()),
-      fetch("/api/task-logs").then((r) => r.json()),
+      fetchJsonArray<TaskRaw>("/api/tasks"),
+      fetchJsonArray<TaskLogRaw>("/api/task-logs"),
     ])
       .then(([t, l]) => {
         setTasks(t);

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { X, Clock, Calendar, Trash2 } from "lucide-react";
 import { Task, TaskStatus, TaskType } from "../pages/Tasks.tsx";
 import { useSprint } from "../context/SprintContext.tsx";
+import { fetchJsonArray } from "../utils/api.ts";
 
 interface UserOption {
   userId: number;
@@ -44,10 +45,7 @@ export default function TaskDetailsPanel({
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("/api/users")
-      .then((r) => r.json())
-      .then(setUsers)
-      .catch(() => {});
+    fetchJsonArray<UserOption>("/api/users").then(setUsers);
   }, []);
 
   const handleDelete = async () => {

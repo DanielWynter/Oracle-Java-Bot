@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Users, TrendingUp, Target, CheckCircle2, X } from "lucide-react";
 import { useSprint } from "../context/SprintContext.tsx";
+import { fetchJsonArray } from "../utils/api.ts";
 
 interface UserRaw {
   userId: number;
@@ -126,8 +127,8 @@ export default function Team() {
 
   useEffect(() => {
     Promise.all([
-      fetch("/api/users").then((r) => r.json()),
-      fetch("/api/tasks").then((r) => r.json()),
+      fetchJsonArray<UserRaw>("/api/users"),
+      fetchJsonArray<TaskRaw>("/api/tasks"),
     ])
       .then(([u, t]) => {
         setUsers(u);

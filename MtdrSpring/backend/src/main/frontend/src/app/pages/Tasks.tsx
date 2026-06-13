@@ -4,6 +4,7 @@ import TaskTable from "../components/TaskTable.tsx";
 import TaskDetailsPanel from "../components/TaskDetailsPanel.tsx";
 import TaskCreatePanel from "../components/TaskCreatePanel.tsx";
 import { useSprint } from "../context/SprintContext.tsx";
+import { fetchJsonArray } from "../utils/api.ts";
 
 export type TaskStatus = "todo" | "in-progress" | "done" | "blocked";
 export type TaskType = "feature" | "bug" | "issue" | "enhancement";
@@ -52,6 +53,9 @@ const mapDatabaseTaskToUITask = (dbTask: TaskResponse): Task => {
     done: "done",
     completed: "done",
     finished: "done",
+    to_do: "todo",
+    in_progress: "in-progress",
+    stopped: "blocked",
     blocked: "blocked",
   };
 
@@ -92,11 +96,7 @@ export default function Tasks() {
     const fetchTasks = async () => {
       try {
         setLoading(true);
-        const response = await fetch("/api/tasks");
-        if (!response.ok) {
-          throw new Error("Failed to fetch tasks");
-        }
-        const dbTasks: TaskResponse[] = await response.json();
+        const dbTasks = await fetchJsonArray<TaskResponse>("/api/tasks");
         const mappedTasks = dbTasks.map(mapDatabaseTaskToUITask);
         setTasks(mappedTasks);
         setError(null);

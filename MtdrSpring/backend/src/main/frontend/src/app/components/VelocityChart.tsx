@@ -11,6 +11,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useSprint } from "../context/SprintContext.tsx";
+import { fetchJsonArray } from "../utils/api.ts";
 
 interface TaskRaw {
   status: string;
@@ -41,8 +42,7 @@ export default function VelocityChart() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/tasks")
-      .then((r) => r.json())
+    fetchJsonArray<TaskRaw>("/api/tasks")
       .then(setTasks)
       .finally(() => setLoading(false));
   }, []);

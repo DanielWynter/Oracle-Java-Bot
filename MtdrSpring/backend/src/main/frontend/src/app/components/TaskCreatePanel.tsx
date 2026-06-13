@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { X, Clock, Sparkles } from "lucide-react";
 import { useSprint } from "../context/SprintContext.tsx";
 import type { Task, TaskStatus, TaskType } from "../pages/Tasks.tsx";
+import { fetchJsonArray } from "../utils/api.ts";
 
 function localISOString(): string {
   const now = new Date();
@@ -59,10 +60,7 @@ export default function TaskCreatePanel({ onClose, onCreate }: TaskCreatePanelPr
   });
 
   useEffect(() => {
-    fetch("/api/users")
-      .then((r) => r.json())
-      .then(setUsers)
-      .catch(() => {});
+    fetchJsonArray<UserOption>("/api/users").then(setUsers);
   }, []);
 
   const handleAISuggest = async () => {

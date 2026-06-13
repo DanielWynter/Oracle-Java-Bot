@@ -8,6 +8,7 @@ import {
   Tooltip,
 } from "recharts";
 import { useSprint } from "../context/SprintContext.tsx";
+import { fetchJsonArray } from "../utils/api.ts";
 
 const TYPE_COLORS: Record<string, string> = {
   Feature: "#bd1d3d",
@@ -34,8 +35,7 @@ export default function TaskTypeChart() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/tasks")
-      .then((res) => res.json())
+    fetchJsonArray<TaskRaw>("/api/tasks")
       .then(setAllTasks)
       .finally(() => setLoading(false));
   }, []);

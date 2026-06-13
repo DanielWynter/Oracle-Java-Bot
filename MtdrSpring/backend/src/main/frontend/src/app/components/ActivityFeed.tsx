@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { CheckCircle2, UserPlus, Play, GitBranch, FileText, LucideIcon } from "lucide-react";
+import { fetchJsonArray } from "../utils/api.ts";
 
 interface TaskLog {
   logId: number;
@@ -47,9 +48,8 @@ export default function ActivityFeed() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/task-logs")
-      .then((res) => res.json())
-      .then((data: TaskLog[]) => {
+    fetchJsonArray<TaskLog>("/api/task-logs")
+      .then((data) => {
         const sorted = data
           .filter((l) => l.logTimestamp)
           .sort((a, b) => new Date(b.logTimestamp).getTime() - new Date(a.logTimestamp).getTime())

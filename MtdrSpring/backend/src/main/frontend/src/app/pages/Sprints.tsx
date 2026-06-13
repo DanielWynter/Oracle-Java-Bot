@@ -3,6 +3,7 @@ import { Calendar, TrendingUp, CheckCircle2, Clock } from "lucide-react";
 import { useSprint } from "../context/SprintContext.tsx";
 import type { Sprint } from "../context/SprintContext.tsx";
 import BurndownChart from "../components/BurndownChart.tsx";
+import { fetchJsonArray } from "../utils/api.ts";
 
 interface TaskRaw {
   status: string;
@@ -82,8 +83,7 @@ export default function Sprints() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/tasks")
-      .then((r) => r.json())
+    fetchJsonArray<TaskRaw>("/api/tasks")
       .then(setTasks)
       .finally(() => setLoading(false));
   }, []);

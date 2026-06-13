@@ -8,6 +8,8 @@ import TeamWorkload from "../components/TeamWorkload.tsx";
 import ActivityFeed from "../components/ActivityFeed.tsx";
 import DevTaskAnalysis from "../components/DevTaskAnalysis.tsx";
 import { useSprint } from "../context/SprintContext.tsx";
+import { fetchJsonArray } from "../utils/api.ts";
+import { isDoneStatus } from "../utils/taskStatus.ts";
 import {
   Target,
   CheckSquare,
@@ -25,8 +27,7 @@ interface TaskRaw {
   sprint: { sprintId: number } | null;
 }
 
-const isDone = (status: string) =>
-  ["done", "completed", "finished"].includes(status?.toLowerCase() ?? "");
+const isDone = isDoneStatus;
 
 function formatChange(diff: number, isPercent = false): string {
   const sign = diff >= 0 ? "+" : "";
@@ -39,8 +40,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/tasks")
-      .then((r) => r.json())
+    fetchJsonArray<TaskRaw>("/api/tasks")
       .then(setTasks)
       .finally(() => setLoading(false));
   }, []);

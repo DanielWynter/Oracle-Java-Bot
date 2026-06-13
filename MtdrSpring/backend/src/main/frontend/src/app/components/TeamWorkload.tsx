@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSprint } from "../context/SprintContext.tsx";
+import { fetchJsonArray } from "../utils/api.ts";
 
 interface TaskRaw {
   hours: number;
@@ -35,8 +36,7 @@ export default function TeamWorkload() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/tasks")
-      .then((r) => r.json())
+    fetchJsonArray<TaskRaw>("/api/tasks")
       .then(setAllTasks)
       .finally(() => setLoading(false));
   }, []);

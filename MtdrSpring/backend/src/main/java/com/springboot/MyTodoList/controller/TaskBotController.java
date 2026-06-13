@@ -1,7 +1,9 @@
 package com.springboot.MyTodoList.controller;
 
 import com.springboot.MyTodoList.config.BotProps;
+import com.springboot.MyTodoList.model.Priority;
 import com.springboot.MyTodoList.model.Sprint;
+import com.springboot.MyTodoList.model.Status;
 import com.springboot.MyTodoList.model.Task;
 import com.springboot.MyTodoList.model.User;
 import com.springboot.MyTodoList.service.SprintService;
@@ -275,10 +277,10 @@ public class TaskBotController implements SpringLongPollingBot, LongPollingSingl
             return;
         }
 
-        List<Task> todo       = filterByStatus(tasks, "todo");
-        List<Task> inProgress = filterByStatus(tasks, "in-progress");
-        List<Task> blocked    = filterByStatus(tasks, "blocked");
-        List<Task> done       = filterByStatus(tasks, "done");
+        List<Task> todo       = filterByStatus(tasks, Status.TO_DO);
+        List<Task> inProgress = filterByStatus(tasks, Status.IN_PROGRESS);
+        List<Task> blocked    = filterByStatus(tasks, Status.STOPPED);
+        List<Task> done       = filterByStatus(tasks, Status.DONE);
 
         StringBuilder sb = new StringBuilder(header);
         appendGroup(sb, "⏳ Por hacer",    todo);
@@ -292,9 +294,9 @@ public class TaskBotController implements SpringLongPollingBot, LongPollingSingl
 
     // ── Helpers ────────────────────────────────────────────────────────────────
 
-    private List<Task> filterByStatus(List<Task> tasks, String status) {
+    private List<Task> filterByStatus(List<Task> tasks, Status status) {
         return tasks.stream()
-            .filter(t -> status.equalsIgnoreCase(t.getStatus()))
+            .filter(t -> status.equals(t.getStatus()))
             .collect(Collectors.toList());
     }
 
@@ -302,8 +304,9 @@ public class TaskBotController implements SpringLongPollingBot, LongPollingSingl
         if (tasks.isEmpty()) return;
         sb.append("<b>").append(title).append("</b> (").append(tasks.size()).append(")\n");
         for (Task t : tasks) {
-            String priority = t.getPriority() != null ? t.getPriority().toLowerCase() : "medium";
-            String dot = "high".equals(priority) ? "🔴" : "low".equals(priority) ? "🟢" : "🟡";
+            Priority priority = t.getPriority();
+            String dot = Priority.HIGH.equals(priority) || Priority.CRITICAL.equals(priority)
+                ? "🔴" : Priority.LOW.equals(priority) ? "🟢" : "🟡";
             sb.append(dot).append(" ").append(t.getTaskName());
             if (t.getAssignee() != null) sb.append(" (").append(t.getAssignee().getUsername()).append(")");
             sb.append("\n");

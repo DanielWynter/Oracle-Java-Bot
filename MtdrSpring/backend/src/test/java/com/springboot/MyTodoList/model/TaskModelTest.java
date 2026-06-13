@@ -16,8 +16,8 @@ class TaskModelTest {
         task.setTaskId(1L);
         task.setTaskName("Implement login");
         task.setDescription("Build JWT login flow");
-        task.setStatus("in-progress");
-        task.setPriority("high");
+        task.setStatus(Status.IN_PROGRESS);
+        task.setPriority(Priority.HIGH);
         task.setTaskType("feature");
         task.setHours(8.0);
         task.setTotalTime(6.5);
@@ -27,8 +27,8 @@ class TaskModelTest {
         assertEquals(1L, task.getTaskId());
         assertEquals("Implement login", task.getTaskName());
         assertEquals("Build JWT login flow", task.getDescription());
-        assertEquals("in-progress", task.getStatus());
-        assertEquals("high", task.getPriority());
+        assertEquals(Status.IN_PROGRESS, task.getStatus());
+        assertEquals(Priority.HIGH, task.getPriority());
         assertEquals("feature", task.getTaskType());
         assertEquals(8.0, task.getHours());
         assertEquals(6.5, task.getTotalTime());
@@ -39,7 +39,9 @@ class TaskModelTest {
     @Test
     void taskAssignee_canBeSetAndRetrieved() {
         Task task = new Task();
-        User user = new User(); user.setUserId(1L); user.setUsername("Daniel");
+        User user = new User();
+        user.setUserId(1L);
+        user.setUsername("Daniel");
 
         task.setAssignee(user);
 
@@ -50,7 +52,9 @@ class TaskModelTest {
     @Test
     void taskSprint_canBeSetAndRetrieved() {
         Task task = new Task();
-        Sprint sprint = new Sprint(); sprint.setSprintId(2L); sprint.setSprintName("Sprint 2");
+        Sprint sprint = new Sprint();
+        sprint.setSprintId(2L);
+        sprint.setSprintName("Sprint 2");
 
         task.setSprint(sprint);
 
@@ -59,28 +63,43 @@ class TaskModelTest {
     }
 
     @Test
-    void taskWithNullFields_doesNotThrow() {
+    void taskDefaultPriority_isMedium() {
         Task task = new Task();
 
-        assertNull(task.getTaskId());
-        assertNull(task.getTaskName());
-        assertNull(task.getStatus());
-        assertNull(task.getPriority());
-        assertNull(task.getAssignee());
-        assertNull(task.getSprint());
+        assertEquals(Priority.MEDIUM, task.getPriority());
     }
 
     @Test
     void taskPriority_allValidValues() {
         Task task = new Task();
 
-        task.setPriority("low");
-        assertEquals("low", task.getPriority());
+        task.setPriority(Priority.LOW);
+        assertEquals(Priority.LOW, task.getPriority());
 
-        task.setPriority("medium");
-        assertEquals("medium", task.getPriority());
+        task.setPriority(Priority.MEDIUM);
+        assertEquals(Priority.MEDIUM, task.getPriority());
 
-        task.setPriority("high");
-        assertEquals("high", task.getPriority());
+        task.setPriority(Priority.HIGH);
+        assertEquals(Priority.HIGH, task.getPriority());
+
+        task.setPriority(Priority.CRITICAL);
+        assertEquals(Priority.CRITICAL, task.getPriority());
+    }
+
+    @Test
+    void taskStatus_allValidValues() {
+        Task task = new Task();
+
+        task.setStatus(Status.TO_DO);
+        assertEquals(Status.TO_DO, task.getStatus());
+
+        task.setStatus(Status.IN_PROGRESS);
+        assertEquals(Status.IN_PROGRESS, task.getStatus());
+
+        task.setStatus(Status.DONE);
+        assertEquals(Status.DONE, task.getStatus());
+
+        task.setStatus(Status.STOPPED);
+        assertEquals(Status.STOPPED, task.getStatus());
     }
 }

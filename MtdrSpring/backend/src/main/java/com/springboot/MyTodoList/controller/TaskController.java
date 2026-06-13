@@ -82,7 +82,7 @@ public class TaskController {
         existing.setTotalTime(task.getTotalTime());
         existing.setPriority(task.getPriority());
 
-        if ("done".equalsIgnoreCase(task.getStatus())) {
+        if (com.springboot.MyTodoList.model.Status.DONE.equals(task.getStatus())) {
             if (existing.getFinishedAt() == null) {
                 existing.setFinishedAt(task.getFinishedAt());
             }

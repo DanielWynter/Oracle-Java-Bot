@@ -1,0 +1,15 @@
+@startuml
+' PlantUML placeholder for Notifier
+title Notifier - generated class diagram
+
+package "com.springboot.MyTodoList.util" {
+  class BotHelper
+}
+
+package "com.springboot.MyTodoList.util" {
+  class BotMessages
+}
+
+BotHelper --> BotMessages : formats
+
+@enduml

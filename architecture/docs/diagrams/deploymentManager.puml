@@ -1,0 +1,15 @@
+@startuml
+' PlantUML placeholder for DeploymentManager
+title DeploymentManager - generated class diagram
+
+package "com.springboot.MyTodoList.service" {
+  class DeploymentService
+}
+
+package "com.springboot.MyTodoList.integrations" {
+  class CiCdClient
+}
+
+DeploymentService --> CiCdClient : triggers
+
+@enduml

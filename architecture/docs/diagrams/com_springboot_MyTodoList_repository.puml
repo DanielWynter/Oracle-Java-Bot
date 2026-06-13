@@ -1,0 +1,12 @@
+@startuml
+title com.springboot.MyTodoList.repository - generated class diagram
+
+class AnalyticRepository
+class ProjectRepository
+class SprintRepository
+class TaskLogRepository
+class TaskRepository
+class TeamRepository
+class UserRepository
+
+@enduml

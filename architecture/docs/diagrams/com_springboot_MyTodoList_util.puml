@@ -1,0 +1,30 @@
+@startuml
+title com.springboot.MyTodoList.util - generated class diagram
+
+class BotCommands
+class BotHelper
+class BotLabels
+class BotMessages
+
+BotCommands --> BotCommands : START_COMMAND
+BotCommands --> BotCommands : HIDE_COMMAND
+BotCommands --> BotCommands : TODO_LIST
+BotCommands --> BotCommands : ADD_ITEM
+BotCommands --> BotCommands : LLM_REQ
+BotLabels --> BotLabels : SHOW_MAIN_SCREEN
+BotLabels --> BotLabels : VIEW_TASKS
+BotLabels --> BotLabels : FILTER_BY_ASSIGNEE
+BotLabels --> BotLabels : FILTER_BY_SPRINT
+BotLabels --> BotLabels : ALL_TASKS
+BotLabels --> BotLabels : MAIN_MENU
+BotLabels --> BotLabels : NO_SPRINT_FILTER
+BotLabels --> BotLabels : DASH
+BotMessages --> BotMessages : HELLO_MYTODO_BOT
+BotMessages --> BotMessages : BOT_REGISTERED_STARTED
+BotMessages --> BotMessages : ITEM_DONE
+BotMessages --> BotMessages : ITEM_UNDONE
+BotMessages --> BotMessages : ITEM_DELETED
+BotMessages --> BotMessages : TYPE_NEW_TODO_ITEM
+BotMessages --> BotMessages : NEW_ITEM_ADDED
+BotMessages --> BotMessages : BYE
+@enduml

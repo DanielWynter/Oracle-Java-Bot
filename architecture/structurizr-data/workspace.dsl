@@ -50,16 +50,22 @@ workspace {
             core = container "Core Business Services" "Java / Spring Boot" "Handles the main business logic of the system." {
 
                 commandProcessor = component "CommandProcessor" "Processes Telegram commands and routes them to the correct service." "Spring Component"
+                url "https://github.com/DanielWynter/Oracle-Java-Bot/blob/main/architecture/docs/diagrams/commandProcessor.puml"
 
                 taskManager = component "TaskManager" "Handles tasks, sprint assignments and Jira synchronization." "Spring Service"
+                url "https://github.com/DanielWynter/Oracle-Java-Bot/blob/main/architecture/docs/diagrams/taskManager.puml"
 
                 deploymentManager = component "DeploymentManager" "Handles deployment and testing requests." "Spring Service"
+                url "https://github.com/DanielWynter/Oracle-Java-Bot/blob/main/architecture/docs/diagrams/deploymentManager.puml"
 
                 activityLogger = component "ActivityLogger" "Stores developer activity and task history." "Spring Service"
+                url "https://github.com/DanielWynter/Oracle-Java-Bot/blob/main/architecture/docs/diagrams/activityLogger.puml"
 
                 reportGenerator = component "ReportGenerator" "Generates productivity and sprint reports." "Spring Service"
+                url "https://github.com/DanielWynter/Oracle-Java-Bot/blob/main/architecture/docs/diagrams/reportGenerator.puml"
 
                 notifier = component "Notifier" "Sends alerts and notifications to Telegram users." "Spring Service"
+                url "https://github.com/DanielWynter/Oracle-Java-Bot/blob/main/architecture/docs/diagrams/notifier.puml"
             }
 
             analytics = container "Analytics Service" "Python / Flask" "Processes analytics and productivity metrics."

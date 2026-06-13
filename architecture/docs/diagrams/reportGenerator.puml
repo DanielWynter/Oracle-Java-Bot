@@ -1,0 +1,15 @@
+@startuml
+' PlantUML placeholder for ReportGenerator
+title ReportGenerator - generated class diagram
+
+package "com.springboot.MyTodoList.service" {
+  class AnalyticService
+}
+
+package "com.springboot.MyTodoList.model" {
+  class Analytic
+}
+
+AnalyticService --> Analytic : reads
+
+@enduml

@@ -1,0 +1,15 @@
+@startuml
+' PlantUML placeholder for ActivityLogger
+title ActivityLogger - generated class diagram
+
+package "com.springboot.MyTodoList.service" {
+  class TaskLogService
+}
+
+package "com.springboot.MyTodoList.repository" {
+  class TaskLogRepository
+}
+
+TaskLogService --> TaskLogRepository : persists
+
+@enduml
